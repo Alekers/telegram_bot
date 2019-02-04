@@ -1,0 +1,24 @@
+{
+    "name": "tsvetkov/telegram_bot",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alexander Tsvetkov",
+            "email": "ac@goldcarrot.ru"
+        }
+    ],
+    "require": {
+        "ext-curl": "*",
+        "php": ">=5.6.0",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "tsvetkov\\telegram_bot\\": "src" }
+    }
+}
