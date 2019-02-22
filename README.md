@@ -34,7 +34,7 @@ use tsvetkov\telegram_bot\TelegramBot;
 $bot = new TelegramBot($token); // You can get token of you bots from @BotFather
 
 // With proxy
-$bot = new TelegramBot($token, $prozySettings);
+$bot = new TelegramBot($token, $proxySettings);
 ```
 
 Send message
