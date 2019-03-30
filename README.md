@@ -48,3 +48,10 @@ Get updates
 ```
 $updates = $bot->getUpdates();
 ```
+
+Get WebHook data
+
+```
+$update = new Update();
+$update->load(json_decode(file_get_contents("php://input")));
+```
