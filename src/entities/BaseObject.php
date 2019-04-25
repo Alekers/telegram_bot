@@ -37,11 +37,9 @@ abstract class BaseObject
         }
         foreach ((array)$this->objectsArray as $attribute => $class) {
             if (is_string($class)) {
-                if ($this->$attribute != null && $class != null) {
-                    $json = $this->$attribute;
-                    $this->$attribute = new $class();
-                    $this->$attribute->load($json);
-                }
+                $json = $this->$attribute;
+                $this->$attribute = new $class();
+                $this->$attribute->load($json);
             } elseif (is_array($class)) {
                 foreach ($this->$attribute as $key => $value) {
                     $json = $this->$attribute[$key];
@@ -63,7 +61,7 @@ abstract class BaseObject
         if (!empty($data)) {
             if (is_array($data)) {
                 foreach ($data as $name => $value) {
-                    if (isset($this->$name)) {
+                    if (property_exists($this, $name)) {
                         $this->$name = $value;
                     }
                 }
