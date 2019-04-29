@@ -6,138 +6,19 @@
 
 namespace tsvetkov\telegram_bot;
 
-
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use InvalidArgumentException;
+use Exception;
 use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\sticker\StickerSet;
+use tsvetkov\telegram_bot\entities\update\Update;
 use tsvetkov\telegram_bot\entities\user\User;
+use tsvetkov\telegram_bot\entities\webhook\WebhookInfo;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
-use tsvetkov\telegram_bot\helpers\JsonHelper;
+use function is_null;
+use function json_decode;
 
-class TelegramBot
+class TelegramBot extends BaseBot
 {
-    /** @var string */
-    protected $token;
-
-    /** @var string */
-    protected $baseUrl;
-
-    /** @var array */
-    protected $requestOptions;
-
-    /**
-     * TelegramBot constructor.
-     * @param $token
-     *
-     * Format for proxyConfig "protocol://user:password@IP:port"
-     * @param string $proxyConfig
-     * @param null $ipResolve
-     */
-    public function __construct($token, $proxyConfig = null, $ipResolve = null)
-    {
-        $this->token = $token;
-        $this->baseUrl = "https://api.telegram.org/bot{$this->token}";
-        $this->requestOptions = [];
-        if ($proxyConfig !== null) {
-            $this->requestOptions['proxy'] = $proxyConfig;
-        }
-        if ($ipResolve !== null) {
-            $this->requestOptions['curl'] = [
-                CURLOPT_IPRESOLVE => $ipResolve
-            ];
-        }
-    }
-
-    /**
-     * @param string $parse_mode
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function ensureParseMode($parse_mode)
-    {
-        if (!in_array(strtolower($parse_mode), ['markdown', 'html', null])) {
-            throw new InvalidArgumentException('Invalid parse_mode argument');
-        }
-    }
-
-    /**
-     * @param string $url
-     * @param array $data
-     * @param array $files
-     * @param bool $returnContent
-     *
-     * @return bool|array
-     *
-     * @throws InvalidTokenException
-     * @throws BadRequestException
-     */
-    protected function makeRequest($url, $data = null, $files = null, $returnContent = false)
-    {
-        try {
-            $client = new Client();
-            $decodedData = [];
-            $options = [];
-            if ($data) {
-                foreach ($data as $key => $item) {
-                    if (is_object($item) || is_array($item)) {
-                        $contents = JsonHelper::encodeWithoutEmptyProperty($item);
-                    } else {
-                        $contents = $item;
-                    }
-                    $decodedData[] = [
-                        'name' => $key,
-                        'contents' => $contents,
-                    ];
-                }
-            }
-            if ($files) {
-                foreach ($files as $name => $file) {
-                    if (is_file($file)) {
-                        $contents = fopen($file, 'r');
-                    } else {
-                        $contents = $file;
-                    }
-                    $decodedData[] = [
-                        'name' => $name,
-                        'contents' => $contents,
-                    ];
-                }
-            }
-            if (!empty($decodedData)) {
-                $options['multipart'] = $decodedData;
-            }
-            foreach ($this->requestOptions as $key => $value) {
-                $options[$key] = $value;
-            }
-
-            $decodedResponse = json_decode($client->post($url, $options)->getBody()->getContents(), true);
-            if ($returnContent) {
-                return $decodedResponse;
-            }
-            return (bool)$decodedResponse['ok'];
-        } catch (ClientException $clientException) {
-            switch ($clientException->getCode()) {
-                case 400:
-                    $data = json_decode($clientException->getResponse()->getBody()->getContents(), true);
-                    throw new BadRequestException($data['description']);
-                case 401:
-                    throw new InvalidTokenException($this->token);
-            }
-            if ($returnContent) {
-                return [];
-            }
-            return false;
-        } catch (\Exception $exception) {
-            if ($returnContent) {
-                return [];
-            }
-            return false;
-        }
-    }
-
     /**
      * Official docs: https://core.telegram.org/bots/api#getme
      *
@@ -172,7 +53,6 @@ class TelegramBot
      */
     public function sendMessage($chat_id, $text, $parse_mode = null, $reply_markup = null, $disable_web_page_preview = null, $disable_notification = null, $reply_to_message_id = null)
     {
-        $this->ensureParseMode($parse_mode);
         $data = [
             'chat_id' => $chat_id,
             'text' => $text,
@@ -238,7 +118,6 @@ class TelegramBot
      */
     public function sendPhoto($chat_id, $photo, $caption = null, $parse_mode = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
     {
-        $this->ensureParseMode($parse_mode);
         $data = [
             'chat_id' => $chat_id,
             'caption' => $caption,
@@ -291,7 +170,6 @@ class TelegramBot
         $reply_markup = null
     )
     {
-        $this->ensureParseMode($parse_mode);
         $data = [
             'chat_id' => $chat_id,
             'caption' => $caption,
@@ -335,7 +213,6 @@ class TelegramBot
      */
     public function sendDocument($chat_id, $document, $thumb = null, $caption = null, $parse_mode = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
     {
-        $this->ensureParseMode($parse_mode);
         $data = [
             'chat_id' => $chat_id,
             'caption' => $caption,
@@ -358,11 +235,15 @@ class TelegramBot
     }
 
     /**
-     * @param $url
+     * Official Docs: https://core.telegram.org/bots/api#setwebhook
+     *
+     * @param string $url
      * @param null $certificate
      * @param int $max_connections
-     * @param null $allowed_updates
+     * @param string[] $allowed_updates
+     *
      * @return bool
+     *
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
@@ -381,23 +262,52 @@ class TelegramBot
     }
 
     /**
-     * @return string
+     * @return WebhookInfo|null
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
     public function getWebhookInfo()
     {
-        return $this->makeRequest($this->baseUrl . '/getWebhookInfo', null, null, true);
+        $data = $this->makeRequest($this->baseUrl . '/getWebhookInfo', null, null, true);
+        if ($data['ok']) {
+            $info = new WebhookInfo();
+            $info->load($data['result']);
+            return $info;
+        }
+        return null;
     }
 
     /**
-     * @return string
-     * @throws InvalidTokenException
+     * Official Docs: https://core.telegram.org/bots/api#getupdates
+     *
+     * @param int $offset
+     * @param int $limit
+     * @param int $timeout
+     * @param string[] $allowed_updates
+     *
+     * @return Update[]|null
+     *
      * @throws BadRequestException
+     * @throws InvalidTokenException
      */
-    public function getUpdates()
+    public function getUpdates($limit = null, $offset = null, $timeout = null, $allowed_updates = [])
     {
-        return $this->makeRequest($this->baseUrl . '/getUpdates', null, null, true);
+        $data = $this->makeRequest($this->baseUrl . '/getUpdates', [
+            'offset' => $offset,
+            'limit' => $limit,
+            'timeout' => $timeout,
+            'allowed_updates' => $allowed_updates,
+        ], null, true);
+        if ($data['ok']) {
+            $updates = [];
+            foreach ($data['result'] as $datum) {
+                $update = new Update();
+                $update->load($datum);
+                $updates[] = $update;
+            }
+            return $updates;
+        }
+        return null;
     }
 
     /**
@@ -473,7 +383,8 @@ class TelegramBot
             return json_decode($this->makeRequest($this->baseUrl . '/deleteStickerFromSet', [
                 'sticker' => $sticker,
             ], null, true))['ok'];
-        } catch (\Exception $exception) {}
+        } catch (Exception $exception) {
+        }
         return false;
     }
 
@@ -494,7 +405,8 @@ class TelegramBot
         );
         try {
             return $result['result']['file_id'];
-        } catch (\Exception $exception) {}
+        } catch (Exception $exception) {
+        }
         return false;
     }
 
@@ -511,17 +423,142 @@ class TelegramBot
             $stickerSet = new StickerSet();
             $stickerSet->load($answer['result']);
             return $stickerSet;
-        } catch (\Exception $exception) {}
+        } catch (Exception $exception) {
+        }
         return false;
     }
 
     /**
-     * @return bool|string
+     * Official Docs: https://core.telegram.org/bots/api#deletewebhook
+     *
+     * @return bool
+     *
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
     public function deleteWebhook()
     {
         return $this->makeRequest($this->baseUrl . '/deleteWebhook');
+    }
+
+    /**
+     * Official Docs: https://core.telegram.org/bots/api#sendvideo
+     *
+     * @param int|string $chat_id
+     * @param $video
+     * @param int $duration
+     * @param int $width
+     * @param int $height
+     * @param $thumb
+     * @param string $caption
+     * @param string $parse_mode
+     * @param bool $supports_streaming
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendVideo(
+        $chat_id,
+        $video,
+        $duration = null,
+        $width = null,
+        $height = null,
+        $thumb = null,
+        $caption = null,
+        $parse_mode = null,
+        $supports_streaming = null,
+        $disable_notification = null,
+        $reply_to_message_id = null,
+        $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'caption' => $caption,
+            'parse_mode' => $parse_mode,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+            'duration' => $duration,
+            'width' => $width,
+            'height' => $height,
+            'supports_streaming' => $supports_streaming,
+        ];
+        $files['video'] = $video;
+        if (!is_null($thumb)) {
+            $files['thumb'] = $thumb;
+        }
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendVideo', $data, $files, true);
+        if ($returnData['ok']) {
+            $message = new Message();
+            $message->load($returnData['result']);
+            return $message;
+        }
+        return null;
+    }
+
+    /**
+     * Official Docs: https://core.telegram.org/bots/api#sendanimation
+     *
+     * @param string|int $chat_id
+     * @param $animation
+     * @param int $duration
+     * @param int $width
+     * @param int $height
+     * @param $thumb
+     * @param string $caption
+     * @param string $parse_mode
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendAnimation(
+        $chat_id,
+        $animation,
+        $duration = null,
+        $width = null,
+        $height = null,
+        $thumb = null,
+        $caption = null,
+        $parse_mode = null,
+        $disable_notification = null,
+        $reply_to_message_id = null,
+        $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'caption' => $caption,
+            'parse_mode' => $parse_mode,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+            'duration' => $duration,
+            'width' => $width,
+            'height' => $height,
+        ];
+        $files['animation'] = $animation;
+        if (!is_null($thumb)) {
+            $files['thumb'] = $thumb;
+        }
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendAnimation', $data, $files, true);
+        if ($returnData['ok']) {
+            $message = new Message();
+            $message->load($returnData['result']);
+            return $message;
+        }
+        return null;
     }
 }
