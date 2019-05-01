@@ -561,4 +561,102 @@ class TelegramBot extends BaseBot
         }
         return null;
     }
+
+    /**
+     * Official Docs: https://core.telegram.org/bots/api#sendvoice
+     *
+     * @param string|int $chat_id
+     * @param $voice
+     * @param string $caption
+     * @param string $parse_mode
+     * @param int $duration
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendVoice(
+        $chat_id,
+        $voice,
+        $caption = null,
+        $parse_mode = null,
+        $duration = null,
+        $disable_notification = null,
+        $reply_to_message_id = null,
+        $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'caption' => $caption,
+            'parse_mode' => $parse_mode,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+            'duration' => $duration,
+        ];
+        $files['voice'] = $voice;
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendVoice', $data, $files, true);
+        if ($returnData['ok']) {
+            $message = new Message();
+            $message->load($returnData['result']);
+            return $message;
+        }
+        return null;
+    }
+
+    /**
+     * Official Docs: https://core.telegram.org/bots/api#sendvideonote
+     *
+     * @param string|int $chat_id
+     * @param $video_note
+     * @param int $duration
+     * @param int $length
+     * @param $thumb
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendVideoNote(
+        $chat_id,
+        $video_note,
+        $duration = null,
+        $length = null,
+        $thumb = null,
+        $disable_notification = null,
+        $reply_to_message_id = null,
+        $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+            'duration' => $duration,
+            'length' => $length,
+        ];
+        $files['video_note'] = $video_note;
+        if (!is_null($thumb)) {
+            $files['thumb'] = $thumb;
+        }
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendVideoNote', $data, $files, true);
+        if ($returnData['ok']) {
+            $message = new Message();
+            $message->load($returnData['result']);
+            return $message;
+        }
+        return null;
+    }
 }

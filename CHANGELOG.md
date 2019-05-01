@@ -7,6 +7,8 @@
     * `sendAudio`
     * `sendVideo`
     * `sendAnimation`
+    * `sendVoice`
+    * `sendVideoNote`
 * Add exceptions at case:
     * token is wrong
     * data is incorrect (Bad Request)
