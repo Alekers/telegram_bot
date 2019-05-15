@@ -7,6 +7,7 @@
 namespace tsvetkov\telegram_bot;
 
 use Exception;
+use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\sticker\StickerSet;
 use tsvetkov\telegram_bot\entities\update\Update;
@@ -647,7 +648,9 @@ class TelegramBot extends BaseBot
      * @param array $files
      * @param bool $disable_notification
      * @param int $reply_to_message_id
+     *
      * @return Message|null
+     *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
@@ -661,6 +664,108 @@ class TelegramBot extends BaseBot
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendMediaGroup', $data, $files, true);
+        if ($returnData['ok']) {
+            return new Message($returnData['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendlocation
+     *
+     * @param int|string $chat_id
+     * @param float $latitude
+     * @param float $longitude
+     * @param int $live_period
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendLocation(
+        $chat_id, $latitude, $longitude, $live_period = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'live_period' => $live_period,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendLocation', $data, [], true);
+        if ($returnData['ok']) {
+            return new Message($returnData['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#editmessagelivelocation
+     *
+     * @param float $latitude
+     * @param float $longitude
+     * @param int|string $chat_id
+     * @param integer $message_id
+     * @param string $inline_message_id
+     * @param InlineKeyboardMarkup $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function editMessageLiveLocation(
+        $latitude, $longitude, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'inline_message_id' => $inline_message_id,
+            'reply_markup' => $reply_markup,
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/editMessageLiveLocation', $data, [], true);
+        if ($returnData['ok']) {
+            return new Message($returnData['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#stopmessagelivelocation
+     *
+     * @param int|string $chat_id
+     * @param integer $message_id
+     * @param string $inline_message_id
+     * @param InlineKeyboardMarkup $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function stopMessageLiveLocation($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+            'reply_markup' => $reply_markup,
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/stopMessageLiveLocation', $data, [], true);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
