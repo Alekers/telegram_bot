@@ -16,7 +16,6 @@ use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
 use function is_null;
 use function json_decode;
-use function json_encode;
 use tsvetkov\telegram_bot\helpers\JsonHelper;
 
 class TelegramBot extends BaseBot
@@ -66,9 +65,7 @@ class TelegramBot extends BaseBot
         ];
         $returnData = $this->makeRequest($this->baseUrl . '/sendMessage', $data, [], true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -95,9 +92,7 @@ class TelegramBot extends BaseBot
             'disable_notification' => $disable_notification,
         ], [], true);
         if ($data['ok']) {
-            $message = new Message();
-            $message->load($data['result']);
-            return $message;
+            return new Message($data['result']);
         }
         return null;
     }
@@ -130,9 +125,7 @@ class TelegramBot extends BaseBot
         ];
         $returnData = $this->makeRequest($this->baseUrl . '/sendPhoto', $data, ['photo' => $photo], true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -189,9 +182,7 @@ class TelegramBot extends BaseBot
         }
         $returnData = $this->makeRequest($this->baseUrl . '/sendAudio', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -229,9 +220,7 @@ class TelegramBot extends BaseBot
         }
         $returnData = $this->makeRequest($this->baseUrl . '/sendDocument', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -272,9 +261,7 @@ class TelegramBot extends BaseBot
     {
         $data = $this->makeRequest($this->baseUrl . '/getWebhookInfo', null, null, true);
         if ($data['ok']) {
-            $info = new WebhookInfo();
-            $info->load($data['result']);
-            return $info;
+            return new WebhookInfo($data['result']);
         }
         return null;
     }
@@ -303,9 +290,7 @@ class TelegramBot extends BaseBot
         if ($data['ok']) {
             $updates = [];
             foreach ($data['result'] as $datum) {
-                $update = new Update();
-                $update->load($datum);
-                $updates[] = $update;
+                $updates[] = new Update($datum);
             }
             return $updates;
         }
@@ -498,9 +483,7 @@ class TelegramBot extends BaseBot
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendVideo', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -557,9 +540,7 @@ class TelegramBot extends BaseBot
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendAnimation', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -605,9 +586,7 @@ class TelegramBot extends BaseBot
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendVoice', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -655,9 +634,7 @@ class TelegramBot extends BaseBot
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendVideoNote', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
@@ -685,9 +662,7 @@ class TelegramBot extends BaseBot
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendMediaGroup', $data, $files, true);
         if ($returnData['ok']) {
-            $message = new Message();
-            $message->load($returnData['result']);
-            return $message;
+            return new Message($returnData['result']);
         }
         return null;
     }
