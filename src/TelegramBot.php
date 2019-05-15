@@ -8,6 +8,9 @@ namespace tsvetkov\telegram_bot;
 
 use Exception;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
+use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
+use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
+use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\sticker\StickerSet;
 use tsvetkov\telegram_bot\entities\update\Update;
@@ -53,7 +56,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
-    public function sendMessage($chat_id, $text, $parse_mode = null, $reply_markup = null, $disable_web_page_preview = null, $disable_notification = null, $reply_to_message_id = null)
+    public function sendMessage(
+        $chat_id, $text, $parse_mode = null, $reply_markup = null, $disable_web_page_preview = null,
+        $disable_notification = null, $reply_to_message_id = null
+    )
     {
         $data = [
             'chat_id' => $chat_id,
@@ -114,7 +120,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
-    public function sendPhoto($chat_id, $photo, $caption = null, $parse_mode = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
+    public function sendPhoto(
+        $chat_id, $photo, $caption = null, $parse_mode = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
     {
         $data = [
             'chat_id' => $chat_id,
@@ -153,17 +162,8 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      */
     public function sendAudio(
-        $chat_id,
-        $audio,
-        $caption = null,
-        $parse_mode = null,
-        $duration = null,
-        $performer = null,
-        $title = null,
-        $thumb = null,
-        $disable_notification = false,
-        $reply_to_message_id = null,
-        $reply_markup = null
+        $chat_id, $audio, $caption = null, $parse_mode = null, $duration = null, $performer = null,
+        $title = null, $thumb = null, $disable_notification = false, $reply_to_message_id = null, $reply_markup = null
     )
     {
         $data = [
@@ -205,7 +205,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
-    public function sendDocument($chat_id, $document, $thumb = null, $caption = null, $parse_mode = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
+    public function sendDocument(
+        $chat_id, $document, $thumb = null, $caption = null, $parse_mode = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
     {
         $data = [
             'chat_id' => $chat_id,
@@ -451,18 +454,9 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      */
     public function sendVideo(
-        $chat_id,
-        $video,
-        $duration = null,
-        $width = null,
-        $height = null,
-        $thumb = null,
-        $caption = null,
-        $parse_mode = null,
-        $supports_streaming = null,
-        $disable_notification = null,
-        $reply_to_message_id = null,
-        $reply_markup = null
+        $chat_id, $video, $duration = null, $width = null, $height = null,
+        $thumb = null, $caption = null, $parse_mode = null, $supports_streaming = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
     )
     {
         $data = [
@@ -510,17 +504,8 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      */
     public function sendAnimation(
-        $chat_id,
-        $animation,
-        $duration = null,
-        $width = null,
-        $height = null,
-        $thumb = null,
-        $caption = null,
-        $parse_mode = null,
-        $disable_notification = null,
-        $reply_to_message_id = null,
-        $reply_markup = null
+        $chat_id, $animation, $duration = null, $width = null, $height = null, $thumb = null, $caption = null,
+        $parse_mode = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
     )
     {
         $data = [
@@ -564,14 +549,8 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      */
     public function sendVoice(
-        $chat_id,
-        $voice,
-        $caption = null,
-        $parse_mode = null,
-        $duration = null,
-        $disable_notification = null,
-        $reply_to_message_id = null,
-        $reply_markup = null
+        $chat_id, $voice, $caption = null, $parse_mode = null, $duration = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
     )
     {
         $data = [
@@ -610,14 +589,8 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      */
     public function sendVideoNote(
-        $chat_id,
-        $video_note,
-        $duration = null,
-        $length = null,
-        $thumb = null,
-        $disable_notification = null,
-        $reply_to_message_id = null,
-        $reply_markup = null
+        $chat_id, $video_note, $duration = null, $length = null, $thumb = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
     )
     {
         $data = [
@@ -766,6 +739,125 @@ class TelegramBot extends BaseBot
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/stopMessageLiveLocation', $data, [], true);
+        if ($returnData['ok']) {
+            return new Message($returnData['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendvenue
+     *
+     * @param int|string $chat_id
+     * @param float $latitude
+     * @param float $longitude
+     * @param string $title
+     * @param string $address
+     * @param string $foursquare_id
+     * @param string $foursquare_type
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendVenue(
+        $chat_id, $latitude, $longitude, $title, $address, $foursquare_id = null, $foursquare_type = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'title' => $title,
+            'address' => $address,
+            'foursquare_id' => $foursquare_id,
+            'foursquare_type' => $foursquare_type,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendVenue', $data, [], true);
+        if ($returnData['ok']) {
+            return new Message($returnData['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendcontact
+     *
+     * @param string|int $chat_id
+     * @param string $phone_number
+     * @param string $first_name
+     * @param string $last_name
+     * @param string $vcard
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendContact(
+        $chat_id, $phone_number, $first_name, $last_name = null, $vcard = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'phone_number' => $phone_number,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'vcard' => $vcard,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendContact', $data, [], true);
+        if ($returnData['ok']) {
+            return new Message($returnData['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendpoll
+     *
+     * @param string|int $chat_id
+     * @param string $question
+     * @param string[] $options
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendPoll(
+        $chat_id, $question, $options, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'question' => $question,
+            'options' => JsonHelper::encodeWithoutEmptyProperty($options),
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendPoll', $data, [], true);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }

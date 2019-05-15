@@ -13,6 +13,9 @@
     * `sendLocation`
     * `editMessageLiveLocation`
     * `stopMessageLiveLocation`
+    * `sendVenue`
+    * `sendContact`
+    * `sendPoll`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
