@@ -48,3 +48,29 @@ Get updates
 ```
 $updates = $bot->getUpdates();
 ```
+
+How to send media group with a files?
+-----------
+
+Use `attach://file_name_in_post` for that
+```
+$media = [
+    new \tsvetkov\telegram_bot\entities\message\InputMediaPhoto([
+        'media' => 'attach://file-photo',
+    ]),
+    new \tsvetkov\telegram_bot\entities\message\InputMediaVideo([
+        'media' => 'attach://file-video',
+    ]),
+];
+```
+Don't forget to add your files to request
+```
+$files = [
+    'file-video' => "path_to_video_for_upload",
+    'file-photo' => "path_to_photo_for_upload",
+];
+```
+And just send your request
+```
+$updates = $bot->sendMediaGroup($chatId, $media, $files);
+```

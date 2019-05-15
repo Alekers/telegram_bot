@@ -26,6 +26,17 @@ abstract class BaseObject
     protected $objectsArray = [];
 
     /**
+     * BaseObject constructor.
+     * @param array $data
+     */
+    public function __construct($data = [])
+    {
+        if (!empty($data)) {
+            $this->load($data);
+        }
+    }
+
+    /**
      * @param array $data
      * @return bool
      */

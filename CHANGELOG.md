@@ -9,9 +9,14 @@
     * `sendAnimation`
     * `sendVoice`
     * `sendVideoNote`
+    * `sendMediaGroup`
+* Add entities:
+    * `InputMediaPhoto`
+    * `InputMediaVideo`
 * Add exceptions at case:
     * token is wrong
     * data is incorrect (Bad Request)
 * `sendMessage`, `sendPhoto`, `sendDocument`  will return object of Message or null, in error cases
 * `getWebhookInfo` will return `WebhookInfo` object or null, in error cases
 * `getUpdates` realized with params, will return `Update[]` or `null` on error
+* Add ability to configurate entities from package in constructor

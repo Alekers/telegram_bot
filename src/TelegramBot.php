@@ -16,6 +16,8 @@ use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
 use function is_null;
 use function json_decode;
+use function json_encode;
+use tsvetkov\telegram_bot\helpers\JsonHelper;
 
 class TelegramBot extends BaseBot
 {
@@ -652,6 +654,36 @@ class TelegramBot extends BaseBot
         }
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendVideoNote', $data, $files, true);
+        if ($returnData['ok']) {
+            $message = new Message();
+            $message->load($returnData['result']);
+            return $message;
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendmediagroup
+     *
+     * @param int $chat_id
+     * @param array $media array of InputMediaPhoto or InputMediaVideo
+     * @param array $files
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @return Message|null
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendMediaGroup($chat_id, $media, $files = [], $disable_notification = null, $reply_to_message_id = null)
+    {
+        $data = [
+            'chat_id' => $chat_id,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'media' => JsonHelper::encodeWithoutEmptyProperty($media),
+        ];
+
+        $returnData = $this->makeRequest($this->baseUrl . '/sendMediaGroup', $data, $files, true);
         if ($returnData['ok']) {
             $message = new Message();
             $message->load($returnData['result']);

@@ -6,6 +6,10 @@
 
 namespace tsvetkov\telegram_bot\helpers;
 
+use function is_array;
+use function is_null;
+use function is_object;
+
 class JsonHelper
 {
     /**
@@ -30,7 +34,7 @@ class JsonHelper
             if (is_array($item) || is_object($item)) {
                 $item = self::unsetEmptyProperties($item);
             }
-            if ($item !== null) {
+            if (!is_null($item)) {
                 $newArray[$key] = $item;
             }
         }

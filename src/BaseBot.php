@@ -66,28 +66,12 @@ abstract class BaseBot
             $options = [];
             if ($data) {
                 foreach ($data as $key => $item) {
-                    if (is_object($item) || is_array($item)) {
-                        $contents = JsonHelper::encodeWithoutEmptyProperty($item);
-                    } else {
-                        $contents = $item;
-                    }
-                    $decodedData[] = [
-                        'name' => $key,
-                        'contents' => $contents,
-                    ];
+                    $this->addField($decodedData, $key, $item);
                 }
             }
             if ($files) {
                 foreach ($files as $name => $file) {
-                    if (is_file($file)) {
-                        $contents = fopen($file, 'r');
-                    } else {
-                        $contents = $file;
-                    }
-                    $decodedData[] = [
-                        'name' => $name,
-                        'contents' => $contents,
-                    ];
+                    $this->addField($decodedData, $name, $file, true);
                 }
             }
 
@@ -98,6 +82,8 @@ abstract class BaseBot
             if (!empty($decodedData)) {
                 $options['multipart'] = $decodedData;
             }
+//            var_dump($options['multipart']);
+//            die;
 
             $decodedResponse = json_decode($client->post($url, $options)->getBody()->getContents(), true);
             if ($returnContent) {
@@ -121,6 +107,32 @@ abstract class BaseBot
                 return [];
             }
             return false;
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param string $name
+     * @param string $contents
+     * @param bool $checkOnFile
+     */
+    protected function addField(&$data, $name, $contents, $checkOnFile = false)
+    {
+        if (is_null($contents)) {
+            return;
+        }
+        if (is_array($contents) || is_object($contents)) {
+            foreach ($contents as $childName => $content) {
+                $this->addField($data, "{$name}[{$childName}]", $content, $checkOnFile, false);
+            }
+        } else {
+            if ($checkOnFile && is_file($contents)) {
+                $contents = fopen($contents, 'r');
+            }
+            $data[] = [
+                'name' => $name,
+                'contents' => $contents,
+            ];
         }
     }
 }
