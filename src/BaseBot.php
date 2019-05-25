@@ -12,7 +12,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
-use tsvetkov\telegram_bot\helpers\JsonHelper;
 use function fopen;
 use function is_array;
 use function is_file;
@@ -82,14 +81,12 @@ abstract class BaseBot
             if (!empty($decodedData)) {
                 $options['multipart'] = $decodedData;
             }
-//            var_dump($options['multipart']);
-//            die;
 
             $decodedResponse = json_decode($client->post($url, $options)->getBody()->getContents(), true);
             if ($returnContent) {
                 return $decodedResponse;
             }
-            return $decodedResponse['ok'];
+            return $decodedResponse['result'];
         } catch (ClientException $clientException) {
             switch ($clientException->getCode()) {
                 case 400:

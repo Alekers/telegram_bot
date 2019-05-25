@@ -47,20 +47,30 @@ abstract class BaseObject
             return false;
         }
         foreach ((array)$this->objectsArray as $attribute => $class) {
-            if (is_string($class)) {
-                $json = $this->$attribute;
-                $this->$attribute = new $class();
-                $this->$attribute->load($json);
-            } elseif (is_array($class)) {
-                foreach ($this->$attribute as $key => $value) {
-                    $json = $this->$attribute[$key];
-                    $this->$attribute[$key] = new $class[0]();
-                    $this->$attribute[$key]->load($json);
-                }
-            }
-
+            $this->$attribute = $this->createObjectsFromData($this->$attribute, $class);
         }
         return true;
+    }
+
+    /**
+     * @param array $data
+     * @param array|string $class
+     * @return BaseObject|BaseObject[]|null
+     */
+    protected function createObjectsFromData($data, $class)
+    {
+        if (is_string($class)) {
+            $result = new $class();
+            $result->load($data);
+            return $result;
+        } elseif (is_array($class)) {
+            $result = [];
+            foreach ($data as $key => $value) {
+                $result[$key] = $this->createObjectsFromData($value, $class[0]);
+            }
+            return $result;
+        }
+        return null;
     }
 
     /**

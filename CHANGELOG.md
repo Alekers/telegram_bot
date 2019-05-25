@@ -16,9 +16,13 @@
     * `sendVenue`
     * `sendContact`
     * `sendPoll`
+    * `sendChatAction`
+    * `getUserProfilePhotos`
+    * `getFile`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
+    * `UserProfilePhotos`
 * Add exceptions at case:
     * token is wrong
     * data is incorrect (Bad Request)
@@ -26,3 +30,5 @@
 * `getWebhookInfo` returns `WebhookInfo` object or null, in error cases
 * `getUpdates` realized with params, returns `Update[]` or `null` on error
 * Add ability to configurate entities from package in constructor
+* Add class `ChatAction` for all available action contants
+* Add method `getLinkForFileDownload`, that simply returned link for download

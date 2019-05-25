@@ -10,11 +10,13 @@ use Exception;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
+use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\sticker\StickerSet;
 use tsvetkov\telegram_bot\entities\update\Update;
 use tsvetkov\telegram_bot\entities\user\User;
+use tsvetkov\telegram_bot\entities\user\UserProfilePhotos;
 use tsvetkov\telegram_bot\entities\webhook\WebhookInfo;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
@@ -283,7 +285,7 @@ class TelegramBot extends BaseBot
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function getUpdates($limit = null, $offset = null, $timeout = null, $allowed_updates = [])
+    public function getUpdates($limit = null, $offset = null, $timeout = null, $allowed_updates = null)
     {
         $data = $this->makeRequest($this->baseUrl . '/getUpdates', [
             'offset' => $offset,
@@ -862,5 +864,83 @@ class TelegramBot extends BaseBot
             return new Message($returnData['result']);
         }
         return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendchataction
+     *
+     * @param int|string $chat_id
+     * @param string $action
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendChatAction($chat_id, $action)
+    {
+        return $this->makeRequest($this->baseUrl . '/sendChatAction', [
+            'chat_id' => $chat_id,
+            'action' => $action,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getuserprofilephotos
+     *
+     * @param int $user_id
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return UserProfilePhotos|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getUserProfilePhotos($user_id, $offset = null, $limit = null)
+    {
+        $returnData = $this->makeRequest($this->baseUrl . '/getUserProfilePhotos', [
+            'user_id' => $user_id,
+            'offset' => $offset,
+            'limit' => $limit,
+        ], [], true);
+        if ($returnData['ok']) {
+            $userProfilePhotos = new UserProfilePhotos();
+            $userProfilePhotos->load($returnData['result']);
+            return $userProfilePhotos;
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getfile
+     *
+     * @param string $file_id
+     *
+     * @return File|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getFile($file_id)
+    {
+        $returnData = $this->makeRequest($this->baseUrl . '/getFile', ['file_id' => $file_id], [], true);
+        if ($returnData['ok']) {
+            $file = new File();
+            $file->load($returnData['result']);
+            return $file;
+        }
+        return null;
+    }
+
+    /**
+     * Simple method for getting download link to file
+     *
+     * @param string $file_path
+     * @return string
+     */
+    public function getLinkForFileDownload($file_path)
+    {
+        return "https://api.telegram.org/file/bot{$this->token}/{$file_path}";
     }
 }
