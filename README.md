@@ -49,6 +49,14 @@ Get updates
 $updates = $bot->getUpdates();
 ```
 
+Webhooks
+
+```
+$data = json_decode(file_get_contents('php://input'));
+
+$update = new \tsvetkov\telegram_bot\entities\update\Update($data);
+```
+
 How to send media group with a files?
 -----------
 
