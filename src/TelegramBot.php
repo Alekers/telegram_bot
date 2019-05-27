@@ -7,6 +7,8 @@
 namespace tsvetkov\telegram_bot;
 
 use Exception;
+use tsvetkov\telegram_bot\entities\chat\Chat;
+use tsvetkov\telegram_bot\entities\chat\ChatMember;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
@@ -942,5 +944,328 @@ class TelegramBot extends BaseBot
     public function getLinkForFileDownload($file_path)
     {
         return "https://api.telegram.org/file/bot{$this->token}/{$file_path}";
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#kickchatmember
+     *
+     * @param int|string $chat_id
+     * @param int $user_id
+     * @param int|null $until_date
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function kickChatMember($chat_id, $user_id, $until_date = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/kickChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+            'until_date' => $until_date,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#unbanchatmember
+     *
+     * @param int|string $chat_id
+     * @param int $user_id
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function unbanChatMember($chat_id, $user_id)
+    {
+        return $this->makeRequest($this->baseUrl . '/unbanChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#restrictchatmember
+     *
+     * @param int|string $chat_id
+     * @param int $user_id
+     * @param int|null $until_date
+     * @param bool|null $can_send_messages
+     * @param bool|null $can_send_media_messages
+     * @param bool|null $can_send_other_messages
+     * @param bool|null $can_add_web_page_previews
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function restrictChatMember(
+        $chat_id, $user_id, $until_date = null, $can_send_messages = null,
+        $can_send_media_messages = null, $can_send_other_messages = null, $can_add_web_page_previews = null
+    )
+    {
+        return $this->makeRequest($this->baseUrl . '/restrictChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+            'until_date' => $until_date,
+            'can_send_messages' => $can_send_messages,
+            'can_send_media_messages' => $can_send_media_messages,
+            'can_send_other_messages' => $can_send_other_messages,
+            'can_add_web_page_previews' => $can_add_web_page_previews,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#promotechatmember
+     *
+     * @param int|string $chat_id
+     * @param int $user_id
+     * @param bool|null $can_change_info
+     * @param bool|null $can_post_messages
+     * @param bool|null $can_edit_messages
+     * @param bool|null $can_delete_messages
+     * @param bool|null $can_invite_users
+     * @param bool|null $can_restrict_members
+     * @param bool|null $can_pin_messages
+     * @param bool|null $can_promote_members
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function promoteChatMember(
+        $chat_id, $user_id, $can_change_info = null, $can_post_messages = null, $can_edit_messages = null,
+        $can_delete_messages = null, $can_invite_users = null, $can_restrict_members = null,
+        $can_pin_messages = null, $can_promote_members = null
+    )
+    {
+        return $this->makeRequest($this->baseUrl . '/promoteChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+            'can_change_info' => $can_change_info,
+            'can_post_messages' => $can_post_messages,
+            'can_edit_messages' => $can_edit_messages,
+            'can_delete_messages' => $can_delete_messages,
+            'can_invite_users' => $can_invite_users,
+            'can_restrict_members' => $can_restrict_members,
+            'can_pin_messages' => $can_pin_messages,
+            'can_promote_members' => $can_promote_members,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#exportchatinvitelink
+     *
+     * @param int|string $chat_id
+     *
+     * @return string|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function exportChatInviteLink($chat_id)
+    {
+        return $this->makeRequest($this->baseUrl . '/exportChatInviteLink', [
+            'chat_id' => $chat_id,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setchatphoto
+     *
+     * @param int|string $chat_id
+     * @param $photo
+     *
+     * @return string|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setChatPhoto($chat_id, $photo)
+    {
+        return $this->makeRequest($this->baseUrl . '/setChatPhoto', ['chat_id' => $chat_id], ['photo' => $photo]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#deletechatphoto
+     *
+     * @param int|string $chat_id
+     *
+     * @return string|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function deleteChatPhoto($chat_id)
+    {
+        return $this->makeRequest($this->baseUrl . '/deleteChatPhoto', ['chat_id' => $chat_id]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setchattitle
+     *
+     * @param int|string $chat_id
+     * @param string $title
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setChatTitle($chat_id, $title)
+    {
+        return $this->makeRequest($this->baseUrl . '/setChatTitle', ['chat_id' => $chat_id, 'title' => $title]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setchatdescription
+     *
+     * @param int|string $chat_id
+     * @param string|null $description
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setChatDescription($chat_id, $description = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/setChatDescription', ['chat_id' => $chat_id, 'description' => $description]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#pinchatmessage
+     *
+     * @param int|string $chat_id
+     * @param int $message_id
+     * @param bool|null $disable_notification
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function pinChatMessage($chat_id, $message_id, $disable_notification = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/pinChatMessage', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'disable_notification' => $disable_notification,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#unpinchatmessage
+     *
+     * @param int|string $chat_id
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function unpinChatMessage($chat_id)
+    {
+        return $this->makeRequest($this->baseUrl . '/unpinChatMessage', ['chat_id' => $chat_id]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#leavechat
+     *
+     * @param int|string $chat_id
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function leaveChat($chat_id)
+    {
+        return $this->makeRequest($this->baseUrl . '/leaveChat', ['chat_id' => $chat_id]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getchat
+     *
+     * @param int|string $chat_id
+     *
+     * @return Chat|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getChat($chat_id)
+    {
+        $data = $this->makeRequest($this->baseUrl . '/getChat', ['chat_id' => $chat_id], [], true);
+        if ($data['ok']) {
+            return new Chat($data['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getchatadministrators
+     *
+     * @param int|string $chat_id
+     *
+     * @return ChatMember[]|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getChatAdministrators($chat_id)
+    {
+        $data = $this->makeRequest($this->baseUrl . '/getChatAdministrators', ['chat_id' => $chat_id], [], true);
+        if ($data['ok']) {
+            $admins = [];
+            foreach ($data['result'] as $datum) {
+                $admins[] = new ChatMember($datum);
+            }
+            return $admins;
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getchatmemberscount
+     *
+     * @param int|string $chat_id
+     *
+     * @return ChatMember[]|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getChatMembersCount($chat_id)
+    {
+        $data = $this->makeRequest($this->baseUrl . '/getChatMembersCount', ['chat_id' => $chat_id], [], true);
+        if ($data['ok']) {
+            return $data['result'];
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getchatmember
+     *
+     * @param int|string $chat_id
+     * @param int $user_id
+     *
+     * @return ChatMember|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getChatMember($chat_id, $user_id)
+    {
+        $data = $this->makeRequest($this->baseUrl . '/getChatMember', ['chat_id' => $chat_id, 'user_id' => $user_id], [], true);
+        if ($data['ok']) {
+            return new ChatMember($data['result']);
+        }
+        return null;
     }
 }

@@ -19,10 +19,28 @@
     * `sendChatAction`
     * `getUserProfilePhotos`
     * `getFile`
+    * `kickChatMember`
+    * `unbanChatMember`
+    * `restrictChatMember`
+    * `promoteChatMember`
+    * `exportChatInviteLink`
+    * `setChatPhoto`
+    * `deleteChatPhoto`
+    * `setChatTitle`
+    * `setChatDescription`
+    * `pinChatMessage`
+    * `unpinChatMessage`
+    * `leaveChat`
+    * `getChat`
+    * `getChatAdministrators`
+    * `getChatMembersCount`
+    * `getChatMember`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
     * `UserProfilePhotos`
+* Actualize entities:
+    * `ChatMember`
 * Add exceptions at case:
     * token is wrong
     * data is incorrect (Bad Request)
