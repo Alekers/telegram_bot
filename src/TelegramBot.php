@@ -1268,4 +1268,143 @@ class TelegramBot extends BaseBot
         }
         return null;
     }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setchatstickerset
+     *
+     * @param int|string $chat_id
+     * @param string $sticker_set_name
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setChatStickerSet($chat_id, $sticker_set_name)
+    {
+        return $this->makeRequest($this->baseUrl . '/setChatStickerSet', [
+            'chat_id' => $chat_id,
+            'sticker_set_name' => $sticker_set_name,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#deletechatstickerset
+     *
+     * @param int|string $chat_id
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function deleteChatStickerSet($chat_id)
+    {
+        return $this->makeRequest($this->baseUrl . '/deleteChatStickerSet', [
+            'chat_id' => $chat_id,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#answercallbackquery
+     *
+     * @param string $callback_query_id
+     * @param string|null $text
+     * @param bool|null $show_alert
+     * @param string|null $url
+     * @param int|null $cache_time
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function answerCallbackQuery($callback_query_id, $text = null, $show_alert = null, $url = null, $cache_time = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/answerCallbackQuery', [
+            'callback_query_id' => $callback_query_id,
+            'text' => $text,
+            'show_alert' => $show_alert,
+            'url' => $url,
+            'cache_time' => $cache_time,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#editmessagetext
+     *
+     * @param string $text
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     * @param string|null $parse_mode
+     * @param bool|null $disable_web_page_preview
+     * @param InlineKeyboardMarkup|null $reply_markup
+     *
+     * @return Message|bool|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function editMessageText(
+        $text, $chat_id = null, $message_id = null, $inline_message_id = null,
+        $parse_mode = null, $disable_web_page_preview = null, $reply_markup = null
+    )
+    {
+        $data = $this->makeRequest($this->baseUrl . '/editMessageText', [
+            'text' => $text,
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+            'parse_mode' => $parse_mode,
+            'disable_web_page_preview' => $disable_web_page_preview,
+            'reply_markup' => $reply_markup,
+        ], [], true);
+        if ($data['ok']) {
+            if (is_bool($data['result'])) {
+                return $data['result'];
+            } elseif (is_array($data['result'])) {
+                return new Message($data['result']);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#editmessagecaption
+     *
+     * @param string|null $caption
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     * @param string|null $parse_mode
+     * @param InlineKeyboardMarkup|null $reply_markup
+     *
+     * @return Message|bool|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function editMessageCaption(
+        $caption = null, $chat_id = null, $message_id = null, $inline_message_id = null,
+        $parse_mode = null,  $reply_markup = null
+    )
+    {
+        $data = $this->makeRequest($this->baseUrl . '/editMessageCaption', [
+            'caption' => $caption,
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+            'parse_mode' => $parse_mode,
+            'reply_markup' => $reply_markup,
+        ], [], true);
+        if ($data['ok']) {
+            if (is_bool($data['result'])) {
+                return $data['result'];
+            } elseif (is_array($data['result'])) {
+                return new Message($data['result']);
+            }
+        }
+        return null;
+    }
 }

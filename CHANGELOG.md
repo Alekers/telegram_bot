@@ -35,6 +35,11 @@
     * `getChatAdministrators`
     * `getChatMembersCount`
     * `getChatMember`
+    * `setChatStickerSet`
+    * `deleteChatStickerSet`
+    * `answerCallbackQuery`
+    * `editMessageText`
+    * `editMessageCaption`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
