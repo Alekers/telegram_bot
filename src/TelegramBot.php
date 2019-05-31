@@ -16,6 +16,8 @@ use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
 use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\Message;
+use tsvetkov\telegram_bot\entities\payment\LabeledPrice;
+use tsvetkov\telegram_bot\entities\payment\ShippingOption;
 use tsvetkov\telegram_bot\entities\poll\Poll;
 use tsvetkov\telegram_bot\entities\sticker\StickerSet;
 use tsvetkov\telegram_bot\entities\update\Update;
@@ -24,9 +26,9 @@ use tsvetkov\telegram_bot\entities\user\UserProfilePhotos;
 use tsvetkov\telegram_bot\entities\webhook\WebhookInfo;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
+use tsvetkov\telegram_bot\helpers\JsonHelper;
 use function is_null;
 use function json_decode;
-use tsvetkov\telegram_bot\helpers\JsonHelper;
 
 class TelegramBot extends BaseBot
 {
@@ -1516,6 +1518,121 @@ class TelegramBot extends BaseBot
         return $this->makeRequest($this->baseUrl . '/deleteMessage', [
             'chat_id' => $chat_id,
             'message_id' => $message_id,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendinvoice
+     *
+     * @param int $chat_id
+     * @param string $title
+     * @param string $description
+     * @param string $payload
+     * @param string $provider_token
+     * @param string $start_parameter
+     * @param string $currency
+     * @param LabeledPrice[] $prices
+     * @param string|null $provider_data
+     * @param string|null $photo_url
+     * @param int|null $photo_size
+     * @param int|null $photo_width
+     * @param int|null $photo_height
+     * @param bool|null $need_name
+     * @param bool|null $need_phone_number
+     * @param bool|null $need_email
+     * @param bool|null $need_shipping_address
+     * @param bool|null $send_phone_number_to_provider
+     * @param bool|null $send_email_to_provider
+     * @param bool|null $is_flexible
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|null $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendInvoice(
+        $chat_id, $title, $description, $payload, $provider_token, $start_parameter, $currency, $prices,
+        $provider_data = null, $photo_url = null, $photo_size = null, $photo_width = null, $photo_height = null,
+        $need_name = null, $need_phone_number = null, $need_email = null, $need_shipping_address = null,
+        $send_phone_number_to_provider = null, $send_email_to_provider = null, $is_flexible = null,
+        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
+    )
+    {
+        $data = $this->makeRequest($this->baseUrl . '/sendInvoice', [
+            'chat_id' => $chat_id,
+            'title' => $title,
+            'description' => $description,
+            'payload' => $payload,
+            'provider_token' => $provider_token,
+            'start_parameter' => $start_parameter,
+            'currency' => $currency,
+            'prices' => $prices,
+            'provider_data' => JsonHelper::encodeWithoutEmptyProperty($provider_data),
+            'photo_url' => $photo_url,
+            'photo_size' => $photo_size,
+            'photo_width' => $photo_width,
+            'photo_height' => $photo_height,
+            'need_name' => $need_name,
+            'need_phone_number' => $need_phone_number,
+            'need_email' => $need_email,
+            'need_shipping_address' => $need_shipping_address,
+            'send_phone_number_to_provider' => $send_phone_number_to_provider,
+            'send_email_to_provider' => $send_email_to_provider,
+            'is_flexible' => $is_flexible,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup ' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ], [], true);
+        if ($data['ok']) {
+            return new Message($data['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/answershippingquery#answershippingquery
+     *
+     * @param string $shipping_query_id
+     * @param bool $ok
+     * @param ShippingOption[]|null $shipping_options
+     * @param string|null $error_message
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function answerShippingQuery($shipping_query_id, $ok, $shipping_options = null, $error_message = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/answerShippingQuery', [
+            'shipping_query_id' => $shipping_query_id,
+            'ok' => $ok,
+            'shipping_options' => $shipping_options,
+            'error_message' => $error_message,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/answershippingquery#answerprecheckoutquery
+     *
+     * @param string $pre_checkout_query_id
+     * @param bool $ok
+     * @param string|null $error_message
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function answerPreCheckoutQuery($pre_checkout_query_id, $ok, $error_message = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/answerPreCheckoutQuery', [
+            'pre_checkout_query_id' => $pre_checkout_query_id,
+            'ok' => $ok,
+            'error_message' => $error_message,
         ]);
     }
 }

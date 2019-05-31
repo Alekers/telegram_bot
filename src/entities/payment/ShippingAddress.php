@@ -4,7 +4,7 @@
  * @author Tsvetkov Alexander <ac@goldcarrot.ru>
  */
 
-namespace tsvetkov\telegram_bot\entities\message;
+namespace tsvetkov\telegram_bot\entities\payment;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 

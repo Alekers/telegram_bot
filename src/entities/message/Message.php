@@ -8,6 +8,8 @@ namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\chat\Chat;
+use tsvetkov\telegram_bot\entities\payment\Invoice;
+use tsvetkov\telegram_bot\entities\payment\SuccessfulPayment;
 use tsvetkov\telegram_bot\entities\poll\Poll;
 use tsvetkov\telegram_bot\entities\sticker\Sticker;
 use tsvetkov\telegram_bot\entities\user\User;

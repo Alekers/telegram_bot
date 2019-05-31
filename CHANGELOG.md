@@ -44,6 +44,8 @@
     * `editMessageReplyMarkup`
     * `stopPoll`
     * `deleteMessage`
+    * `sendInvoice`
+    * `answerShippingQuery`
 * Method changed:
     * `sendMessage` return `Message|null`
     * `sendPhoto` return `Message|null`
@@ -59,6 +61,10 @@
     * `UserProfilePhotos`
     * `Poll`
     * `PollOption`
+    * `LabeledPrice`
+    * `ShippingOption`
+    * `ShippingQuery`
+    * `PreCheckoutQuery`
 * Actualize entities:
     * `ChatMember`
 * Add exceptions at case:
