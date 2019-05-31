@@ -16,6 +16,7 @@ use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
 use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\Message;
+use tsvetkov\telegram_bot\entities\poll\Poll;
 use tsvetkov\telegram_bot\entities\sticker\StickerSet;
 use tsvetkov\telegram_bot\entities\update\Update;
 use tsvetkov\telegram_bot\entities\user\User;
@@ -1470,6 +1471,31 @@ class TelegramBot extends BaseBot
             } elseif (is_array($data['result'])) {
                 return new Message($data['result']);
             }
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#stoppoll
+     *
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     * @param InlineKeyboardMarkup $reply_markup
+     *
+     * @return Poll|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function stopPoll($chat_id = null, $message_id = null, $reply_markup = null)
+    {
+        $data = $this->makeRequest($this->baseUrl . '/stopPoll', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ], [], true);
+        if ($data['ok']) {
+            return new Poll($data['result']);
         }
         return null;
     }

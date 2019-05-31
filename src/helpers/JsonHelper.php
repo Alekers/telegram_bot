@@ -19,6 +19,9 @@ class JsonHelper
      */
     public static function encodeWithoutEmptyProperty($value, $options = 320)
     {
+        if (is_null($value)) {
+            return null;
+        }
         $value = self::unsetEmptyProperties($value);
         return json_encode($value, $options);
     }
@@ -29,9 +32,6 @@ class JsonHelper
      */
     private static function unsetEmptyProperties($value)
     {
-        if (is_null($value)) {
-            return null;
-        }
         $newArray = [];
         foreach ($value as $key => $item) {
             if (is_array($item) || is_object($item)) {

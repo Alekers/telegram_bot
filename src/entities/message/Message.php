@@ -8,6 +8,7 @@ namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\chat\Chat;
+use tsvetkov\telegram_bot\entities\poll\Poll;
 use tsvetkov\telegram_bot\entities\sticker\Sticker;
 use tsvetkov\telegram_bot\entities\user\User;
 
@@ -33,6 +34,7 @@ class Message extends BaseObject
         'pinned_message' => self::class,
         'invoice' => Invoice::class,
         'successful_payment' => SuccessfulPayment::class,
+        'poll' => Poll::class,
     ];
 
     /** @var integer $message_id */
@@ -44,10 +46,10 @@ class Message extends BaseObject
     /** @var integer $date */
     public $date;
 
-    /** @var \tsvetkov\telegram_bot\entities\chat\Chat $chat */
+    /** @var Chat $chat */
     public $chat;
 
-    /** @var \tsvetkov\telegram_bot\entities\user\User $forwarded_from */
+    /** @var User $forwarded_from */
     public $forwarded_from;
 
     /** @var Chat $forwarded_from_chat */
@@ -95,7 +97,7 @@ class Message extends BaseObject
     /** @var PhotoSize[] */
     public $photo;
 
-    /** @var \tsvetkov\telegram_bot\entities\sticker\Sticker $sticker */
+    /** @var Sticker $sticker */
     public $sticker;
 
     /** @var Video $video */
@@ -122,7 +124,7 @@ class Message extends BaseObject
     /** @var User[] $new_chat_members */
     public $new_chat_members;
 
-    /** @var \tsvetkov\telegram_bot\entities\user\User $left_chat_member */
+    /** @var User $left_chat_member */
     public $left_chat_member;
 
     /** @var string $new_chat_title */
@@ -160,4 +162,7 @@ class Message extends BaseObject
 
     /** @var string $connected_website */
     public $connected_website;
+
+    /** @var Poll */
+    public $poll;
 }

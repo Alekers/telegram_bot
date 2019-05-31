@@ -42,6 +42,7 @@
     * `editMessageCaption`
     * `editMessageMedia`
     * `editMessageReplyMarkup`
+    * `stopPoll`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
@@ -49,6 +50,8 @@
     * `InputMediaAudio`
     * `InputMediaDocument`
     * `UserProfilePhotos`
+    * `Poll`
+    * `PollOption`
 * Actualize entities:
     * `ChatMember`
 * Add exceptions at case:
