@@ -4,9 +4,10 @@
  * @author Tsvetkov Alexander <ac@goldcarrot.ru>
  */
 
-namespace tsvetkov\telegram_bot\entities\message;
+namespace tsvetkov\telegram_bot\entities\callback;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
+use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\user\User;
 
 class CallbackQuery extends BaseObject

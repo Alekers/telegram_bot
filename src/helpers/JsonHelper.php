@@ -29,6 +29,9 @@ class JsonHelper
      */
     private static function unsetEmptyProperties($value)
     {
+        if (is_null($value)) {
+            return null;
+        }
         $newArray = [];
         foreach ($value as $key => $item) {
             if (is_array($item) || is_object($item)) {

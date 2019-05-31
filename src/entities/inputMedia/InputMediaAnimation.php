@@ -1,24 +1,24 @@
 <?php
 /**
- * Created date 5/6/2019 7:50 PM
+ * Created date 5/31/2019 12:23 PM
  * @author Tsvetkov Alexander <ac@goldcarrot.ru>
  */
 
-namespace tsvetkov\telegram_bot\entities\message;
+namespace tsvetkov\telegram_bot\entities\inputMedia;
 
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
 /**
- * Class InputMediaVideo
- * @package tsvetkov\telegram_bot\entities\message
+ * Class InputMediaAnimation
+ * @package tsvetkov\telegram_bot\entities\inputMedia
  *
- * OfficialDocs: https://core.telegram.org/bots/api#inputmediavideo
+ * OfficialDocs: https://core.telegram.org/bots/api#inputmediaanimation
  */
-class InputMediaVideo extends BaseObject
+class InputMediaAnimation extends BaseObject implements InputMedia
 {
     /** @var string */
-    public $type = "video";
+    public $type = "animation";
 
     /** @var string */
     public $media;
@@ -39,7 +39,4 @@ class InputMediaVideo extends BaseObject
 
     /** @var int */
     public $duration;
-
-    /** @var bool */
-    public $supports_streaming;
 }

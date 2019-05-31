@@ -8,7 +8,7 @@ namespace tsvetkov\telegram_bot\entities\update;
 
 
 use tsvetkov\telegram_bot\entities\BaseObject;
-use tsvetkov\telegram_bot\entities\message\CallbackQuery;
+use tsvetkov\telegram_bot\entities\callback\CallbackQuery;
 use tsvetkov\telegram_bot\entities\message\Message;
 
 class Update extends BaseObject

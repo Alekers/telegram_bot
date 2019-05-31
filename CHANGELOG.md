@@ -40,9 +40,14 @@
     * `answerCallbackQuery`
     * `editMessageText`
     * `editMessageCaption`
+    * `editMessageMedia`
+    * `editMessageReplyMarkup`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
+    * `InputMediaAnimation`
+    * `InputMediaAudio`
+    * `InputMediaDocument`
     * `UserProfilePhotos`
 * Actualize entities:
     * `ChatMember`

@@ -19,11 +19,14 @@ class InlineKeyboardButton extends BaseObject
     /** @var string $callback_data */
     public $callback_data;
 
-    /** @var string $switch_inline_data */
-    public $switch_inline_data;
+    /** @var string $switch_inline_query */
+    public $switch_inline_query;
 
     /** @var string $switch_inline_query_current_chat */
     public $switch_inline_query_current_chat;
+
+
+    public $callback_game;
 
     /** @var boolean $pay */
     public $pay;

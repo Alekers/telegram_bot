@@ -12,7 +12,7 @@ class InlineKeyboardMarkup extends BaseObject
 {
     /**
      * Array of button rows, each represented by an Array of InlineKeyboardButton objects
-     * @var array
+     * @var InlineKeyboardButton[][]
      */
     public $inline_keyboard;
 }

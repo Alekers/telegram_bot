@@ -9,6 +9,7 @@ namespace tsvetkov\telegram_bot;
 use Exception;
 use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatMember;
+use tsvetkov\telegram_bot\entities\inputMedia\InputMedia;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
@@ -72,7 +73,7 @@ class TelegramBot extends BaseBot
             'disable_web_page_preview' => $disable_web_page_preview,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
         $returnData = $this->makeRequest($this->baseUrl . '/sendMessage', $data, [], true);
         if ($returnData['ok']) {
@@ -135,7 +136,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
         $returnData = $this->makeRequest($this->baseUrl . '/sendPhoto', $data, ['photo' => $photo], true);
         if ($returnData['ok']) {
@@ -176,7 +177,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
             'duration' => $duration,
             'performer' => $performer,
             'title' => $title,
@@ -220,7 +221,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
         $files['document'] = $document;
         if (!is_null($thumb)) {
@@ -469,7 +470,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
             'duration' => $duration,
             'width' => $width,
             'height' => $height,
@@ -518,7 +519,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
             'duration' => $duration,
             'width' => $width,
             'height' => $height,
@@ -563,7 +564,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
             'duration' => $duration,
         ];
         $files['voice'] = $voice;
@@ -601,7 +602,7 @@ class TelegramBot extends BaseBot
             'chat_id' => $chat_id,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
             'duration' => $duration,
             'length' => $length,
         ];
@@ -675,7 +676,7 @@ class TelegramBot extends BaseBot
             'live_period' => $live_period,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendLocation', $data, [], true);
@@ -710,7 +711,7 @@ class TelegramBot extends BaseBot
             'latitude' => $latitude,
             'longitude' => $longitude,
             'inline_message_id' => $inline_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/editMessageLiveLocation', $data, [], true);
@@ -739,7 +740,7 @@ class TelegramBot extends BaseBot
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'inline_message_id' => $inline_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/stopMessageLiveLocation', $data, [], true);
@@ -783,7 +784,7 @@ class TelegramBot extends BaseBot
             'foursquare_type' => $foursquare_type,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendVenue', $data, [], true);
@@ -823,7 +824,7 @@ class TelegramBot extends BaseBot
             'vcard' => $vcard,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendContact', $data, [], true);
@@ -858,7 +859,7 @@ class TelegramBot extends BaseBot
             'options' => JsonHelper::encodeWithoutEmptyProperty($options),
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
         $returnData = $this->makeRequest($this->baseUrl . '/sendPoll', $data, [], true);
@@ -1358,7 +1359,7 @@ class TelegramBot extends BaseBot
             'inline_message_id' => $inline_message_id,
             'parse_mode' => $parse_mode,
             'disable_web_page_preview' => $disable_web_page_preview,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ], [], true);
         if ($data['ok']) {
             if (is_bool($data['result'])) {
@@ -1396,7 +1397,72 @@ class TelegramBot extends BaseBot
             'message_id' => $message_id,
             'inline_message_id' => $inline_message_id,
             'parse_mode' => $parse_mode,
-            'reply_markup' => $reply_markup,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ], [], true);
+        if ($data['ok']) {
+            if (is_bool($data['result'])) {
+                return $data['result'];
+            } elseif (is_array($data['result'])) {
+                return new Message($data['result']);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#editmessagemedia
+     *
+     * @param InputMedia $media
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     * @param InlineKeyboardMarkup $reply_markup
+     * @param array $files
+     *
+     * @return bool|Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function editMessageMedia($media, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null, $files = [])
+    {
+        $data = $this->makeRequest($this->baseUrl . '/editMessageMedia', [
+            'media' => JsonHelper::encodeWithoutEmptyProperty($media),
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ], $files, true);
+        if ($data['ok']) {
+            if (is_bool($data['result'])) {
+                return $data['result'];
+            } elseif (is_array($data['result'])) {
+                return new Message($data['result']);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#editmessagereplymarkup
+     *
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     * @param InlineKeyboardMarkup $reply_markup
+     *
+     * @return bool|Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function editMessageReplyMarkup($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
+    {
+        $data = $this->makeRequest($this->baseUrl . '/editMessageReplyMarkup', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ], [], true);
         if ($data['ok']) {
             if (is_bool($data['result'])) {

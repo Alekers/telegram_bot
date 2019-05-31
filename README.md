@@ -66,10 +66,10 @@ How to send media group with a files?
 Use `attach://file_name_in_post` for that
 ```
 $media = [
-    new \tsvetkov\telegram_bot\entities\message\InputMediaPhoto([
+    new \tsvetkov\telegram_bot\entities\inputMedia\InputMediaPhoto([
         'media' => 'attach://file-photo',
     ]),
-    new \tsvetkov\telegram_bot\entities\message\InputMediaVideo([
+    new \tsvetkov\telegram_bot\entities\inputMedia\InputMediaVideo([
         'media' => 'attach://file-video',
     ]),
 ];
@@ -83,5 +83,5 @@ $files = [
 ```
 And just send your request
 ```
-$updates = $bot->sendMediaGroup($chatId, $media, $files);
+$message = $bot->sendMediaGroup($chatId, $media, $files);
 ```

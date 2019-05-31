@@ -4,7 +4,7 @@
  * @author Tsvetkov Alexander <ac@goldcarrot.ru>
  */
 
-namespace tsvetkov\telegram_bot\entities\message;
+namespace tsvetkov\telegram_bot\entities\inputMedia;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
@@ -14,7 +14,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  *
  * OfficialDocs: https://core.telegram.org/bots/api#inputmediaphoto
  */
-class InputMediaPhoto extends BaseObject
+class InputMediaPhoto extends BaseObject implements InputMedia
 {
     /** @var string */
     public $type = "photo";
