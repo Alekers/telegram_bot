@@ -43,6 +43,13 @@
     * `editMessageMedia`
     * `editMessageReplyMarkup`
     * `stopPoll`
+    * `deleteMessage`
+* Method changed:
+    * `sendMessage` return `Message|null`
+    * `sendPhoto` return `Message|null`
+    * `sendDocument` return `Message|null`
+    * `getWebhookInfo` return `WebhookInfo|null`
+    * `getUpdates` allow parameters, return `Update[]|null`
 * Add entities:
     * `InputMediaPhoto`
     * `InputMediaVideo`
@@ -57,9 +64,6 @@
 * Add exceptions at case:
     * token is wrong
     * data is incorrect (Bad Request)
-* `sendMessage`, `sendPhoto`, `sendDocument` returns object of Message or null, in error cases
-* `getWebhookInfo` returns `WebhookInfo` object or null, in error cases
-* `getUpdates` realized with params, returns `Update[]` or `null` on error
-* Add ability to configurate entities from package in constructor
+* Add ability to configure entities from package in constructor
 * Add class `ChatAction` for all available action contants
 * Add method `getLinkForFileDownload`, that simply returned link for download

@@ -1499,4 +1499,23 @@ class TelegramBot extends BaseBot
         }
         return null;
     }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#deletemessage
+     *
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function deleteMessage($chat_id = null, $message_id = null)
+    {
+        return $this->makeRequest($this->baseUrl . '/deleteMessage', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+        ]);
+    }
 }
