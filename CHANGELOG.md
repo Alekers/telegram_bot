@@ -46,6 +46,7 @@
     * `deleteMessage`
     * `sendInvoice`
     * `answerShippingQuery`
+    * `answerPreCheckoutQuery`
 * Method changed:
     * `sendMessage` return `Message|null`
     * `sendPhoto` return `Message|null`
