@@ -63,7 +63,7 @@ abstract class BaseObject
         if (!empty($data)) {
             if (is_array($data)) {
                 foreach ($data as $name => $value) {
-                    if (isset($this->$name)) {
+                    if (property_exists($this, $name)) {
                         $this->$name = $value;
                     }
                 }
