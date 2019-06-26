@@ -1,5 +1,5 @@
 # CHANGE LOG
-## 2.0.0 - Upcoming
+## 2.0.0 - 2019/06/27
 * Change structure for bot constructor, ability to change all request options
 * Realize methods:
     * `getMe` 
