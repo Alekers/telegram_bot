@@ -7,6 +7,7 @@
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
+use tsvetkov\telegram_bot\TelegramBot;
 
 class File extends BaseObject
 {
@@ -18,6 +19,8 @@ class File extends BaseObject
 
     /**
      * Use https://api.telegram.org/file/bot<token>/<file_path> to get the file
+     * @see TelegramBot::getLinkForFileDownload()
+     *
      * @var string $file_path
      */
     public $file_path;

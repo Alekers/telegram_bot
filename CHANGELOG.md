@@ -1,4 +1,12 @@
 # CHANGE LOG
+## 2.1.0 - Upcoming
+* Method changed:
+    * `sendSticker` return `Message|null`
+    * `getStickerSet` return `StickerSet|null`
+    * `uploadStickerFile` return `File|null`
+    * `createNewStickerSet`, `sendSticker` and `addStickerToSet` attribute list currently updated with official Telegram API
+    * `getStickerSet`, `uploadStickerFile` and `deleteStickerFromSet` now able to throws exceptions
+    * `setStickerPositionInSet` was added
 ## 2.0.0 - 2019/06/27
 * Change structure for bot constructor, ability to change all request options
 * Realize methods:

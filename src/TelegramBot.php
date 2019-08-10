@@ -15,6 +15,7 @@ use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
 use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
+use tsvetkov\telegram_bot\entities\message\MaskPosition;
 use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\payment\LabeledPrice;
 use tsvetkov\telegram_bot\entities\payment\ShippingOption;
@@ -310,31 +311,54 @@ class TelegramBot extends BaseBot
     }
 
     /**
+     * Official Docs: https://core.telegram.org/bots/api#sendsticker
+     *
      * @param string|int $chat_id
-     * @param string $urlFileName
-     * @return bool|string
-     * @throws InvalidTokenException
+     * @param string $sticker
+     * @param array $files
+     * @param bool $disable_notification
+     * @param int $reply_to_message_id
+     * @param $reply_markup
+     *
+     * @return Message|null
+     *
      * @throws BadRequestException
+     * @throws InvalidTokenException
      */
-    public function sendSticker($chat_id, $urlFileName)
+    public function sendSticker($chat_id, $sticker, $files = [], $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
     {
-        return $this->makeRequest($this->baseUrl . '/sendSticker', [
+        $data = $this->makeRequest($this->baseUrl . '/sendSticker', [
             'chat_id' => $chat_id,
-            'sticker' => $urlFileName,
-        ], null, true);
+            'sticker' => $sticker,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => $reply_markup,
+        ], $files, true);
+
+        if ($data['ok']) {
+            return new Message($data['result']);
+        }
+        return null;
     }
 
     /**
-     * @param $user_id
-     * @param $name
-     * @param $title
-     * @param $png_sticker
-     * @param $emojis
-     * @return bool|string
-     * @throws InvalidTokenException
+     * OfficialDocs: https://core.telegram.org/bots/api#createnewstickerset
+     *
+     * @param int $user_id
+     * @param string $name
+     * @param string $title
+     * @param string $png_sticker
+     * @param string $emojis
+     * @param array $files
+     * @param bool $contains_masks
+     * @param MaskPosition $mask_position
+     *
+     * @return bool
+     *
      * @throws BadRequestException
+     * @throws InvalidTokenException
      */
-    public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis)
+    public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis, $files = [], $contains_masks = null, $mask_position = null)
     {
         return $this->makeRequest($this->baseUrl . '/createNewStickerSet', [
             'user_id' => $user_id,
@@ -342,89 +366,115 @@ class TelegramBot extends BaseBot
             'title' => $title,
             'emojis' => $emojis,
             'png_sticker' => $png_sticker,
-        ]);
+            'contains_masks' => $contains_masks,
+            'mask_position' => $mask_position,
+        ], $files);
     }
 
     /**
-     * Telegram id for owner of file
+     * OfficialDocs: https://core.telegram.org/bots/api#addstickertoset
+     *
      * @param int $user_id
-     *
-     * Sticker set name
      * @param string $name
-     *
-     * File id at telegram server
      * @param string $png_sticker
-     *
-     * Associative emoji for sticker
      * @param string $emojis
+     * @param array $files
+     * @param MaskPosition $mask_position
      *
      * @return bool
-     * @throws InvalidTokenException
+     *
      * @throws BadRequestException
+     * @throws InvalidTokenException
      */
-    public function addStickerToSet($user_id, $name, $png_sticker, $emojis)
+    public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $files = [], $mask_position = null)
     {
         return $this->makeRequest($this->baseUrl . '/addStickerToSet', [
             'user_id' => $user_id,
             'name' => $name,
             'emojis' => $emojis,
             'png_sticker' => $png_sticker,
+            'mask_position' => $mask_position,
+        ], $files);
+    }
+
+    /**
+     * @param string $sticker
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function deleteStickerFromSet($sticker)
+    {
+        return $this->makeRequest($this->baseUrl . '/deleteStickerFromSet', [
+            'sticker' => $sticker,
         ]);
     }
 
     /**
-     * @param $sticker
-     * @return bool
-     */
-    public function deleteStickerFromSet($sticker)
-    {
-        try {
-            return json_decode($this->makeRequest($this->baseUrl . '/deleteStickerFromSet', [
-                'sticker' => $sticker,
-            ], null, true))['ok'];
-        } catch (Exception $exception) {
-        }
-        return false;
-    }
-
-    /**
-     * @param $user_id
+     * OfficialDocs: https://core.telegram.org/bots/api#uploadstickerfile
+     *
+     * @param int $user_id
      * @param $png_sticker
-     * @return bool
-     * @throws InvalidTokenException
+     *
+     * @return File|null
+     *
      * @throws BadRequestException
+     * @throws InvalidTokenException
      */
     public function uploadStickerFile($user_id, $png_sticker)
     {
-        $result = $this->makeRequest(
+        $data = $this->makeRequest(
             $this->baseUrl . '/uploadStickerFile',
             ['user_id' => $user_id],
             ['png_sticker' => $png_sticker],
             true
         );
-        try {
-            return $result['result']['file_id'];
-        } catch (Exception $exception) {
+        if ($data['ok']) {
+            return new File($data['result']);
         }
-        return false;
+        return null;
     }
 
     /**
-     * @param $name
-     * @return bool|StickerSet
+     * OfficialDocs: https://core.telegram.org/bots/api#getstickerset
+     *
+     * @param string $name
+     *
+     * @return StickerSet|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
      */
     public function getStickerSet($name)
     {
-        try {
-            $answer = json_decode($this->makeRequest($this->baseUrl . '/getStickerSet', [
-                'name' => $name,
-            ], null, true));
-            $stickerSet = new StickerSet();
-            $stickerSet->load($answer['result']);
-            return $stickerSet;
-        } catch (Exception $exception) {
+        $data = $this->makeRequest($this->baseUrl . '/getStickerSet', [
+            'name' => $name,
+        ], null, true);
+        if ($data['ok']) {
+            return new StickerSet($data['result']);
         }
-        return false;
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setstickerpositioninset
+     *
+     * @param string $sticker
+     * @param int $position
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setStickerPositionInSet($sticker, $position)
+    {
+        return $this->makeRequest($this->baseUrl . '/setStickerPositionInSet', [
+            'sticker' => $sticker,
+            'position' => $position,
+        ]);
     }
 
     /**
