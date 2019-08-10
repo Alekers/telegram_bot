@@ -1,5 +1,5 @@
 # CHANGE LOG
-## 2.1.0 - Upcoming
+## 2.1.0 - 2019/08/10
 * Method changed:
     * `sendSticker` return `Message|null`
     * `getStickerSet` return `StickerSet|null`
