@@ -3,10 +3,15 @@
 * Entities:
     * New:
         * `ChatPermissions`
+        * `PassportData`
+        * `PassportFile`
+        * `EncryptedPassportElement`
+        * `EncryptedCredentials`
     * Changed:
         * `Sticker` and `StickerSet` now have `is_animated` field
         * `Chat` now have `permissions` field
         * `ChatMember` now have `can_send_polls` field
+        * `Message` now have `forward_sender_name`, `animation`, `passport_data`, `reply_markup` fields + fixes for not loaded objects
 * Methods:
     * New:
         * `setChatPermissions`

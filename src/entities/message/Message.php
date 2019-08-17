@@ -8,12 +8,20 @@ namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\chat\Chat;
+use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
+use tsvetkov\telegram_bot\entities\passport\PassportData;
 use tsvetkov\telegram_bot\entities\payment\Invoice;
 use tsvetkov\telegram_bot\entities\payment\SuccessfulPayment;
 use tsvetkov\telegram_bot\entities\poll\Poll;
 use tsvetkov\telegram_bot\entities\sticker\Sticker;
 use tsvetkov\telegram_bot\entities\user\User;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#message
+ *
+ * Class Message
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class Message extends BaseObject
 {
     public $objectsArray = [
@@ -22,9 +30,13 @@ class Message extends BaseObject
         'forwarded_from' => User::class,
         'forwarded_from_chat' => Chat::class,
         'reply_to_message' => self::class,
+        'entities' => [MessageEntity::class],
+        'caption_entities' => [MessageEntity::class],
         'audio' => Audio::class,
         'document' => Document::class,
+        'animation' => Animation::class,
         'game' => Game::class,
+        'photo' => [PhotoSize::class],
         'sticker' => Sticker::class,
         'video' => Video::class,
         'voice' => Voice::class,
@@ -32,139 +44,155 @@ class Message extends BaseObject
         'contact' => Contact::class,
         'location' => Location::class,
         'venue' => Venue::class,
+        'poll' => Poll::class,
+        'new_chat_members' => [User::class],
         'left_chat_member' => User::class,
+        'new_chat_photo' => [PhotoSize::class],
         'pinned_message' => self::class,
         'invoice' => Invoice::class,
         'successful_payment' => SuccessfulPayment::class,
-        'poll' => Poll::class,
+        'passport_data' => PassportData::class,
+        'reply_markup' => InlineKeyboardMarkup::class,
     ];
 
-    /** @var integer $message_id */
+    /** @var integer */
     public $message_id;
 
-    /** @var User $from */
+    /** @var User */
     public $from;
 
-    /** @var integer $date */
+    /** @var integer */
     public $date;
 
-    /** @var Chat $chat */
+    /** @var Chat */
     public $chat;
 
-    /** @var User $forwarded_from */
+    /** @var User */
     public $forwarded_from;
 
-    /** @var Chat $forwarded_from_chat */
+    /** @var Chat */
     public $forwarded_from_chat;
 
-    /** @var integer $forwarded_from_message_id */
+    /** @var integer */
     public $forwarded_from_message_id;
 
-    /** @var string $forward_signature */
+    /** @var string */
     public $forward_signature;
 
-    /** @var integer $forward_date */
+    /** @var string */
+    public $forward_sender_name;
+
+    /** @var integer */
     public $forward_date;
 
-    /** @var Message $reply_to_message */
+    /** @var Message */
     public $reply_to_message;
 
-    /** @var integer $edit_date */
+    /** @var integer */
     public $edit_date;
 
-    /** @var string $media_group_id */
+    /** @var string */
     public $media_group_id;
 
-    /** @var string $author_signature */
+    /** @var string */
     public $author_signature;
 
-    /** @var string $text */
+    /** @var string */
     public $text;
 
-    /** @var MessageEntity[] $entities */
+    /** @var MessageEntity[] */
     public $entities;
 
-    /** @var MessageEntity[] $caption_entities */
+    /** @var MessageEntity[] */
     public $caption_entities;
 
-    /** @var Audio $audio */
+    /** @var Audio */
     public $audio;
 
-    /** @var Document $document */
+    /** @var Document */
     public $document;
 
-    /** @var Game $game */
+    /** @var Animation */
+    public $animation;
+
+    /** @var Game */
     public $game;
 
     /** @var PhotoSize[] */
     public $photo;
 
-    /** @var Sticker $sticker */
+    /** @var Sticker */
     public $sticker;
 
-    /** @var Video $video */
+    /** @var Video */
     public $video;
 
-    /** @var Voice $voice */
+    /** @var Voice */
     public $voice;
 
-    /** @var VideoNote $video_note */
+    /** @var VideoNote */
     public $video_note;
 
-    /** @var string $caption */
+    /** @var string */
     public $caption;
 
-    /** @var Contact $contact */
+    /** @var Contact */
     public $contact;
 
-    /** @var Location $location */
+    /** @var Location */
     public $location;
 
-    /** @var Venue $venue */
+    /** @var Venue */
     public $venue;
-
-    /** @var User[] $new_chat_members */
-    public $new_chat_members;
-
-    /** @var User $left_chat_member */
-    public $left_chat_member;
-
-    /** @var string $new_chat_title */
-    public $new_chat_title;
-
-    /** @var PhotoSize[] $new_chat_photo */
-    public $new_chat_photo;
-
-    /** @var bool $delete_chat_photo */
-    public $delete_chat_photo;
-
-    /** @var bool $group_chat_created */
-    public $group_chat_created;
-
-    /** @var bool $supergroup_chat_created */
-    public $supergroup_chat_created;
-
-    /** @var bool $channel_chat_created */
-    public $channel_chat_created;
-
-    /** @var integer $migrate_to_chat_id */
-    public $migrate_to_chat_id;
-
-    /** @var integer $migrate_from_chat_id */
-    public $migrate_from_chat_id;
-
-    /** @var Message $pinned_message */
-    public $pinned_message;
-
-    /** @var Invoice $invoice */
-    public $invoice;
-
-    /** @var SuccessfulPayment $successful_payment */
-    public $successful_payment;
-
-    /** @var string $connected_website */
-    public $connected_website;
 
     /** @var Poll */
     public $poll;
+
+    /** @var User[] */
+    public $new_chat_members;
+
+    /** @var User */
+    public $left_chat_member;
+
+    /** @var string */
+    public $new_chat_title;
+
+    /** @var PhotoSize[] */
+    public $new_chat_photo;
+
+    /** @var bool */
+    public $delete_chat_photo;
+
+    /** @var bool */
+    public $group_chat_created;
+
+    /** @var bool */
+    public $supergroup_chat_created;
+
+    /** @var bool */
+    public $channel_chat_created;
+
+    /** @var integer */
+    public $migrate_to_chat_id;
+
+    /** @var integer */
+    public $migrate_from_chat_id;
+
+    /** @var Message */
+    public $pinned_message;
+
+    /** @var Invoice */
+    public $invoice;
+
+    /** @var SuccessfulPayment */
+    public $successful_payment;
+
+    /** @var string */
+    public $connected_website;
+
+    /** @var PassportData */
+    public $passport_data;
+
+    /** @var InlineKeyboardMarkup */
+    public $reply_markup;
 }
