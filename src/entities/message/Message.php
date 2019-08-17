@@ -8,6 +8,7 @@ namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\chat\Chat;
+use tsvetkov\telegram_bot\entities\game\Game;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\passport\PassportData;
 use tsvetkov\telegram_bot\entities\payment\Invoice;

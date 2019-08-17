@@ -6,10 +6,10 @@
 
 namespace tsvetkov\telegram_bot;
 
-use Exception;
 use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
+use tsvetkov\telegram_bot\entities\game\GameHighScore;
 use tsvetkov\telegram_bot\entities\inputMedia\InputMedia;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
@@ -31,7 +31,6 @@ use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
 use tsvetkov\telegram_bot\helpers\JsonHelper;
 use function is_null;
-use function json_decode;
 
 class TelegramBot extends BaseBot
 {
@@ -1715,5 +1714,107 @@ class TelegramBot extends BaseBot
             'user_id' => $user_id,
             'errors' => $errors,
         ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#sendgame
+     *
+     * @param int $chat_id
+     * @param string $game_short_name
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|null $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function sendGame(
+        $chat_id, $game_short_name, $disable_notification = null,
+        $reply_to_message_id = null, $reply_markup = null
+    )
+    {
+        $data = $this->makeRequest($this->baseUrl . '/sendGame', [
+            'chat_id' => $chat_id,
+            'game_short_name' => $game_short_name,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ], [], true);
+        if ($data['ok']) {
+            return new Message($data['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setgamescore
+     *
+     * @param int $user_id
+     * @param int $score
+     * @param int|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     * @param bool|null $force
+     * @param bool|null $disable_edit_message
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setGameScore(
+        $user_id, $score, $chat_id = null, $message_id = null,
+        $inline_message_id = null, $force = null, $disable_edit_message = null
+    )
+    {
+        $data = $this->makeRequest($this->baseUrl . '/sendGame', [
+            'user_id' => $user_id,
+            'score' => $score,
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+            'force' => $force,
+            'disable_edit_message' => $disable_edit_message,
+        ], [], true);
+        if ($data['ok']) {
+            return new Message($data['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getgamehighscores
+     *
+     * @param int $user_id
+     * @param int|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     *
+     * @return GameHighScore[]|null
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function getGameHighScores(
+        $user_id, $chat_id = null, $message_id = null,
+        $inline_message_id = null
+    )
+    {
+        $data = $this->makeRequest($this->baseUrl . '/sendGame', [
+            'user_id' => $user_id,
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'inline_message_id' => $inline_message_id,
+        ], [], true);
+        if ($data['ok']) {
+            $resultArray = [];
+            foreach ($data['result'] as $result) {
+                $resultArray[] = new GameHighScore($result);
+            }
+            return $resultArray;
+        }
+        return null;
     }
 }

@@ -18,6 +18,7 @@
         * `PassportElementErrorTranslationFiles`
         * `PassportElementErrorUnspecified`
         * `LoginUrl`
+        * `GameHighScore`
     * Changed:
         * `Sticker` and `StickerSet` now have `is_animated` field
         * `Chat` now have `permissions` field
@@ -28,6 +29,9 @@
     * New:
         * `setChatPermissions`
         * `setPassportDataErrors`
+        * `sendGame`
+        * `setGameScore`
+        * `getGameHighScores`
     * Changed:
         * `restrictChatMember` now get as argument `ChatPermissions`, except set of bool fields
 ## 2.1.0 - 2019/08/10
