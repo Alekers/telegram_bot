@@ -17,6 +17,9 @@ class PassportData extends BaseObject
         'credentials' => EncryptedCredentials::class,
     ];
 
+    /** @var EncryptedPassportElement[] */
     public $data;
+
+    /** @var EncryptedCredentials */
     public $credentials;
 }
