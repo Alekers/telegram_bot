@@ -21,7 +21,10 @@ class StickerSet extends BaseObject
     public $title;
 
     /** @var bool */
-    public $contains_masks = false;
+    public $is_animated;
+
+    /** @var bool */
+    public $contains_masks;
 
     /** @var Sticker[] */
     public $stickers;
