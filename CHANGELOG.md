@@ -17,11 +17,13 @@
         * `PassportElementErrorTranslationFile`
         * `PassportElementErrorTranslationFiles`
         * `PassportElementErrorUnspecified`
+        * `LoginUrl`
     * Changed:
         * `Sticker` and `StickerSet` now have `is_animated` field
         * `Chat` now have `permissions` field
         * `ChatMember` now have `can_send_polls` field
         * `Message` now have `forward_sender_name`, `animation`, `passport_data`, `reply_markup` fields + fixes for not loaded objects
+        * `InlineKeyboardButton` now have `login_url` field
 * Methods:
     * New:
         * `setChatPermissions`

@@ -8,26 +8,39 @@ namespace tsvetkov\telegram_bot\entities\keyboard;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#inlinekeyboardbutton
+ *
+ * Class InlineKeyboardButton
+ * @package tsvetkov\telegram_bot\entities\keyboard
+ */
 class InlineKeyboardButton extends BaseObject
 {
-    /** @var string $text */
+    protected $objectsArray = [
+        'login_url' => LoginUrl::class,
+    ];
+
+    /** @var string */
     public $text;
 
-    /** @var string $url */
+    /** @var string */
     public $url;
 
-    /** @var string $callback_data */
+    /** @var LoginUrl */
+    public $login_url;
+
+    /** @var string */
     public $callback_data;
 
-    /** @var string $switch_inline_query */
+    /** @var string */
     public $switch_inline_query;
 
-    /** @var string $switch_inline_query_current_chat */
+    /** @var string */
     public $switch_inline_query_current_chat;
 
 
     public $callback_game;
 
-    /** @var boolean $pay */
+    /** @var boolean */
     public $pay;
 }
