@@ -1,5 +1,5 @@
 # CHANGE LOG
-## 2.1.1 - Upcoming
+## 2.1.1 - 2019/08/17
 * Entities:
     * New:
         * `ChatPermissions`
