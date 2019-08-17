@@ -1,7 +1,17 @@
 # CHANGE LOG
 ## 2.1.1 - Upcoming
-* Entity changed:
-    * `Sticker` and `StickerSet` now have `is_animated` field
+* Entities:
+    * New:
+        * `ChatPermissions`
+    * Changed:
+        * `Sticker` and `StickerSet` now have `is_animated` field
+        * `Chat` now have `permissions` field
+        * `ChatMember` now have `can_send_polls` field
+* Methods:
+    * New:
+        * `setChatPermissions`
+    * Changed:
+        * `restrictChatMember` now get as argument `ChatPermissions`, except set of bool fields
 ## 2.1.0 - 2019/08/10
 * Method changed:
     * `sendSticker` return `Message|null`

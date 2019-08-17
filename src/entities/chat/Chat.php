@@ -9,37 +9,60 @@ namespace tsvetkov\telegram_bot\entities\chat;
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\message\Message;
 
+// TODO remove constants in 2.2
+
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#chat
+ *
+ * Class Chat
+ * @package tsvetkov\telegram_bot\entities\chat
+ */
 class Chat extends BaseObject
 {
-    const TYPE_PRIVATE = 'private';
-    const TYPE_GROUP = 'group';
-    const TYPE_SUPERGROUP = 'supergroup';
-    const TYPE_CHANNEL = 'channel';
+    /** @deprecated use ChatType  */
+    const TYPE_PRIVATE = ChatType::TYPE_PRIVATE;
+
+    /** @deprecated use ChatType  */
+    const TYPE_GROUP = ChatType::TYPE_GROUP;
+
+    /** @deprecated use ChatType  */
+    const TYPE_SUPERGROUP = ChatType::TYPE_SUPERGROUP;
+
+    /** @deprecated use ChatType  */
+    const TYPE_CHANNEL = ChatType::TYPE_CHANNEL;
 
     public $objectsArray = [
         'pinned_message' => Message::class,
         'photo' => ChatPhoto::class,
+        'permissions' => ChatPermissions::class,
     ];
 
-    /** @var integer $id */
+    /** @var integer */
     public $id;
 
-    /** @var string $type */
+    /** @var string */
     public $type;
 
-    /** @var string $title */
+    /** @var string */
     public $title;
 
-    /** @var string $username */
+    /** @var string */
     public $username;
 
-    /** @var string $first_name */
+    /** @var string */
     public $first_name;
 
-    /** @var string $last_name */
+    /** @var string */
     public $last_name;
 
-    /** @var bool $all_members_are_administrators */
+    /**
+     * @deprecated Telegram remove this property,
+     * use permissions instead
+     *
+     * TODO remove in 2.2
+     *
+     * @var bool
+     */
     public $all_members_are_administrators;
 
     /** @var ChatPhoto $photo */
@@ -53,6 +76,9 @@ class Chat extends BaseObject
 
     /** @var Message */
     public $pinned_message;
+
+    /** @var ChatPermissions */
+    public $permissions;
 
     /** @var string $sticker_set_name */
     public $sticker_set_name;

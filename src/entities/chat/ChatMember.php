@@ -17,12 +17,23 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class ChatMember extends BaseObject
 {
-    const STATUS_CREATOR = 'creator';
-    const STATUS_ADMINISTRATOR = 'administrator';
-    const STATUS_MEMBER = 'member';
-    const STATUS_RESTRICTED = 'restricted';
-    const STATUS_LEFT = 'left';
-    const STATUS_KICKED = 'kicked';
+    /** @deprecated use ChatMemberStatus instead */
+    const STATUS_CREATOR = ChatMemberStatus::CREATOR;
+
+    /** @deprecated use ChatMemberStatus instead */
+    const STATUS_ADMINISTRATOR = ChatMemberStatus::ADMINISTRATOR;
+
+    /** @deprecated use ChatMemberStatus instead */
+    const STATUS_MEMBER = ChatMemberStatus::MEMBER;
+
+    /** @deprecated use ChatMemberStatus instead */
+    const STATUS_RESTRICTED = ChatMemberStatus::RESTRICTED;
+
+    /** @deprecated use ChatMemberStatus instead */
+    const STATUS_LEFT = ChatMemberStatus::LEFT;
+
+    /** @deprecated use ChatMemberStatus instead */
+    const STATUS_KICKED = ChatMemberStatus::KICKED;
 
     public $objectsArray = [
         'user' => User::class,
@@ -41,9 +52,6 @@ class ChatMember extends BaseObject
     public $can_be_edited;
 
     /** @var bool */
-    public $can_change_info;
-
-    /** @var bool */
     public $can_post_messages;
 
     /** @var bool */
@@ -53,16 +61,19 @@ class ChatMember extends BaseObject
     public $can_delete_messages;
 
     /** @var bool */
-    public $can_invite_users;
-
-    /** @var bool */
     public $can_restrict_members;
 
     /** @var bool */
-    public $can_pin_messages;
+    public $can_promote_members;
 
     /** @var bool */
-    public $can_promote_members;
+    public $can_change_info;
+
+    /** @var bool */
+    public $can_invite_users;
+
+    /** @var bool */
+    public $can_pin_messages;
 
     /** @var bool */
     public $is_member;
@@ -72,6 +83,9 @@ class ChatMember extends BaseObject
 
     /** @var bool */
     public $can_send_media_messages;
+
+    /** @var bool */
+    public $can_send_polls;
 
     /** @var bool */
     public $can_send_other_messages;

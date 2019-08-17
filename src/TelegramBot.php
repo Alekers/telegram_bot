@@ -9,6 +9,7 @@ namespace tsvetkov\telegram_bot;
 use Exception;
 use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatMember;
+use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
 use tsvetkov\telegram_bot\entities\inputMedia\InputMedia;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
@@ -1045,30 +1046,40 @@ class TelegramBot extends BaseBot
      *
      * @param int|string $chat_id
      * @param int $user_id
+     * @param ChatPermissions $permissions
      * @param int|null $until_date
-     * @param bool|null $can_send_messages
-     * @param bool|null $can_send_media_messages
-     * @param bool|null $can_send_other_messages
-     * @param bool|null $can_add_web_page_previews
      *
      * @return bool
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function restrictChatMember(
-        $chat_id, $user_id, $until_date = null, $can_send_messages = null,
-        $can_send_media_messages = null, $can_send_other_messages = null, $can_add_web_page_previews = null
-    )
+    public function restrictChatMember($chat_id, $user_id, $permissions, $until_date = null)
     {
         return $this->makeRequest($this->baseUrl . '/restrictChatMember', [
             'chat_id' => $chat_id,
             'user_id' => $user_id,
+            'permissions' => $permissions,
             'until_date' => $until_date,
-            'can_send_messages' => $can_send_messages,
-            'can_send_media_messages' => $can_send_media_messages,
-            'can_send_other_messages' => $can_send_other_messages,
-            'can_add_web_page_previews' => $can_add_web_page_previews,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setchatpermissions
+     *
+     * @param int|string $chat_id
+     * @param ChatPermissions $permissions
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setChatPermissions($chat_id, $permissions)
+    {
+        return $this->makeRequest($this->baseUrl . '/setChatPermissions', [
+            'chat_id' => $chat_id,
+            'permissions' => $permissions,
         ]);
     }
 
@@ -1255,6 +1266,7 @@ class TelegramBot extends BaseBot
     public function getChat($chat_id)
     {
         $data = $this->makeRequest($this->baseUrl . '/getChat', ['chat_id' => $chat_id], [], true);
+//        print_r($data['result']);
         if ($data['ok']) {
             return new Chat($data['result']);
         }
