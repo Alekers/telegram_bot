@@ -7,6 +7,16 @@
         * `PassportFile`
         * `EncryptedPassportElement`
         * `EncryptedCredentials`
+        * `PassportElementError`
+        * `PassportElementErrorDataField`
+        * `PassportElementErrorFrontSide`
+        * `PassportElementErrorReverseSide`
+        * `PassportElementErrorSelfie`
+        * `PassportElementErrorFile`
+        * `PassportElementErrorFiles`
+        * `PassportElementErrorTranslationFile`
+        * `PassportElementErrorTranslationFiles`
+        * `PassportElementErrorUnspecified`
     * Changed:
         * `Sticker` and `StickerSet` now have `is_animated` field
         * `Chat` now have `permissions` field
@@ -15,6 +25,7 @@
 * Methods:
     * New:
         * `setChatPermissions`
+        * `setPassportDataErrors`
     * Changed:
         * `restrictChatMember` now get as argument `ChatPermissions`, except set of bool fields
 ## 2.1.0 - 2019/08/10

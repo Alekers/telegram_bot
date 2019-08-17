@@ -18,6 +18,7 @@ use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\MaskPosition;
 use tsvetkov\telegram_bot\entities\message\Message;
+use tsvetkov\telegram_bot\entities\passport\errors\PassportElementError;
 use tsvetkov\telegram_bot\entities\payment\LabeledPrice;
 use tsvetkov\telegram_bot\entities\payment\ShippingOption;
 use tsvetkov\telegram_bot\entities\poll\Poll;
@@ -1266,7 +1267,6 @@ class TelegramBot extends BaseBot
     public function getChat($chat_id)
     {
         $data = $this->makeRequest($this->baseUrl . '/getChat', ['chat_id' => $chat_id], [], true);
-//        print_r($data['result']);
         if ($data['ok']) {
             return new Chat($data['result']);
         }
@@ -1695,6 +1695,25 @@ class TelegramBot extends BaseBot
             'pre_checkout_query_id' => $pre_checkout_query_id,
             'ok' => $ok,
             'error_message' => $error_message,
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setpassportdataerrors
+     *
+     * @param int $user_id
+     * @param PassportElementError[] $errors
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function setPassportDataErrors($user_id, $errors)
+    {
+        return $this->makeRequest($this->baseUrl . '/setPassportDataErrors', [
+            'user_id' => $user_id,
+            'errors' => $errors,
         ]);
     }
 }
