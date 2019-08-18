@@ -1,4 +1,11 @@
 # CHANGE LOG
+## 2.1.2 - 2019/08/18
+* Entities:
+    * New:
+        * `InlineQuery`
+        * `ChosenInlineResult`
+    * Changed:
+        * `Update` now have `inline_query`, `chosen_inline_result`, `shipping_query`, `pre_checkout_query` and `poll` fields
 ## 2.1.1 - 2019/08/17
 * Entities:
     * New:
