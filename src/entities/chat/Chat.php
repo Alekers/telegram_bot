@@ -9,8 +9,6 @@ namespace tsvetkov\telegram_bot\entities\chat;
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\message\Message;
 
-// TODO remove constants in 2.2
-
 /**
  * OfficialDocs: https://core.telegram.org/bots/api#chat
  *
@@ -19,18 +17,6 @@ use tsvetkov\telegram_bot\entities\message\Message;
  */
 class Chat extends BaseObject
 {
-    /** @deprecated use ChatType  */
-    const TYPE_PRIVATE = ChatType::TYPE_PRIVATE;
-
-    /** @deprecated use ChatType  */
-    const TYPE_GROUP = ChatType::TYPE_GROUP;
-
-    /** @deprecated use ChatType  */
-    const TYPE_SUPERGROUP = ChatType::TYPE_SUPERGROUP;
-
-    /** @deprecated use ChatType  */
-    const TYPE_CHANNEL = ChatType::TYPE_CHANNEL;
-
     public $objectsArray = [
         'pinned_message' => Message::class,
         'photo' => ChatPhoto::class,
@@ -54,16 +40,6 @@ class Chat extends BaseObject
 
     /** @var string */
     public $last_name;
-
-    /**
-     * @deprecated Telegram remove this property,
-     * use permissions instead
-     *
-     * TODO remove in 2.2
-     *
-     * @var bool
-     */
-    public $all_members_are_administrators;
 
     /** @var ChatPhoto $photo */
     public $photo;

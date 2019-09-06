@@ -59,16 +59,18 @@ abstract class BaseObject
      */
     protected function createObjectsFromData($data, $class)
     {
-        if (is_string($class)) {
-            $result = new $class();
-            $result->load($data);
-            return $result;
-        } elseif (is_array($class)) {
-            $result = [];
-            foreach ($data as $key => $value) {
-                $result[$key] = $this->createObjectsFromData($value, $class[0]);
+        if (!is_null($data) && !empty($data)) {
+            if (is_string($class)) {
+                $result = new $class();
+                $result->load($data);
+                return $result;
+            } elseif (is_array($class)) {
+                $result = [];
+                foreach ($data as $key => $value) {
+                    $result[$key] = $this->createObjectsFromData($value, $class[0]);
+                }
+                return $result;
             }
-            return $result;
         }
         return null;
     }
@@ -79,12 +81,10 @@ abstract class BaseObject
      */
     protected function simpleLoad($data)
     {
-        if (!empty($data)) {
-            if (is_array($data)) {
-                foreach ($data as $name => $value) {
-                    if (property_exists($this, $name)) {
-                        $this->$name = $value;
-                    }
+        if (is_array($data) && !empty($data) ) {
+            foreach ($data as $name => $value) {
+                if (property_exists($this, $name)) {
+                    $this->$name = $value;
                 }
             }
             return true;

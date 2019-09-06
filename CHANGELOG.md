@@ -1,4 +1,13 @@
 # CHANGE LOG
+## 2.2.0 - 2019/09/06
+* Currently all inner objects <b>WILL NOT</b> be loaded as empty, it will be `null`
+* New entities:
+    * `InputMessageContent`and all him children
+    * `InlineQueryResult` and all him children
+* Edited entities: 
+    * All constants and field `all_members_are_administrators` from `Chat`
+    * Removed `Game` alias class
+* New methods - `answerInlineQuery`
 ## 2.1.2 - 2019/08/18
 * Entities:
     * New:

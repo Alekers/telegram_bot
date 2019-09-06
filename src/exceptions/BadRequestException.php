@@ -6,6 +6,10 @@
 
 namespace tsvetkov\telegram_bot\exceptions;
 
+/**
+ * Class BadRequestException
+ * @package tsvetkov\telegram_bot\exceptions
+ */
 class BadRequestException extends \Exception
 {
 

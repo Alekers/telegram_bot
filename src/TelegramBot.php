@@ -10,6 +10,7 @@ use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
 use tsvetkov\telegram_bot\entities\game\GameHighScore;
+use tsvetkov\telegram_bot\entities\inline\queryResult\InlineQueryResult;
 use tsvetkov\telegram_bot\entities\inputMedia\InputMedia;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
@@ -1816,5 +1817,35 @@ class TelegramBot extends BaseBot
             return $resultArray;
         }
         return null;
+    }
+
+    /**
+     * @param string $inline_query_id
+     * @param InlineQueryResult[] $results
+     * @param int|null $cache_time
+     * @param bool|null $is_personal
+     * @param string|null $next_offset
+     * @param string|null $switch_pm_text
+     * @param string|null $switch_pm_parameter
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    public function answerInlineQuery(
+        $inline_query_id, $results, $cache_time = null, $is_personal = null,
+        $next_offset = null, $switch_pm_text = null, $switch_pm_parameter = null
+    )
+    {
+        return $this->makeRequest($this->baseUrl . '/answerInlineQuery', [
+            'inline_query_id' => $inline_query_id,
+            'results' => $results,
+            'cache_time' => $cache_time,
+            'is_personal' => $is_personal,
+            'next_offset' => $next_offset,
+            'switch_pm_text' => $switch_pm_text,
+            'switch_pm_parameter' => $switch_pm_parameter,
+        ]);
     }
 }

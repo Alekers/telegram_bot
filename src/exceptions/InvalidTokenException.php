@@ -6,12 +6,22 @@
 
 namespace tsvetkov\telegram_bot\exceptions;
 
-
 use Throwable;
 
+/**
+ * Class InvalidTokenException
+ * @package tsvetkov\telegram_bot\exceptions
+ */
 class InvalidTokenException extends \Exception
 {
-    public function __construct($token, $message = "", $code = 0, Throwable $previous = null)
+    /**
+     * InvalidTokenException constructor.
+     * @param string $token
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     */
+    public function __construct($token, $message = "", $code = 0, $previous = null)
     {
         if ($message === "") {
             $message = "Token \"{$token}\" is invalid";
