@@ -42,69 +42,114 @@ abstract class BaseBot
     public function __construct($token, $requestOptions = [])
     {
         $this->token = $token;
-        $this->baseUrl = "https://api.telegram.org/bot{$this->token}";
+        $this->baseUrl = "https://api.telegram.org/bot{$this->token}/";
         $this->requestOptions = $requestOptions;
+    }
+
+    /**
+     * @param array $data
+     * @param array $files
+     *
+     * @return array
+     */
+    protected function getOptionsForRequest($data = [], $files = [])
+    {
+        $options = $this->requestOptions;
+        $decodedData = [];
+
+        foreach ($data as $key => $item) {
+            $this->addField($decodedData, $key, $item);
+        }
+
+        foreach ($files as $name => $file) {
+            $this->addField($decodedData, $name, $file, true);
+        }
+
+        if (!empty($decodedData)) {
+            $options['multipart'] = $decodedData;
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param ClientException $exception
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws InvalidTokenException
+     */
+    protected function processClientException($exception)
+    {
+        switch ($exception->getCode()) {
+            case 400:
+                $response = $exception->getResponse();
+                if (!is_null($response)) {
+                    $data = json_decode($response->getBody()->getContents(), true);
+                    throw new BadRequestException($data['description']);
+                }
+                throw new BadRequestException();
+            case 401:
+                throw new InvalidTokenException($this->token);
+        }
+        return false;
     }
 
     /**
      * @param string $url
      * @param array $data
      * @param array $files
-     * @param bool $returnContent
      *
-     * @return bool|array
+     * @return array
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
-    protected function makeRequest($url, $data = null, $files = null, $returnContent = false)
+    protected function makeRequest($url, $data = [], $files = [])
     {
+        $url = $this->baseUrl . $url;
         try {
             $client = new Client();
-            $decodedData = [];
-            $options = [];
-            if ($data) {
-                foreach ($data as $key => $item) {
-                    $this->addField($decodedData, $key, $item);
-                }
-            }
-            if ($files) {
-                foreach ($files as $name => $file) {
-                    $this->addField($decodedData, $name, $file, true);
-                }
-            }
 
-            foreach ($this->requestOptions as $key => $value) {
-                $options[$key] = $value;
-            }
+            $options = $this->getOptionsForRequest($data, $files);
 
-            if (!empty($decodedData)) {
-                $options['multipart'] = $decodedData;
-            }
+            return json_decode($client->post($url, $options)->getBody()->getContents(), true);
+        } catch (ClientException $clientException) {
+            $this->processClientException($clientException);
+        } catch (Exception $exception) {
+            // TODO?
+        }
+        return [];
+    }
+
+    /**
+     * @param string $url
+     * @param array $data
+     * @param array $files
+     *
+     * @return bool
+     *
+     * @throws InvalidTokenException
+     * @throws BadRequestException
+     */
+    protected function makeSimpleRequest($url, $data = [], $files = [])
+    {
+        $url = $this->baseUrl . $url;
+        try {
+            $client = new Client();
+
+            $options = $this->getOptionsForRequest($data, $files);
 
             $decodedResponse = json_decode($client->post($url, $options)->getBody()->getContents(), true);
-            if ($returnContent) {
-                return $decodedResponse;
-            }
+
             return $decodedResponse['result'];
         } catch (ClientException $clientException) {
-            switch ($clientException->getCode()) {
-                case 400:
-                    $data = json_decode($clientException->getResponse()->getBody()->getContents(), true);
-                    throw new BadRequestException($data['description']);
-                case 401:
-                    throw new InvalidTokenException($this->token);
-            }
-            if ($returnContent) {
-                return [];
-            }
-            return false;
+            $this->processClientException($clientException);
         } catch (Exception $exception) {
-            if ($returnContent) {
-                return [];
-            }
-            return false;
+            // TODO?
         }
+        return false;
     }
 
     /**
@@ -120,7 +165,7 @@ abstract class BaseBot
         }
         if (is_array($contents) || is_object($contents)) {
             foreach ($contents as $childName => $content) {
-                $this->addField($data, "{$name}[{$childName}]", $content, $checkOnFile, false);
+                $this->addField($data, "{$name}[{$childName}]", $content, $checkOnFile);
             }
         } else {
             if ($checkOnFile && is_file($contents)) {
@@ -131,5 +176,16 @@ abstract class BaseBot
                 'contents' => $contents,
             ];
         }
+    }
+
+    /**
+     * Simple method for getting download link to file
+     *
+     * @param string $file_path
+     * @return string
+     */
+    public function getLinkForFileDownload($file_path)
+    {
+        return "https://api.telegram.org/file/bot{$this->token}/{$file_path}";
     }
 }

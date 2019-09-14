@@ -22,5 +22,9 @@
     "autoload": {
         "psr-4": { "tsvetkov\\telegram_bot\\": "src" }
     },
-    "description": "PHP Library for telegram bot API"
+    "description": "PHP Library for telegram bot API",
+    "require-dev": {
+        "phpstan/phpstan": "^0.11.15",
+        "vimeo/psalm": "^3.5"
+    }
 }

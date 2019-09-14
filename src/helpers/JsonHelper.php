@@ -15,7 +15,8 @@ class JsonHelper
     /**
      * @param $value
      * @param int $options
-     * @return string
+     *
+     * @return string|null
      */
     public static function encodeWithoutEmptyProperty($value, $options = 320)
     {

@@ -38,17 +38,18 @@ class TelegramBot extends BaseBot
     /**
      * Official docs: https://core.telegram.org/bots/api#getme
      *
-     * @return User
+     * @return User|null
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
     public function getMe()
     {
-        $data = $this->makeRequest($this->baseUrl . '/getMe', null, null, true);
-        $bot = new User();
-        $bot->load($data['result']);
-        return $bot;
+        $data = $this->makeRequest('getMe');
+        if ($data['ok']) {
+            return new User($data['result']);
+        }
+        return null;
     }
 
     /**
@@ -81,7 +82,7 @@ class TelegramBot extends BaseBot
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
-        $returnData = $this->makeRequest($this->baseUrl . '/sendMessage', $data, [], true);
+        $returnData = $this->makeRequest('sendMessage', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -103,12 +104,12 @@ class TelegramBot extends BaseBot
      */
     public function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notification = false)
     {
-        $data = $this->makeRequest($this->baseUrl . '/forwardMessage', [
+        $data = $this->makeRequest('forwardMessage', [
             'chat_id' => $chat_id,
             'from_chat_id' => $from_chat_id,
             'message_id' => $message_id,
             'disable_notification' => $disable_notification,
-        ], [], true);
+        ]);
         if ($data['ok']) {
             return new Message($data['result']);
         }
@@ -144,7 +145,7 @@ class TelegramBot extends BaseBot
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
-        $returnData = $this->makeRequest($this->baseUrl . '/sendPhoto', $data, ['photo' => $photo], true);
+        $returnData = $this->makeRequest('sendPhoto', $data, ['photo' => $photo]);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -188,11 +189,15 @@ class TelegramBot extends BaseBot
             'performer' => $performer,
             'title' => $title,
         ];
-        $files['audio'] = $audio;
+
+        $files = [
+            'audio' => $audio,
+        ];
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
-        $returnData = $this->makeRequest($this->baseUrl . '/sendAudio', $data, $files, true);
+
+        $returnData = $this->makeRequest('sendAudio', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -229,11 +234,15 @@ class TelegramBot extends BaseBot
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
-        $files['document'] = $document;
+
+        $files = [
+            'document' => $document,
+        ];
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
-        $returnData = $this->makeRequest($this->baseUrl . '/sendDocument', $data, $files, true);
+
+        $returnData = $this->makeRequest('sendDocument', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -260,11 +269,11 @@ class TelegramBot extends BaseBot
             'max_connections' => $max_connections,
             'available_updates' => $allowed_updates,
         ];
-        $files = null;
+        $files = [];
         if ($certificate) {
             $files['certificate'] = $certificate;
         }
-        return $this->makeRequest($this->baseUrl . '/setWebhook', $data, $files);
+        return $this->makeSimpleRequest('setWebhook', $data, $files);
     }
 
     /**
@@ -274,7 +283,7 @@ class TelegramBot extends BaseBot
      */
     public function getWebhookInfo()
     {
-        $data = $this->makeRequest($this->baseUrl . '/getWebhookInfo', null, null, true);
+        $data = $this->makeRequest('getWebhookInfo');
         if ($data['ok']) {
             return new WebhookInfo($data['result']);
         }
@@ -296,12 +305,12 @@ class TelegramBot extends BaseBot
      */
     public function getUpdates($limit = null, $offset = null, $timeout = null, $allowed_updates = null)
     {
-        $data = $this->makeRequest($this->baseUrl . '/getUpdates', [
+        $data = $this->makeRequest('getUpdates', [
             'offset' => $offset,
             'limit' => $limit,
             'timeout' => $timeout,
             'allowed_updates' => $allowed_updates,
-        ], null, true);
+        ]);
         if ($data['ok']) {
             $updates = [];
             foreach ($data['result'] as $datum) {
@@ -329,13 +338,13 @@ class TelegramBot extends BaseBot
      */
     public function sendSticker($chat_id, $sticker, $files = [], $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
     {
-        $data = $this->makeRequest($this->baseUrl . '/sendSticker', [
+        $data = $this->makeRequest('sendSticker', [
             'chat_id' => $chat_id,
             'sticker' => $sticker,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => $reply_markup,
-        ], $files, true);
+        ], $files);
 
         if ($data['ok']) {
             return new Message($data['result']);
@@ -362,7 +371,7 @@ class TelegramBot extends BaseBot
      */
     public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis, $files = [], $contains_masks = null, $mask_position = null)
     {
-        return $this->makeRequest($this->baseUrl . '/createNewStickerSet', [
+        return $this->makeSimpleRequest('createNewStickerSet', [
             'user_id' => $user_id,
             'name' => $name,
             'title' => $title,
@@ -390,7 +399,7 @@ class TelegramBot extends BaseBot
      */
     public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $files = [], $mask_position = null)
     {
-        return $this->makeRequest($this->baseUrl . '/addStickerToSet', [
+        return $this->makeSimpleRequest('addStickerToSet', [
             'user_id' => $user_id,
             'name' => $name,
             'emojis' => $emojis,
@@ -409,7 +418,7 @@ class TelegramBot extends BaseBot
      */
     public function deleteStickerFromSet($sticker)
     {
-        return $this->makeRequest($this->baseUrl . '/deleteStickerFromSet', [
+        return $this->makeSimpleRequest('deleteStickerFromSet', [
             'sticker' => $sticker,
         ]);
     }
@@ -427,12 +436,7 @@ class TelegramBot extends BaseBot
      */
     public function uploadStickerFile($user_id, $png_sticker)
     {
-        $data = $this->makeRequest(
-            $this->baseUrl . '/uploadStickerFile',
-            ['user_id' => $user_id],
-            ['png_sticker' => $png_sticker],
-            true
-        );
+        $data = $this->makeRequest('uploadStickerFile', ['user_id' => $user_id], ['png_sticker' => $png_sticker]);
         if ($data['ok']) {
             return new File($data['result']);
         }
@@ -451,9 +455,7 @@ class TelegramBot extends BaseBot
      */
     public function getStickerSet($name)
     {
-        $data = $this->makeRequest($this->baseUrl . '/getStickerSet', [
-            'name' => $name,
-        ], null, true);
+        $data = $this->makeRequest('getStickerSet', ['name' => $name]);
         if ($data['ok']) {
             return new StickerSet($data['result']);
         }
@@ -473,7 +475,7 @@ class TelegramBot extends BaseBot
      */
     public function setStickerPositionInSet($sticker, $position)
     {
-        return $this->makeRequest($this->baseUrl . '/setStickerPositionInSet', [
+        return $this->makeSimpleRequest('setStickerPositionInSet', [
             'sticker' => $sticker,
             'position' => $position,
         ]);
@@ -489,7 +491,7 @@ class TelegramBot extends BaseBot
      */
     public function deleteWebhook()
     {
-        return $this->makeRequest($this->baseUrl . '/deleteWebhook');
+        return $this->makeSimpleRequest('deleteWebhook');
     }
 
     /**
@@ -531,12 +533,14 @@ class TelegramBot extends BaseBot
             'height' => $height,
             'supports_streaming' => $supports_streaming,
         ];
-        $files['video'] = $video;
+        $files = [
+            'video' => $video,
+        ];
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendVideo', $data, $files, true);
+        $returnData = $this->makeRequest('sendVideo', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -579,12 +583,15 @@ class TelegramBot extends BaseBot
             'width' => $width,
             'height' => $height,
         ];
-        $files['animation'] = $animation;
+
+        $files = [
+            'animation' => $animation,
+        ];
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendAnimation', $data, $files, true);
+        $returnData = $this->makeRequest('sendAnimation', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -622,9 +629,12 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
             'duration' => $duration,
         ];
-        $files['voice'] = $voice;
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendVoice', $data, $files, true);
+        $files = [
+            'voice' => $voice,
+        ];
+
+        $returnData = $this->makeRequest('sendVoice', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -661,12 +671,15 @@ class TelegramBot extends BaseBot
             'duration' => $duration,
             'length' => $length,
         ];
-        $files['video_note'] = $video_note;
+
+        $files = [
+            'video_note' => $video_note,
+        ];
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendVideoNote', $data, $files, true);
+        $returnData = $this->makeRequest('sendVideoNote', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -696,7 +709,7 @@ class TelegramBot extends BaseBot
             'media' => JsonHelper::encodeWithoutEmptyProperty($media),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendMediaGroup', $data, $files, true);
+        $returnData = $this->makeRequest('sendMediaGroup', $data, $files);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -734,7 +747,7 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendLocation', $data, [], true);
+        $returnData = $this->makeRequest('sendLocation', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -769,7 +782,7 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/editMessageLiveLocation', $data, [], true);
+        $returnData = $this->makeRequest('editMessageLiveLocation', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -798,7 +811,7 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/stopMessageLiveLocation', $data, [], true);
+        $returnData = $this->makeRequest('stopMessageLiveLocation', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -842,7 +855,7 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendVenue', $data, [], true);
+        $returnData = $this->makeRequest('sendVenue', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -882,7 +895,7 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendContact', $data, [], true);
+        $returnData = $this->makeRequest('sendContact', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -917,7 +930,7 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest($this->baseUrl . '/sendPoll', $data, [], true);
+        $returnData = $this->makeRequest('sendPoll', $data);
         if ($returnData['ok']) {
             return new Message($returnData['result']);
         }
@@ -937,7 +950,7 @@ class TelegramBot extends BaseBot
      */
     public function sendChatAction($chat_id, $action)
     {
-        return $this->makeRequest($this->baseUrl . '/sendChatAction', [
+        return $this->makeSimpleRequest('sendChatAction', [
             'chat_id' => $chat_id,
             'action' => $action,
         ]);
@@ -957,11 +970,11 @@ class TelegramBot extends BaseBot
      */
     public function getUserProfilePhotos($user_id, $offset = null, $limit = null)
     {
-        $returnData = $this->makeRequest($this->baseUrl . '/getUserProfilePhotos', [
+        $returnData = $this->makeRequest('getUserProfilePhotos', [
             'user_id' => $user_id,
             'offset' => $offset,
             'limit' => $limit,
-        ], [], true);
+        ]);
         if ($returnData['ok']) {
             $userProfilePhotos = new UserProfilePhotos();
             $userProfilePhotos->load($returnData['result']);
@@ -982,24 +995,13 @@ class TelegramBot extends BaseBot
      */
     public function getFile($file_id)
     {
-        $returnData = $this->makeRequest($this->baseUrl . '/getFile', ['file_id' => $file_id], [], true);
+        $returnData = $this->makeRequest('getFile', ['file_id' => $file_id]);
         if ($returnData['ok']) {
             $file = new File();
             $file->load($returnData['result']);
             return $file;
         }
         return null;
-    }
-
-    /**
-     * Simple method for getting download link to file
-     *
-     * @param string $file_path
-     * @return string
-     */
-    public function getLinkForFileDownload($file_path)
-    {
-        return "https://api.telegram.org/file/bot{$this->token}/{$file_path}";
     }
 
     /**
@@ -1016,7 +1018,7 @@ class TelegramBot extends BaseBot
      */
     public function kickChatMember($chat_id, $user_id, $until_date = null)
     {
-        return $this->makeRequest($this->baseUrl . '/kickChatMember', [
+        return $this->makeSimpleRequest('kickChatMember', [
             'chat_id' => $chat_id,
             'user_id' => $user_id,
             'until_date' => $until_date,
@@ -1036,7 +1038,7 @@ class TelegramBot extends BaseBot
      */
     public function unbanChatMember($chat_id, $user_id)
     {
-        return $this->makeRequest($this->baseUrl . '/unbanChatMember', [
+        return $this->makeSimpleRequest('unbanChatMember', [
             'chat_id' => $chat_id,
             'user_id' => $user_id,
         ]);
@@ -1057,7 +1059,7 @@ class TelegramBot extends BaseBot
      */
     public function restrictChatMember($chat_id, $user_id, $permissions, $until_date = null)
     {
-        return $this->makeRequest($this->baseUrl . '/restrictChatMember', [
+        return $this->makeSimpleRequest('restrictChatMember', [
             'chat_id' => $chat_id,
             'user_id' => $user_id,
             'permissions' => $permissions,
@@ -1078,7 +1080,7 @@ class TelegramBot extends BaseBot
      */
     public function setChatPermissions($chat_id, $permissions)
     {
-        return $this->makeRequest($this->baseUrl . '/setChatPermissions', [
+        return $this->makeSimpleRequest('setChatPermissions', [
             'chat_id' => $chat_id,
             'permissions' => $permissions,
         ]);
@@ -1109,7 +1111,7 @@ class TelegramBot extends BaseBot
         $can_pin_messages = null, $can_promote_members = null
     )
     {
-        return $this->makeRequest($this->baseUrl . '/promoteChatMember', [
+        return $this->makeSimpleRequest('promoteChatMember', [
             'chat_id' => $chat_id,
             'user_id' => $user_id,
             'can_change_info' => $can_change_info,
@@ -1135,9 +1137,13 @@ class TelegramBot extends BaseBot
      */
     public function exportChatInviteLink($chat_id)
     {
-        return $this->makeRequest($this->baseUrl . '/exportChatInviteLink', [
+        $data = $this->makeRequest('exportChatInviteLink', [
             'chat_id' => $chat_id,
         ]);
+        if ($data['ok']) {
+            return $data['result'];
+        }
+        return null;
     }
 
     /**
@@ -1146,14 +1152,14 @@ class TelegramBot extends BaseBot
      * @param int|string $chat_id
      * @param $photo
      *
-     * @return string|null
+     * @return bool
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
     public function setChatPhoto($chat_id, $photo)
     {
-        return $this->makeRequest($this->baseUrl . '/setChatPhoto', ['chat_id' => $chat_id], ['photo' => $photo]);
+        return $this->makeSimpleRequest('setChatPhoto', ['chat_id' => $chat_id], ['photo' => $photo]);
     }
 
     /**
@@ -1161,14 +1167,14 @@ class TelegramBot extends BaseBot
      *
      * @param int|string $chat_id
      *
-     * @return string|null
+     * @return bool
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
     public function deleteChatPhoto($chat_id)
     {
-        return $this->makeRequest($this->baseUrl . '/deleteChatPhoto', ['chat_id' => $chat_id]);
+        return $this->makeSimpleRequest('deleteChatPhoto', ['chat_id' => $chat_id]);
     }
 
     /**
@@ -1184,7 +1190,7 @@ class TelegramBot extends BaseBot
      */
     public function setChatTitle($chat_id, $title)
     {
-        return $this->makeRequest($this->baseUrl . '/setChatTitle', ['chat_id' => $chat_id, 'title' => $title]);
+        return $this->makeSimpleRequest('setChatTitle', ['chat_id' => $chat_id, 'title' => $title]);
     }
 
     /**
@@ -1200,7 +1206,7 @@ class TelegramBot extends BaseBot
      */
     public function setChatDescription($chat_id, $description = null)
     {
-        return $this->makeRequest($this->baseUrl . '/setChatDescription', ['chat_id' => $chat_id, 'description' => $description]);
+        return $this->makeSimpleRequest('setChatDescription', ['chat_id' => $chat_id, 'description' => $description]);
     }
 
     /**
@@ -1217,7 +1223,7 @@ class TelegramBot extends BaseBot
      */
     public function pinChatMessage($chat_id, $message_id, $disable_notification = null)
     {
-        return $this->makeRequest($this->baseUrl . '/pinChatMessage', [
+        return $this->makeSimpleRequest('pinChatMessage', [
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'disable_notification' => $disable_notification,
@@ -1236,7 +1242,7 @@ class TelegramBot extends BaseBot
      */
     public function unpinChatMessage($chat_id)
     {
-        return $this->makeRequest($this->baseUrl . '/unpinChatMessage', ['chat_id' => $chat_id]);
+        return $this->makeSimpleRequest('unpinChatMessage', ['chat_id' => $chat_id]);
     }
 
     /**
@@ -1251,7 +1257,7 @@ class TelegramBot extends BaseBot
      */
     public function leaveChat($chat_id)
     {
-        return $this->makeRequest($this->baseUrl . '/leaveChat', ['chat_id' => $chat_id]);
+        return $this->makeSimpleRequest('leaveChat', ['chat_id' => $chat_id]);
     }
 
     /**
@@ -1266,7 +1272,7 @@ class TelegramBot extends BaseBot
      */
     public function getChat($chat_id)
     {
-        $data = $this->makeRequest($this->baseUrl . '/getChat', ['chat_id' => $chat_id], [], true);
+        $data = $this->makeRequest('getChat', ['chat_id' => $chat_id]);
         if ($data['ok']) {
             return new Chat($data['result']);
         }
@@ -1285,7 +1291,7 @@ class TelegramBot extends BaseBot
      */
     public function getChatAdministrators($chat_id)
     {
-        $data = $this->makeRequest($this->baseUrl . '/getChatAdministrators', ['chat_id' => $chat_id], [], true);
+        $data = $this->makeRequest('getChatAdministrators', ['chat_id' => $chat_id]);
         if ($data['ok']) {
             $admins = [];
             foreach ($data['result'] as $datum) {
@@ -1308,7 +1314,7 @@ class TelegramBot extends BaseBot
      */
     public function getChatMembersCount($chat_id)
     {
-        $data = $this->makeRequest($this->baseUrl . '/getChatMembersCount', ['chat_id' => $chat_id], [], true);
+        $data = $this->makeRequest('getChatMembersCount', ['chat_id' => $chat_id]);
         if ($data['ok']) {
             return $data['result'];
         }
@@ -1328,7 +1334,7 @@ class TelegramBot extends BaseBot
      */
     public function getChatMember($chat_id, $user_id)
     {
-        $data = $this->makeRequest($this->baseUrl . '/getChatMember', ['chat_id' => $chat_id, 'user_id' => $user_id], [], true);
+        $data = $this->makeRequest('getChatMember', ['chat_id' => $chat_id, 'user_id' => $user_id]);
         if ($data['ok']) {
             return new ChatMember($data['result']);
         }
@@ -1348,7 +1354,7 @@ class TelegramBot extends BaseBot
      */
     public function setChatStickerSet($chat_id, $sticker_set_name)
     {
-        return $this->makeRequest($this->baseUrl . '/setChatStickerSet', [
+        return $this->makeSimpleRequest('setChatStickerSet', [
             'chat_id' => $chat_id,
             'sticker_set_name' => $sticker_set_name,
         ]);
@@ -1366,7 +1372,7 @@ class TelegramBot extends BaseBot
      */
     public function deleteChatStickerSet($chat_id)
     {
-        return $this->makeRequest($this->baseUrl . '/deleteChatStickerSet', [
+        return $this->makeSimpleRequest('deleteChatStickerSet', [
             'chat_id' => $chat_id,
         ]);
     }
@@ -1387,7 +1393,7 @@ class TelegramBot extends BaseBot
      */
     public function answerCallbackQuery($callback_query_id, $text = null, $show_alert = null, $url = null, $cache_time = null)
     {
-        return $this->makeRequest($this->baseUrl . '/answerCallbackQuery', [
+        return $this->makeSimpleRequest('answerCallbackQuery', [
             'callback_query_id' => $callback_query_id,
             'text' => $text,
             'show_alert' => $show_alert,
@@ -1417,7 +1423,7 @@ class TelegramBot extends BaseBot
         $parse_mode = null, $disable_web_page_preview = null, $reply_markup = null
     )
     {
-        $data = $this->makeRequest($this->baseUrl . '/editMessageText', [
+        $data = $this->makeRequest('editMessageText', [
             'text' => $text,
             'chat_id' => $chat_id,
             'message_id' => $message_id,
@@ -1425,7 +1431,7 @@ class TelegramBot extends BaseBot
             'parse_mode' => $parse_mode,
             'disable_web_page_preview' => $disable_web_page_preview,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], [], true);
+        ]);
         if ($data['ok']) {
             if (is_bool($data['result'])) {
                 return $data['result'];
@@ -1456,14 +1462,14 @@ class TelegramBot extends BaseBot
         $parse_mode = null,  $reply_markup = null
     )
     {
-        $data = $this->makeRequest($this->baseUrl . '/editMessageCaption', [
+        $data = $this->makeRequest('editMessageCaption', [
             'caption' => $caption,
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'inline_message_id' => $inline_message_id,
             'parse_mode' => $parse_mode,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], [], true);
+        ]);
         if ($data['ok']) {
             if (is_bool($data['result'])) {
                 return $data['result'];
@@ -1491,13 +1497,13 @@ class TelegramBot extends BaseBot
      */
     public function editMessageMedia($media, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null, $files = [])
     {
-        $data = $this->makeRequest($this->baseUrl . '/editMessageMedia', [
+        $data = $this->makeRequest('editMessageMedia', [
             'media' => JsonHelper::encodeWithoutEmptyProperty($media),
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'inline_message_id' => $inline_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], $files, true);
+        ], $files);
         if ($data['ok']) {
             if (is_bool($data['result'])) {
                 return $data['result'];
@@ -1523,12 +1529,12 @@ class TelegramBot extends BaseBot
      */
     public function editMessageReplyMarkup($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
     {
-        $data = $this->makeRequest($this->baseUrl . '/editMessageReplyMarkup', [
+        $data = $this->makeRequest('editMessageReplyMarkup', [
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'inline_message_id' => $inline_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], [], true);
+        ]);
         if ($data['ok']) {
             if (is_bool($data['result'])) {
                 return $data['result'];
@@ -1553,11 +1559,11 @@ class TelegramBot extends BaseBot
      */
     public function stopPoll($chat_id = null, $message_id = null, $reply_markup = null)
     {
-        $data = $this->makeRequest($this->baseUrl . '/stopPoll', [
+        $data = $this->makeRequest('stopPoll', [
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], [], true);
+        ]);
         if ($data['ok']) {
             return new Poll($data['result']);
         }
@@ -1577,7 +1583,7 @@ class TelegramBot extends BaseBot
      */
     public function deleteMessage($chat_id = null, $message_id = null)
     {
-        return $this->makeRequest($this->baseUrl . '/deleteMessage', [
+        return $this->makeSimpleRequest('deleteMessage', [
             'chat_id' => $chat_id,
             'message_id' => $message_id,
         ]);
@@ -1623,7 +1629,7 @@ class TelegramBot extends BaseBot
         $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
     )
     {
-        $data = $this->makeRequest($this->baseUrl . '/sendInvoice', [
+        $data = $this->makeRequest('sendInvoice', [
             'chat_id' => $chat_id,
             'title' => $title,
             'description' => $description,
@@ -1647,7 +1653,7 @@ class TelegramBot extends BaseBot
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup ' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], [], true);
+        ]);
         if ($data['ok']) {
             return new Message($data['result']);
         }
@@ -1669,7 +1675,7 @@ class TelegramBot extends BaseBot
      */
     public function answerShippingQuery($shipping_query_id, $ok, $shipping_options = null, $error_message = null)
     {
-        return $this->makeRequest($this->baseUrl . '/answerShippingQuery', [
+        return $this->makeSimpleRequest('answerShippingQuery', [
             'shipping_query_id' => $shipping_query_id,
             'ok' => $ok,
             'shipping_options' => $shipping_options,
@@ -1691,7 +1697,7 @@ class TelegramBot extends BaseBot
      */
     public function answerPreCheckoutQuery($pre_checkout_query_id, $ok, $error_message = null)
     {
-        return $this->makeRequest($this->baseUrl . '/answerPreCheckoutQuery', [
+        return $this->makeSimpleRequest('answerPreCheckoutQuery', [
             'pre_checkout_query_id' => $pre_checkout_query_id,
             'ok' => $ok,
             'error_message' => $error_message,
@@ -1711,7 +1717,7 @@ class TelegramBot extends BaseBot
      */
     public function setPassportDataErrors($user_id, $errors)
     {
-        return $this->makeRequest($this->baseUrl . '/setPassportDataErrors', [
+        return $this->makeSimpleRequest('setPassportDataErrors', [
             'user_id' => $user_id,
             'errors' => $errors,
         ]);
@@ -1736,13 +1742,13 @@ class TelegramBot extends BaseBot
         $reply_to_message_id = null, $reply_markup = null
     )
     {
-        $data = $this->makeRequest($this->baseUrl . '/sendGame', [
+        $data = $this->makeRequest('sendGame', [
             'chat_id' => $chat_id,
             'game_short_name' => $game_short_name,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
-        ], [], true);
+        ]);
         if ($data['ok']) {
             return new Message($data['result']);
         }
@@ -1770,7 +1776,7 @@ class TelegramBot extends BaseBot
         $inline_message_id = null, $force = null, $disable_edit_message = null
     )
     {
-        $data = $this->makeRequest($this->baseUrl . '/sendGame', [
+        $data = $this->makeRequest('sendGame', [
             'user_id' => $user_id,
             'score' => $score,
             'chat_id' => $chat_id,
@@ -1778,7 +1784,7 @@ class TelegramBot extends BaseBot
             'inline_message_id' => $inline_message_id,
             'force' => $force,
             'disable_edit_message' => $disable_edit_message,
-        ], [], true);
+        ]);
         if ($data['ok']) {
             return new Message($data['result']);
         }
@@ -1803,12 +1809,12 @@ class TelegramBot extends BaseBot
         $inline_message_id = null
     )
     {
-        $data = $this->makeRequest($this->baseUrl . '/sendGame', [
+        $data = $this->makeRequest('sendGame', [
             'user_id' => $user_id,
             'chat_id' => $chat_id,
             'message_id' => $message_id,
             'inline_message_id' => $inline_message_id,
-        ], [], true);
+        ]);
         if ($data['ok']) {
             $resultArray = [];
             foreach ($data['result'] as $result) {
@@ -1838,7 +1844,7 @@ class TelegramBot extends BaseBot
         $next_offset = null, $switch_pm_text = null, $switch_pm_parameter = null
     )
     {
-        return $this->makeRequest($this->baseUrl . '/answerInlineQuery', [
+        return $this->makeSimpleRequest('answerInlineQuery', [
             'inline_query_id' => $inline_query_id,
             'results' => $results,
             'cache_time' => $cache_time,

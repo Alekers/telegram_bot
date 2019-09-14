@@ -6,12 +6,15 @@
 
 namespace tsvetkov\telegram_bot\entities;
 
+/**
+ * Class BaseObject
+ * @package tsvetkov\telegram_bot\entities
+ */
 abstract class BaseObject
 {
     /**
-     * Special array for converting standart json objects to object of needed class.
-     * Keys of array os property names, values is class name for 'new' command.
-     * All properties listed in this array sets as 'safe' in rules
+     * Special array for converting standard json objects to object of needed class.
+     * Keys of array is property name, values is class name for 'new' statement.
      * For array of special object set array with class name as first element
      * Example:
      *
@@ -38,6 +41,7 @@ abstract class BaseObject
 
     /**
      * @param array $data
+     *
      * @return bool
      */
     public function load($data)
@@ -55,21 +59,28 @@ abstract class BaseObject
     /**
      * @param array $data
      * @param array|string $class
-     * @return BaseObject|BaseObject[]|null
+     *
+     * @return null|object|object[]
      */
     protected function createObjectsFromData($data, $class)
     {
         if (!is_null($data) && !empty($data)) {
             if (is_string($class)) {
                 $result = new $class();
-                $result->load($data);
-                return $result;
-            } elseif (is_array($class)) {
-                $result = [];
-                foreach ($data as $key => $value) {
-                    $result[$key] = $this->createObjectsFromData($value, $class[0]);
+                if (method_exists($result, 'load')) {
+                    $result->load($data);
                 }
                 return $result;
+            } elseif (is_array($class)) {
+                $results = [];
+                foreach ($data as $key => $value) {
+                    $result = new $class[0]();
+                    if (method_exists($result, 'load')) {
+                        $result->load($data);
+                    }
+                    $results[$key] = $result;
+                }
+                return $results;
             }
         }
         return null;
@@ -77,6 +88,7 @@ abstract class BaseObject
 
     /**
      * @param array $data
+     *
      * @return bool
      */
     protected function simpleLoad($data)
