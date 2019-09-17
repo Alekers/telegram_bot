@@ -25,7 +25,7 @@ class InlineQuery extends BaseObject
     /** @var User */
     public $from;
 
-    /** @var Location */
+    /** @var Location|null */
     public $location;
 
     /** @var string */

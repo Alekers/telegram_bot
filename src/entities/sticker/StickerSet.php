@@ -1,13 +1,15 @@
 <?php
-/**
- * Created date 8/8/2018 8:19 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\sticker;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#stickerset
+ *
+ * Class StickerSet
+ * @package tsvetkov\telegram_bot\entities\sticker
+ */
 class StickerSet extends BaseObject
 {
     protected $objectsArray = [

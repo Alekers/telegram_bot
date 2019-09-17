@@ -8,23 +8,36 @@ namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#audio
+ *
+ * Class Audio
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class Audio extends BaseObject
 {
-    /** @var string $file_id */
+    protected $objectsArray = [
+        'thumb' => PhotoSize::class
+    ];
+
+    /** @var string */
     public $file_id;
 
-    /** @var integer $duration */
+    /** @var int */
     public $duration;
 
-    /** @var string $performer */
+    /** @var string|null */
     public $performer;
 
-    /** @var string $title */
+    /** @var string|null */
     public $title;
 
-    /** @var string $mime_type */
+    /** @var string|null */
     public $mime_type;
 
-    /** @var integer $file_size */
+    /** @var integer|null */
     public $file_size;
+
+    /** @var PhotoSize|null */
+    public $thumb;
 }

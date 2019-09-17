@@ -1,56 +1,58 @@
 <?php
-/**
- * Created date 4/25/2018 8:41 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\user\User;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#messageentity
+ *
+ * Class MessageEntity
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class MessageEntity extends BaseObject
 {
-    // User calling (@username)
-    const TYPE_MENTION = 'mention';
-    // #HASHTAG
-    const TYPE_HASHTAG = 'hashtag';
-    const TYPE_BOT_COMMAND = 'bot_command';
-    const TYPE_URL = 'url';
-    const TYPE_EMAIL = 'email';
-    const TYPE_BOLD = 'bold';
-    const TYPE_ITALIC = 'italic';
-    // monowidth string
-    const TYPE_CODE = 'code';
-    // monowidth block
-    const TYPE_PRE = 'pre';
-    // for clickable text URLs
-    const TYPE_TEXT_LINK = 'text_link';
-    // for users without usernames
-    const TYPE_TEXT_MENTION = 'text_mention';
+    // TODO links remove in 2.3, use MessageEntityType constants instead
+    /** @deprecated  */
+    const TYPE_MENTION = MessageEntityType::MENTION;
+    /** @deprecated  */
+    const TYPE_HASHTAG = MessageEntityType::MENTION;
+    /** @deprecated  */
+    const TYPE_BOT_COMMAND = MessageEntityType::BOT_COMMAND;
+    /** @deprecated  */
+    const TYPE_URL = MessageEntityType::URL;
+    /** @deprecated  */
+    const TYPE_EMAIL = MessageEntityType::EMAIL;
+    /** @deprecated  */
+    const TYPE_BOLD = MessageEntityType::BOLD;
+    /** @deprecated  */
+    const TYPE_ITALIC = MessageEntityType::ITALIC;
+    /** @deprecated  */
+    const TYPE_CODE = MessageEntityType::CODE;
+    /** @deprecated  */
+    const TYPE_PRE = MessageEntityType::PRE;
+    /** @deprecated  */
+    const TYPE_TEXT_LINK = MessageEntityType::TEXT_LINK;
+    /** @deprecated  */
+    const TYPE_TEXT_MENTION = MessageEntityType::TEXT_MENTION;
 
     public $objectsArray = [
         'user' => User::class,
     ];
 
-    /** @var string $type */
+    /** @var string */
     public $type;
 
-    /** @var integer $offset */
+    /** @var int */
     public $offset;
 
-    /** @var integer $length */
+    /** @var int */
     public $length;
 
-    /**
-     * For “text_link” only, url that will be opened after user taps on the text
-     * @var string $url
-     */
+    /** @var string|null */
     public $url;
 
-    /**
-     * For “text_mention” only, the mentioned user
-     * @var User $user
-     */
+    /** @var User|null */
     public $user;
 }

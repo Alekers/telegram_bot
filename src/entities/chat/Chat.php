@@ -29,36 +29,36 @@ class Chat extends BaseObject
     /** @var string */
     public $type;
 
-    /** @var string */
+    /** @var string|null */
     public $title;
 
-    /** @var string */
+    /** @var string|null */
     public $username;
 
-    /** @var string */
+    /** @var string|null */
     public $first_name;
 
-    /** @var string */
+    /** @var string|null */
     public $last_name;
 
-    /** @var ChatPhoto $photo */
+    /** @var ChatPhoto|null */
     public $photo;
 
-    /** @var string $description */
+    /** @var string|null */
     public $description;
 
-    /** @var string $invite_link */
+    /** @var string|null */
     public $invite_link;
 
-    /** @var Message */
+    /** @var Message|null */
     public $pinned_message;
 
-    /** @var ChatPermissions */
+    /** @var ChatPermissions|null */
     public $permissions;
 
-    /** @var string $sticker_set_name */
+    /** @var string|null */
     public $sticker_set_name;
 
-    /** @var boolean $can_set_sticker_set */
+    /** @var bool|null */
     public $can_set_sticker_set;
 }

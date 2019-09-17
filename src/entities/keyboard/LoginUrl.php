@@ -15,12 +15,12 @@ class LoginUrl extends BaseObject
     /** @var string */
     public $url;
 
-    /** @var string */
+    /** @var string|null */
     public $forward_text;
 
-    /** @var string */
+    /** @var string|null */
     public $bot_username;
 
-    /** @var bool */
+    /** @var bool|null */
     public $request_write_access;
 }

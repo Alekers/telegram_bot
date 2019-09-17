@@ -39,33 +39,33 @@ class Update extends BaseObject
     /** @var int */
     public $update_id;
 
-    /** @var Message */
+    /** @var Message|null */
     public $message;
 
-    /** @var Message */
+    /** @var Message|null */
     public $edited_message;
 
-    /** @var Message */
+    /** @var Message|null */
     public $channel_post;
 
-    /** @var Message */
+    /** @var Message|null */
     public $edited_channel_post;
 
-    /** @var InlineQuery */
+    /** @var InlineQuery|null */
     public $inline_query;
 
-    /** @var ChosenInlineResult */
+    /** @var ChosenInlineResult|null */
     public $chosen_inline_result;
 
-    /** @var CallbackQuery */
+    /** @var CallbackQuery|null */
     public $callback_query;
 
-    /** @var ShippingQuery */
+    /** @var ShippingQuery|null */
     public $shipping_query;
 
-    /** @var PreCheckoutQuery */
+    /** @var PreCheckoutQuery|null */
     public $pre_checkout_query;
 
-    /** @var Poll */
+    /** @var Poll|null */
     public $poll;
 }

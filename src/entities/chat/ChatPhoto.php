@@ -1,18 +1,20 @@
 <?php
-/**
- * Created date 4/25/2018 8:15 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\chat;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#chatphoto
+ *
+ * Class ChatPhoto
+ * @package tsvetkov\telegram_bot\entities\chat
+ */
 class ChatPhoto extends BaseObject
 {
-    /** @var string $small_file_id */
+    /** @var string */
     public $small_file_id;
 
-    /** @var string $big_file_id */
+    /** @var string */
     public $big_file_id;
 }

@@ -1,8 +1,4 @@
 <?php
-/**
- * Created date 4/26/2018 12:58 AM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\chat;
 
@@ -10,29 +6,25 @@ use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\user\User;
 
 /**
+ * OfficialDocs: https://core.telegram.org/bots/api#chatmember
+ *
  * Class ChatMember
  * @package tsvetkov\telegram_bot\entities\chat
- *
- * OfficialDocs: https://core.telegram.org/bots/api#chatmember
  */
 class ChatMember extends BaseObject
 {
-    /** @deprecated use ChatMemberStatus instead */
+    // TODO remove in 2.3 use ChatMemberStatus instead
+    /** @deprecated */
     const STATUS_CREATOR = ChatMemberStatus::CREATOR;
-
-    /** @deprecated use ChatMemberStatus instead */
+    /** @deprecated */
     const STATUS_ADMINISTRATOR = ChatMemberStatus::ADMINISTRATOR;
-
-    /** @deprecated use ChatMemberStatus instead */
+    /** @deprecated */
     const STATUS_MEMBER = ChatMemberStatus::MEMBER;
-
-    /** @deprecated use ChatMemberStatus instead */
+    /** @deprecated */
     const STATUS_RESTRICTED = ChatMemberStatus::RESTRICTED;
-
-    /** @deprecated use ChatMemberStatus instead */
+    /** @deprecated */
     const STATUS_LEFT = ChatMemberStatus::LEFT;
-
-    /** @deprecated use ChatMemberStatus instead */
+    /** @deprecated */
     const STATUS_KICKED = ChatMemberStatus::KICKED;
 
     public $objectsArray = [
@@ -42,54 +34,54 @@ class ChatMember extends BaseObject
     /** @var User $user */
     public $user;
 
-    /** @var string $status */
+    /** @var string */
     public $status;
 
-    /** @var int */
+    /** @var int|null */
     public $until_date;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_be_edited;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_post_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_edit_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_delete_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_restrict_members;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_promote_members;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_change_info;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_invite_users;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_pin_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $is_member;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_send_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_send_media_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_send_polls;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_send_other_messages;
 
-    /** @var bool */
+    /** @var bool|null */
     public $can_add_web_page_previews;
 }

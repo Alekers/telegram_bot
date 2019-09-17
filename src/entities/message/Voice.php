@@ -1,24 +1,26 @@
 <?php
-/**
- * Created date 4/25/2018 10:35 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#voice
+ *
+ * Class Voice
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class Voice extends BaseObject
 {
-    /** @var string $file_id */
+    /** @var string */
     public $file_id;
 
-    /** @var integer $duration */
+    /** @var int */
     public $duration;
 
-    /** @var string $mime_type */
+    /** @var string|null */
     public $mime_type;
 
-    /** @var integer $file_size */
+    /** @var int|null */
     public $file_size;
 }

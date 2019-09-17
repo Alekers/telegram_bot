@@ -1,15 +1,16 @@
 <?php
-/**
- * Created date 5/25/2019 5:59 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\user;
-
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\message\PhotoSize;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#userprofilephotos
+ *
+ * Class UserProfilePhotos
+ * @package tsvetkov\telegram_bot\entities\user
+ */
 class UserProfilePhotos extends BaseObject
 {
     protected $objectsArray = [

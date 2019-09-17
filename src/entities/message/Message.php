@@ -28,8 +28,8 @@ class Message extends BaseObject
     public $objectsArray = [
         'from' => User::class,
         'chat' => Chat::class,
-        'forwarded_from' => User::class,
-        'forwarded_from_chat' => Chat::class,
+        'forward_from' => User::class,
+        'forward_from_chat' => Chat::class,
         'reply_to_message' => self::class,
         'entities' => [MessageEntity::class],
         'caption_entities' => [MessageEntity::class],
@@ -56,49 +56,49 @@ class Message extends BaseObject
         'reply_markup' => InlineKeyboardMarkup::class,
     ];
 
-    /** @var integer */
+    /** @var int */
     public $message_id;
 
-    /** @var User */
+    /** @var User|null */
     public $from;
 
-    /** @var integer */
+    /** @var int */
     public $date;
 
     /** @var Chat */
     public $chat;
 
-    /** @var User */
-    public $forwarded_from;
+    /** @var User|null */
+    public $forward_from;
 
-    /** @var Chat */
-    public $forwarded_from_chat;
+    /** @var Chat|null */
+    public $forward_from_chat;
 
-    /** @var integer */
-    public $forwarded_from_message_id;
+    /** @var int|null */
+    public $forward_from_message_id;
 
-    /** @var string */
+    /** @var string|null */
     public $forward_signature;
 
-    /** @var string */
+    /** @var string|null */
     public $forward_sender_name;
 
-    /** @var integer */
+    /** @var int|null */
     public $forward_date;
 
-    /** @var Message */
+    /** @var self|null */
     public $reply_to_message;
 
-    /** @var integer */
+    /** @var int|null */
     public $edit_date;
 
-    /** @var string */
+    /** @var string|null */
     public $media_group_id;
 
-    /** @var string */
+    /** @var string|null */
     public $author_signature;
 
-    /** @var string */
+    /** @var string|null */
     public $text;
 
     /** @var MessageEntity[] */
@@ -107,93 +107,93 @@ class Message extends BaseObject
     /** @var MessageEntity[] */
     public $caption_entities;
 
-    /** @var Audio */
+    /** @var Audio|null */
     public $audio;
 
-    /** @var Document */
+    /** @var Document|null */
     public $document;
 
-    /** @var Animation */
+    /** @var Animation|null */
     public $animation;
 
-    /** @var Game */
+    /** @var Game|null */
     public $game;
 
     /** @var PhotoSize[] */
     public $photo;
 
-    /** @var Sticker */
+    /** @var Sticker|null */
     public $sticker;
 
-    /** @var Video */
+    /** @var Video|null */
     public $video;
 
-    /** @var Voice */
+    /** @var Voice|null */
     public $voice;
 
-    /** @var VideoNote */
+    /** @var VideoNote|null */
     public $video_note;
 
-    /** @var string */
+    /** @var string|null */
     public $caption;
 
-    /** @var Contact */
+    /** @var Contact|null */
     public $contact;
 
-    /** @var Location */
+    /** @var Location|null */
     public $location;
 
-    /** @var Venue */
+    /** @var Venue|null */
     public $venue;
 
-    /** @var Poll */
+    /** @var Poll|null */
     public $poll;
 
     /** @var User[] */
     public $new_chat_members;
 
-    /** @var User */
+    /** @var User|null */
     public $left_chat_member;
 
-    /** @var string */
+    /** @var string|null */
     public $new_chat_title;
 
     /** @var PhotoSize[] */
     public $new_chat_photo;
 
-    /** @var bool */
+    /** @var bool|null */
     public $delete_chat_photo;
 
-    /** @var bool */
+    /** @var bool|null */
     public $group_chat_created;
 
-    /** @var bool */
+    /** @var bool|null */
     public $supergroup_chat_created;
 
-    /** @var bool */
+    /** @var bool|null */
     public $channel_chat_created;
 
-    /** @var integer */
+    /** @var int|null */
     public $migrate_to_chat_id;
 
-    /** @var integer */
+    /** @var int|null */
     public $migrate_from_chat_id;
 
-    /** @var Message */
+    /** @var Message|null */
     public $pinned_message;
 
-    /** @var Invoice */
+    /** @var Invoice|null */
     public $invoice;
 
-    /** @var SuccessfulPayment */
+    /** @var SuccessfulPayment|null */
     public $successful_payment;
 
-    /** @var string */
+    /** @var string|null */
     public $connected_website;
 
-    /** @var PassportData */
+    /** @var PassportData|null */
     public $passport_data;
 
-    /** @var InlineKeyboardMarkup */
+    /** @var InlineKeyboardMarkup|null */
     public $reply_markup;
 }

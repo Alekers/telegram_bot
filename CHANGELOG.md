@@ -1,4 +1,16 @@
 # CHANGE LOG
+## 2.2.1 - Upcoming
+* Edited entities: 
+    * `Audio` now has property `thumb`
+    * `Animation` now has properties `width`, `height` and `duration`
+    * `Contact` now has property `vcard`
+    * `Venue` now has property `foursquare_type`
+* New entities:
+    * `ResponseParameters`
+* Edited methods:
+    * `createNewStickerSet`
+    * `sendSticker`
+    * `addStickerToSet`
 ## 2.2.0 - 2019/09/06
 * Currently all inner objects <b>WILL NOT</b> be loaded as empty, it will be `null`
 * New entities:

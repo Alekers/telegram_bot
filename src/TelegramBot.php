@@ -7,6 +7,7 @@
 namespace tsvetkov\telegram_bot;
 
 use tsvetkov\telegram_bot\entities\chat\Chat;
+use tsvetkov\telegram_bot\entities\chat\ChatAction;
 use tsvetkov\telegram_bot\entities\chat\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
 use tsvetkov\telegram_bot\entities\game\GameHighScore;
@@ -61,7 +62,7 @@ class TelegramBot extends BaseBot
      * @param bool $disable_web_page_preview
      * @param bool $disable_notification
      * @param integer $reply_to_message_id
-     * @param $reply_markup
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -95,14 +96,14 @@ class TelegramBot extends BaseBot
      * @param int|string $chat_id
      * @param int|string $from_chat_id
      * @param int $message_id
-     * @param bool $disable_notification
+     * @param bool|null $disable_notification
      *
      * @return Message|null
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
      */
-    public function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notification = false)
+    public function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notification = null)
     {
         $data = $this->makeRequest('forwardMessage', [
             'chat_id' => $chat_id,
@@ -120,12 +121,12 @@ class TelegramBot extends BaseBot
      * Official docs: https://core.telegram.org/bots/api#sendphoto
      *
      * @param integer|string $chat_id
-     * @param string $photo Path to file
-     * @param null $caption
-     * @param string $parse_mode
-     * @param bool $disable_notification
-     * @param integer $reply_to_message_id
-     * @param $reply_markup
+     * @param $photo
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param bool|null $disable_notification
+     * @param integer|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -154,19 +155,18 @@ class TelegramBot extends BaseBot
 
     /**
      * Official docs: https://core.telegram.org/bots/api#sendaudio
-     * Max size audio is 50 MB
      *
-     * @param $chat_id
+     * @param int|string $chat_id
      * @param $audio
-     * @param null $caption
-     * @param null $parse_mode
-     * @param null $duration
-     * @param null $performer
-     * @param null $title
-     * @param null $thumb
-     * @param bool $disable_notification
-     * @param null $reply_to_message_id
-     * @param null $reply_markup
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param int|null $duration
+     * @param string|null $performer
+     * @param string|null $title
+     * @param $thumb
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -206,15 +206,15 @@ class TelegramBot extends BaseBot
 
     /**
      * Official docs: https://core.telegram.org/bots/api#senddocument
-     * Max size document is 50 MB
-     * @param integer|string $chat_id
-     * @param string $document Path to file
-     * @param string $thumb Path to file
-     * @param null $caption
-     * @param string $parse_mode
-     * @param bool $disable_notification
-     * @param integer $reply_to_message_id
-     * @param $reply_markup
+     *
+     * @param int|string $chat_id
+     * @param $document
+     * @param $thumb
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -253,9 +253,9 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#setwebhook
      *
      * @param string $url
-     * @param null $certificate
-     * @param int $max_connections
-     * @param string[] $allowed_updates
+     * @param $certificate
+     * @param int|null $max_connections
+     * @param string[]|null $allowed_updates
      *
      * @return bool
      *
@@ -270,7 +270,7 @@ class TelegramBot extends BaseBot
             'available_updates' => $allowed_updates,
         ];
         $files = [];
-        if ($certificate) {
+        if (!is_null($certificate)) {
             $files['certificate'] = $certificate;
         }
         return $this->makeSimpleRequest('setWebhook', $data, $files);
@@ -293,10 +293,10 @@ class TelegramBot extends BaseBot
     /**
      * Official Docs: https://core.telegram.org/bots/api#getupdates
      *
-     * @param int $offset
-     * @param int $limit
-     * @param int $timeout
-     * @param string[] $allowed_updates
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param int|null $timeout
+     * @param string[]|null $allowed_updates
      *
      * @return Update[]|null
      *
@@ -325,26 +325,27 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#sendsticker
      *
      * @param string|int $chat_id
-     * @param string $sticker
-     * @param array $files
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param $reply_markup
+     * @param $sticker
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function sendSticker($chat_id, $sticker, $files = [], $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
+    public function sendSticker(
+        $chat_id, $sticker, $disable_notification = null,
+        $reply_to_message_id = null, $reply_markup = null
+    )
     {
         $data = $this->makeRequest('sendSticker', [
             'chat_id' => $chat_id,
-            'sticker' => $sticker,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => $reply_markup,
-        ], $files);
+        ], ['sticker' => $sticker]);
 
         if ($data['ok']) {
             return new Message($data['result']);
@@ -360,26 +361,24 @@ class TelegramBot extends BaseBot
      * @param string $title
      * @param string $png_sticker
      * @param string $emojis
-     * @param array $files
-     * @param bool $contains_masks
-     * @param MaskPosition $mask_position
+     * @param bool|null $contains_masks
+     * @param MaskPosition|null $mask_position
      *
      * @return bool
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis, $files = [], $contains_masks = null, $mask_position = null)
+    public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis, $contains_masks = null, $mask_position = null)
     {
         return $this->makeSimpleRequest('createNewStickerSet', [
             'user_id' => $user_id,
             'name' => $name,
             'title' => $title,
             'emojis' => $emojis,
-            'png_sticker' => $png_sticker,
             'contains_masks' => $contains_masks,
             'mask_position' => $mask_position,
-        ], $files);
+        ], ['png_sticker' => $png_sticker]);
     }
 
     /**
@@ -389,23 +388,21 @@ class TelegramBot extends BaseBot
      * @param string $name
      * @param string $png_sticker
      * @param string $emojis
-     * @param array $files
-     * @param MaskPosition $mask_position
+     * @param MaskPosition|null $mask_position
      *
      * @return bool
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $files = [], $mask_position = null)
+    public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $mask_position = null)
     {
         return $this->makeSimpleRequest('addStickerToSet', [
             'user_id' => $user_id,
             'name' => $name,
             'emojis' => $emojis,
-            'png_sticker' => $png_sticker,
             'mask_position' => $mask_position,
-        ], $files);
+        ], ['png_sticker' => $png_sticker]);
     }
 
     /**
@@ -499,16 +496,16 @@ class TelegramBot extends BaseBot
      *
      * @param int|string $chat_id
      * @param $video
-     * @param int $duration
-     * @param int $width
-     * @param int $height
+     * @param int|null $duration
+     * @param int|null $width
+     * @param int|null $height
      * @param $thumb
-     * @param string $caption
-     * @param string $parse_mode
-     * @param bool $supports_streaming
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param $reply_markup
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param bool|null $supports_streaming
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -552,15 +549,15 @@ class TelegramBot extends BaseBot
      *
      * @param string|int $chat_id
      * @param $animation
-     * @param int $duration
-     * @param int $width
-     * @param int $height
+     * @param int|null $duration
+     * @param int|null $width
+     * @param int|null $height
      * @param $thumb
-     * @param string $caption
-     * @param string $parse_mode
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param $reply_markup
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -603,12 +600,12 @@ class TelegramBot extends BaseBot
      *
      * @param string|int $chat_id
      * @param $voice
-     * @param string $caption
-     * @param string $parse_mode
-     * @param int $duration
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param $reply_markup
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param int|null $duration
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -630,13 +627,10 @@ class TelegramBot extends BaseBot
             'duration' => $duration,
         ];
 
-        $files = [
-            'voice' => $voice,
-        ];
+        $answer = $this->makeRequest('sendVoice', $data, ['voice' => $voice]);
 
-        $returnData = $this->makeRequest('sendVoice', $data, $files);
-        if ($returnData['ok']) {
-            return new Message($returnData['result']);
+        if ($answer['ok']) {
+            return new Message($answer['result']);
         }
         return null;
     }
@@ -646,12 +640,12 @@ class TelegramBot extends BaseBot
      *
      * @param string|int $chat_id
      * @param $video_note
-     * @param int $duration
-     * @param int $length
+     * @param int|null $duration
+     * @param int|null $length
      * @param $thumb
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param $reply_markup
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -679,9 +673,10 @@ class TelegramBot extends BaseBot
             $files['thumb'] = $thumb;
         }
 
-        $returnData = $this->makeRequest('sendVideoNote', $data, $files);
-        if ($returnData['ok']) {
-            return new Message($returnData['result']);
+        $answer = $this->makeRequest('sendVideoNote', $data, $files);
+
+        if ($answer['ok']) {
+            return new Message($answer['result']);
         }
         return null;
     }
@@ -689,11 +684,11 @@ class TelegramBot extends BaseBot
     /**
      * OfficialDocs: https://core.telegram.org/bots/api#sendmediagroup
      *
-     * @param int $chat_id
+     * @param int|string $chat_id
      * @param array $media array of InputMediaPhoto or InputMediaVideo
      * @param array $files
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
      *
      * @return Message|null
      *
@@ -709,9 +704,10 @@ class TelegramBot extends BaseBot
             'media' => JsonHelper::encodeWithoutEmptyProperty($media),
         ];
 
-        $returnData = $this->makeRequest('sendMediaGroup', $data, $files);
-        if ($returnData['ok']) {
-            return new Message($returnData['result']);
+        $answer = $this->makeRequest('sendMediaGroup', $data, $files);
+
+        if ($answer['ok']) {
+            return new Message($answer['result']);
         }
         return null;
     }
@@ -722,10 +718,10 @@ class TelegramBot extends BaseBot
      * @param int|string $chat_id
      * @param float $latitude
      * @param float $longitude
-     * @param int $live_period
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param $reply_markup
+     * @param int|null $live_period
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -759,10 +755,10 @@ class TelegramBot extends BaseBot
      *
      * @param float $latitude
      * @param float $longitude
-     * @param int|string $chat_id
-     * @param integer $message_id
-     * @param string $inline_message_id
-     * @param InlineKeyboardMarkup $reply_markup
+     * @param int|string|null $chat_id
+     * @param integer|null $message_id
+     * @param string|null $inline_message_id
+     * @param InlineKeyboardMarkup|null $reply_markup
      *
      * @return Message|null
      *
@@ -792,12 +788,12 @@ class TelegramBot extends BaseBot
     /**
      * OfficialDocs: https://core.telegram.org/bots/api#stopmessagelivelocation
      *
-     * @param int|string $chat_id
-     * @param integer $message_id
-     * @param string $inline_message_id
-     * @param InlineKeyboardMarkup $reply_markup
+     * @param int|string|null $chat_id
+     * @param int|null $message_id
+     * @param string|null $inline_message_id
+     * @param InlineKeyboardMarkup|null $reply_markup
      *
-     * @return Message|null
+     * @return Message|bool|null
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
@@ -813,7 +809,11 @@ class TelegramBot extends BaseBot
 
         $returnData = $this->makeRequest('stopMessageLiveLocation', $data);
         if ($returnData['ok']) {
-            return new Message($returnData['result']);
+            if (is_bool($returnData['result'])) {
+                return $returnData['result'];
+            } elseif (is_array($returnData['result'])) {
+                return new Message($returnData['result']);
+            }
         }
         return null;
     }
@@ -826,11 +826,11 @@ class TelegramBot extends BaseBot
      * @param float $longitude
      * @param string $title
      * @param string $address
-     * @param string $foursquare_id
-     * @param string $foursquare_type
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $reply_markup
+     * @param string|null $foursquare_id
+     * @param string|null $foursquare_type
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -855,9 +855,9 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest('sendVenue', $data);
-        if ($returnData['ok']) {
-            return new Message($returnData['result']);
+        $answer = $this->makeRequest('sendVenue', $data);
+        if ($answer['ok']) {
+            return new Message($answer['result']);
         }
         return null;
     }
@@ -868,11 +868,11 @@ class TelegramBot extends BaseBot
      * @param string|int $chat_id
      * @param string $phone_number
      * @param string $first_name
-     * @param string $last_name
-     * @param string $vcard
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $reply_markup
+     * @param string|null $last_name
+     * @param string|null $vcard
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -895,9 +895,9 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest('sendContact', $data);
-        if ($returnData['ok']) {
-            return new Message($returnData['result']);
+        $answer = $this->makeRequest('sendContact', $data);
+        if ($answer['ok']) {
+            return new Message($answer['result']);
         }
         return null;
     }
@@ -908,9 +908,9 @@ class TelegramBot extends BaseBot
      * @param string|int $chat_id
      * @param string $question
      * @param string[] $options
-     * @param bool $disable_notification
-     * @param int $reply_to_message_id
-     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $reply_markup
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
@@ -924,21 +924,23 @@ class TelegramBot extends BaseBot
         $data = [
             'chat_id' => $chat_id,
             'question' => $question,
-            'options' => JsonHelper::encodeWithoutEmptyProperty($options),
+            'options' => $options,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $returnData = $this->makeRequest('sendPoll', $data);
-        if ($returnData['ok']) {
-            return new Message($returnData['result']);
+        $answer = $this->makeRequest('sendPoll', $data);
+        if ($answer['ok']) {
+            return new Message($answer['result']);
         }
         return null;
     }
 
     /**
      * OfficialDocs: https://core.telegram.org/bots/api#sendchataction
+     *
+     * @see ChatAction for constants of actions
      *
      * @param int|string $chat_id
      * @param string $action
@@ -960,8 +962,8 @@ class TelegramBot extends BaseBot
      * OfficialDocs: https://core.telegram.org/bots/api#getuserprofilephotos
      *
      * @param int $user_id
-     * @param int $offset
-     * @param int $limit
+     * @param int|null $offset
+     * @param int|null $limit
      *
      * @return UserProfilePhotos|null
      *
@@ -970,15 +972,13 @@ class TelegramBot extends BaseBot
      */
     public function getUserProfilePhotos($user_id, $offset = null, $limit = null)
     {
-        $returnData = $this->makeRequest('getUserProfilePhotos', [
+        $answer = $this->makeRequest('getUserProfilePhotos', [
             'user_id' => $user_id,
             'offset' => $offset,
             'limit' => $limit,
         ]);
-        if ($returnData['ok']) {
-            $userProfilePhotos = new UserProfilePhotos();
-            $userProfilePhotos->load($returnData['result']);
-            return $userProfilePhotos;
+        if ($answer['ok']) {
+            return new UserProfilePhotos($answer['result']);
         }
         return null;
     }
@@ -995,11 +995,9 @@ class TelegramBot extends BaseBot
      */
     public function getFile($file_id)
     {
-        $returnData = $this->makeRequest('getFile', ['file_id' => $file_id]);
-        if ($returnData['ok']) {
-            $file = new File();
-            $file->load($returnData['result']);
-            return $file;
+        $answer = $this->makeRequest('getFile', ['file_id' => $file_id]);
+        if ($answer['ok']) {
+            return new File($answer['result']);
         }
         return null;
     }
@@ -1307,7 +1305,7 @@ class TelegramBot extends BaseBot
      *
      * @param int|string $chat_id
      *
-     * @return ChatMember[]|null
+     * @return int|null
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
@@ -1391,7 +1389,10 @@ class TelegramBot extends BaseBot
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function answerCallbackQuery($callback_query_id, $text = null, $show_alert = null, $url = null, $cache_time = null)
+    public function answerCallbackQuery(
+        $callback_query_id, $text = null, $show_alert = null,
+        $url = null, $cache_time = null
+    )
     {
         return $this->makeSimpleRequest('answerCallbackQuery', [
             'callback_query_id' => $callback_query_id,
@@ -1459,7 +1460,7 @@ class TelegramBot extends BaseBot
      */
     public function editMessageCaption(
         $caption = null, $chat_id = null, $message_id = null, $inline_message_id = null,
-        $parse_mode = null,  $reply_markup = null
+        $parse_mode = null, $reply_markup = null
     )
     {
         $data = $this->makeRequest('editMessageCaption', [
@@ -1487,7 +1488,7 @@ class TelegramBot extends BaseBot
      * @param int|string|null $chat_id
      * @param int|null $message_id
      * @param string|null $inline_message_id
-     * @param InlineKeyboardMarkup $reply_markup
+     * @param InlineKeyboardMarkup|null $reply_markup
      * @param array $files
      *
      * @return bool|Message|null
@@ -1520,7 +1521,7 @@ class TelegramBot extends BaseBot
      * @param int|string|null $chat_id
      * @param int|null $message_id
      * @param string|null $inline_message_id
-     * @param InlineKeyboardMarkup $reply_markup
+     * @param InlineKeyboardMarkup|null $reply_markup
      *
      * @return bool|Message|null
      *
@@ -1548,16 +1549,16 @@ class TelegramBot extends BaseBot
     /**
      * OfficialDocs: https://core.telegram.org/bots/api#stoppoll
      *
-     * @param int|string|null $chat_id
-     * @param int|null $message_id
-     * @param InlineKeyboardMarkup $reply_markup
+     * @param int|string $chat_id
+     * @param int $message_id
+     * @param InlineKeyboardMarkup|null $reply_markup
      *
      * @return Poll|null
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function stopPoll($chat_id = null, $message_id = null, $reply_markup = null)
+    public function stopPoll($chat_id, $message_id, $reply_markup = null)
     {
         $data = $this->makeRequest('stopPoll', [
             'chat_id' => $chat_id,
@@ -1573,15 +1574,15 @@ class TelegramBot extends BaseBot
     /**
      * OfficialDocs: https://core.telegram.org/bots/api#deletemessage
      *
-     * @param int|string|null $chat_id
-     * @param int|null $message_id
+     * @param int|string $chat_id
+     * @param int $message_id
      *
      * @return bool
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
      */
-    public function deleteMessage($chat_id = null, $message_id = null)
+    public function deleteMessage($chat_id, $message_id)
     {
         return $this->makeSimpleRequest('deleteMessage', [
             'chat_id' => $chat_id,

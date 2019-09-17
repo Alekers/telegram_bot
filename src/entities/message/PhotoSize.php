@@ -8,17 +8,23 @@ namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#photosize
+ *
+ * Class PhotoSize
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class PhotoSize extends BaseObject
 {
-    /** @var string $file_id */
+    /** @var string */
     public $file_id;
 
-    /** @var integer $width */
+    /** @var int */
     public $width;
 
-    /** @var integer $height */
+    /** @var int */
     public $height;
 
-    /** @var integer $file_size */
+    /** @var int|null */
     public $file_size;
 }

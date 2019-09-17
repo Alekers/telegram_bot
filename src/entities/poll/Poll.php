@@ -1,14 +1,15 @@
 <?php
-/**
- * Created date 5/31/2019 1:57 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\poll;
 
-
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#poll
+ *
+ * Class Poll
+ * @package tsvetkov\telegram_bot\entities\poll
+ */
 class Poll extends BaseObject
 {
     protected $objectsArray = [

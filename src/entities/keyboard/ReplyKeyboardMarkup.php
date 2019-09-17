@@ -1,27 +1,30 @@
 <?php
-/**
- * Created date 4/26/2018 12:16 AM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\keyboard;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#replykeyboardmarkup
+ *
+ * Class ReplyKeyboardMarkup
+ * @package tsvetkov\telegram_bot\entities\keyboard
+ */
 class ReplyKeyboardMarkup extends BaseObject
 {
-    /**
-     * Array of button rows, each represented by an Array of KeyboardButton objects
-     * @var array
-     */
+    protected $objectsArray = [
+        'keyboard' => [[KeyboardButton::class]],
+    ];
+
+    /** @var KeyboardButton[][] */
     public $keyboard;
 
-    /** @var boolean $resize_keyboard */
-    public $resize_keyboard = true;
+    /** @var bool|null */
+    public $resize_keyboard;
 
-    /** @var boolean $one_time_keyboard */
-    public $one_time_keyboard = false;
+    /** @var bool|null */
+    public $one_time_keyboard;
 
-    /** @var boolean $selective */
-    public $selective = false;
+    /** @var bool|null */
+    public $selective;
 }

@@ -1,31 +1,33 @@
 <?php
-/**
- * Created date 4/25/2018 10:47 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#videonote
+ *
+ * Class VideoNote
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class VideoNote extends BaseObject
 {
     public $objectsArray = [
         'thumb' => PhotoSize::class,
     ];
 
-    /** @var string $file_id */
+    /** @var string */
     public $file_id;
 
-    /** @var integer $length */
+    /** @var int */
     public $length;
 
-    /** @var integer $duration */
+    /** @var int */
     public $duration;
 
-    /** @var PhotoSize $thumb */
+    /** @var PhotoSize|null */
     public $thumb;
 
-    /** @var integer $file_size */
+    /** @var int|null */
     public $file_size;
 }

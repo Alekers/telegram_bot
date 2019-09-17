@@ -1,28 +1,33 @@
 <?php
-/**
- * Created date 4/25/2018 11:06 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#venue
+ *
+ * Class Venue
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class Venue extends BaseObject
 {
     public $objectsArray = [
         'location' => Location::class,
     ];
 
-    /** @var Location $location */
+    /** @var Location */
     public $location;
 
-    /** @var string $title */
+    /** @var string */
     public $title;
 
-    /** @var string $address */
+    /** @var string */
     public $address;
 
-    /** @var string $foursquare_id */
+    /** @var string|null */
     public $foursquare_id;
+
+    /** @var string|null */
+    public $foursquare_type;
 }

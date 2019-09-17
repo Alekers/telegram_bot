@@ -1,8 +1,4 @@
 <?php
-/**
- * Created date 4/26/2018 12:32 AM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\keyboard;
 
@@ -23,24 +19,24 @@ class InlineKeyboardButton extends BaseObject
     /** @var string */
     public $text;
 
-    /** @var string */
+    /** @var string|null */
     public $url;
 
-    /** @var LoginUrl */
+    /** @var LoginUrl|null */
     public $login_url;
 
-    /** @var string */
+    /** @var string|null */
     public $callback_data;
 
-    /** @var string */
+    /** @var string|null */
     public $switch_inline_query;
 
-    /** @var string */
+    /** @var string|null */
     public $switch_inline_query_current_chat;
 
 
     public $callback_game;
 
-    /** @var boolean */
+    /** @var bool|null */
     public $pay;
 }

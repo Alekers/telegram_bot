@@ -1,18 +1,20 @@
 <?php
-/**
- * Created date 4/26/2018 12:51 AM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#forcereply
+ *
+ * Class ForceReply
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class ForceReply extends BaseObject
 {
-    /** @var boolean $force_reply */
+    /** @var bool */
     public $force_reply;
 
-    /** @var boolean $selective */
+    /** @var bool|null */
     public $selective;
 }

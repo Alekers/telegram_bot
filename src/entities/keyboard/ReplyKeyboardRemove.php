@@ -1,18 +1,20 @@
 <?php
-/**
- * Created date 4/26/2018 12:27 AM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\keyboard;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#replykeyboardremove
+ *
+ * Class ReplyKeyboardRemove
+ * @package tsvetkov\telegram_bot\entities\keyboard
+ */
 class ReplyKeyboardRemove extends BaseObject
 {
-    /** @var boolean $remove_keyboard */
+    /** @var bool */
     public $remove_keyboard;
 
-    /** @var boolean $selective */
+    /** @var bool|null */
     public $selective;
 }

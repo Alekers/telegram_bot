@@ -64,25 +64,26 @@ abstract class BaseObject
      */
     protected function createObjectsFromData($data, $class)
     {
-        if (!is_null($data) && !empty($data)) {
-            if (is_string($class)) {
-                $result = new $class();
-                if (method_exists($result, 'load')) {
-                    $result->load($data);
-                }
-                return $result;
-            } elseif (is_array($class)) {
-                $results = [];
-                foreach ($data as $key => $value) {
-                    $result = new $class[0]();
-                    if (method_exists($result, 'load')) {
-                        $result->load($data);
-                    }
-                    $results[$key] = $result;
-                }
-                return $results;
+        if (is_string($class)) {
+            if (is_null($data) || empty($data)) {
+                return null;
             }
+            $result = new $class();
+            if (method_exists($result, 'load')) {
+                $result->load($data);
+            }
+            return $result;
+        } elseif (is_array($class)) {
+            if (is_null($data) || empty($data)) {
+                return [];
+            }
+            $results = [];
+            foreach ($data as $key => $value) {
+                $results[$key] = $this->createObjectsFromData($value, $class[0]);
+            }
+            return $results;
         }
+
         return null;
     }
 

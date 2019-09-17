@@ -1,21 +1,23 @@
 <?php
-/**
- * Created date 4/26/2018 12:17 AM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\keyboard;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#keyboardbutton
+ *
+ * Class KeyboardButton
+ * @package tsvetkov\telegram_bot\entities\keyboard
+ */
 class KeyboardButton extends BaseObject
 {
-    /** @var string $text */
+    /** @var string */
     public $text;
 
-    /** @var boolean $request_contact */
+    /** @var bool|null */
     public $request_contact;
 
-    /** @var boolean $request_location */
+    /** @var bool|null */
     public $request_location;
 }

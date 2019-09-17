@@ -1,24 +1,29 @@
 <?php
-/**
- * Created date 4/25/2018 10:53 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\message;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#contact
+ *
+ * Class Contact
+ * @package tsvetkov\telegram_bot\entities\message
+ */
 class Contact extends BaseObject
 {
-    /** @var string $phone_number */
+    /** @var string */
     public $phone_number;
 
-    /** @var string $first_name */
+    /** @var string */
     public $first_name;
 
-    /** @var string $last_name */
+    /** @var string|null */
     public $last_name;
 
-    /** @var integer $user_id */
+    /** @var int|null */
     public $user_id;
+
+    /** @var string|null */
+    public $vcard;
 }

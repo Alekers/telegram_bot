@@ -1,8 +1,4 @@
 <?php
-/**
- * Created date 4/25/2018 10:21 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\sticker;
 
@@ -10,6 +6,12 @@ use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\message\MaskPosition;
 use tsvetkov\telegram_bot\entities\message\PhotoSize;
 
+/**
+ * OfficialDocs: https://core.telegram.org/bots/api#sticker
+ *
+ * Class Sticker
+ * @package tsvetkov\telegram_bot\entities\sticker
+ */
 class Sticker extends BaseObject
 {
     public $objectsArray = [
@@ -17,30 +19,30 @@ class Sticker extends BaseObject
         'mask_position' => MaskPosition::class,
     ];
 
-    /** @var integer */
+    /** @var string */
+    public $file_id;
+
+    /** @var int */
     public $width;
 
-    /** @var integer */
+    /** @var int */
     public $height;
-
-    /** @var string */
-    public $emoji;
-
-    /** @var string */
-    public $set_name;
 
     /** @var bool */
     public $is_animated;
 
-    /** @var PhotoSize */
+    /** @var PhotoSize|null */
     public $thumb;
 
-    /** @var string */
-    public $file_id;
+    /** @var string|null */
+    public $emoji;
 
-    /** @var MaskPosition */
+    /** @var string|null */
+    public $set_name;
+
+    /** @var MaskPosition|null */
     public $mask_position;
 
-    /** @var integer */
+    /** @var int|null */
     public $file_size;
 }

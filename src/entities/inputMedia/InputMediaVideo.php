@@ -1,13 +1,6 @@
 <?php
-/**
- * Created date 5/6/2019 7:50 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\inputMedia;
-
-
-use tsvetkov\telegram_bot\entities\BaseObject;
 
 /**
  * Class InputMediaVideo
@@ -15,31 +8,22 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  *
  * OfficialDocs: https://core.telegram.org/bots/api#inputmediavideo
  */
-class InputMediaVideo extends BaseObject implements InputMedia
+class InputMediaVideo extends InputMedia
 {
     /** @var string */
     public $type = "video";
 
-    /** @var string */
-    public $media;
-
     public $thumb;
 
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
-
-    /** @var int */
+    /** @var int|null */
     public $width;
 
-    /** @var int */
+    /** @var int|null */
     public $height;
 
-    /** @var int */
+    /** @var int|null */
     public $duration;
 
-    /** @var bool */
+    /** @var bool|null*/
     public $supports_streaming;
 }

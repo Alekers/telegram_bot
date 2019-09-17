@@ -1,12 +1,6 @@
 <?php
-/**
- * Created date 5/6/2019 7:47 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\inputMedia;
-
-use tsvetkov\telegram_bot\entities\BaseObject;
 
 /**
  * Class InputMediaPhoto
@@ -14,17 +8,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  *
  * OfficialDocs: https://core.telegram.org/bots/api#inputmediaphoto
  */
-class InputMediaPhoto extends BaseObject implements InputMedia
+class InputMediaPhoto extends InputMedia
 {
     /** @var string */
     public $type = "photo";
-
-    /** @var string */
-    public $media;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
 }

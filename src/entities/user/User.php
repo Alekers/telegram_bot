@@ -10,21 +10,21 @@ use tsvetkov\telegram_bot\entities\BaseObject;
 
 class User extends BaseObject
 {
-    /** @var integer $id */
+    /** @var integer */
     public $id;
 
-    /** @var bool $is_bot */
+    /** @var bool */
     public $is_bot;
 
-    /** @var string $first_name */
+    /** @var string */
     public $first_name;
 
-    /** @var string $last_name */
+    /** @var string|null */
     public $last_name;
 
-    /** @var string $username */
+    /** @var string|null */
     public $username;
 
-    /** @var string $language_code */
+    /** @var string|null */
     public $language_code;
 }
