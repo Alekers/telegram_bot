@@ -56,6 +56,9 @@ class Chat extends BaseObject
     /** @var ChatPermissions|null */
     public $permissions;
 
+    /** @var int */
+    public $slow_mode_delay;
+
     /** @var string|null */
     public $sticker_set_name;
 

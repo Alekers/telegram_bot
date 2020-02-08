@@ -13,30 +13,6 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class MessageEntity extends BaseObject
 {
-    // TODO links remove in 2.3, use MessageEntityType constants instead
-    /** @deprecated  */
-    const TYPE_MENTION = MessageEntityType::MENTION;
-    /** @deprecated  */
-    const TYPE_HASHTAG = MessageEntityType::MENTION;
-    /** @deprecated  */
-    const TYPE_BOT_COMMAND = MessageEntityType::BOT_COMMAND;
-    /** @deprecated  */
-    const TYPE_URL = MessageEntityType::URL;
-    /** @deprecated  */
-    const TYPE_EMAIL = MessageEntityType::EMAIL;
-    /** @deprecated  */
-    const TYPE_BOLD = MessageEntityType::BOLD;
-    /** @deprecated  */
-    const TYPE_ITALIC = MessageEntityType::ITALIC;
-    /** @deprecated  */
-    const TYPE_CODE = MessageEntityType::CODE;
-    /** @deprecated  */
-    const TYPE_PRE = MessageEntityType::PRE;
-    /** @deprecated  */
-    const TYPE_TEXT_LINK = MessageEntityType::TEXT_LINK;
-    /** @deprecated  */
-    const TYPE_TEXT_MENTION = MessageEntityType::TEXT_MENTION;
-
     public $objectsArray = [
         'user' => User::class,
     ];
@@ -55,4 +31,7 @@ class MessageEntity extends BaseObject
 
     /** @var User|null */
     public $user;
+
+    /** @var string|null */
+    public $language;
 }

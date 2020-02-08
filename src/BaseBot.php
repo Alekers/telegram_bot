@@ -11,6 +11,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
+use tsvetkov\telegram_bot\exceptions\ForbiddenException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
 use function fopen;
 use function is_array;
@@ -79,6 +80,7 @@ abstract class BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
+     * @throws ForbiddenException
      */
     protected function processClientException($exception)
     {
@@ -92,6 +94,13 @@ abstract class BaseBot
                 throw new BadRequestException();
             case 401:
                 throw new InvalidTokenException($this->token);
+            case 403:
+                $response = $exception->getResponse();
+                if (!is_null($response)) {
+                    $data = json_decode($response->getBody()->getContents(), true);
+                    throw new ForbiddenException($data['description'], $data['error_code']);
+                }
+                throw new ForbiddenException();
         }
         return false;
     }
@@ -105,6 +114,7 @@ abstract class BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
+     * @throws ForbiddenException
      */
     protected function makeRequest($url, $data = [], $files = [])
     {
@@ -132,6 +142,7 @@ abstract class BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
+     * @throws ForbiddenException
      */
     protected function makeSimpleRequest($url, $data = [], $files = [])
     {

@@ -13,20 +13,6 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class ChatMember extends BaseObject
 {
-    // TODO remove in 2.3 use ChatMemberStatus instead
-    /** @deprecated */
-    const STATUS_CREATOR = ChatMemberStatus::CREATOR;
-    /** @deprecated */
-    const STATUS_ADMINISTRATOR = ChatMemberStatus::ADMINISTRATOR;
-    /** @deprecated */
-    const STATUS_MEMBER = ChatMemberStatus::MEMBER;
-    /** @deprecated */
-    const STATUS_RESTRICTED = ChatMemberStatus::RESTRICTED;
-    /** @deprecated */
-    const STATUS_LEFT = ChatMemberStatus::LEFT;
-    /** @deprecated */
-    const STATUS_KICKED = ChatMemberStatus::KICKED;
-
     public $objectsArray = [
         'user' => User::class,
     ];
@@ -36,6 +22,9 @@ class ChatMember extends BaseObject
 
     /** @var string */
     public $status;
+
+    /** @var string */
+    public $custom_title;
 
     /** @var int|null */
     public $until_date;

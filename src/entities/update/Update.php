@@ -14,6 +14,7 @@ use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\payment\PreCheckoutQuery;
 use tsvetkov\telegram_bot\entities\payment\ShippingQuery;
 use tsvetkov\telegram_bot\entities\poll\Poll;
+use tsvetkov\telegram_bot\entities\poll\PollAnswer;
 
 /**
  * OfficialDocs: https://core.telegram.org/bots/api#update
@@ -33,7 +34,8 @@ class Update extends BaseObject
         'callback_query' => CallbackQuery::class,
         'shipping_query' => ShippingQuery::class,
         'pre_checkout_query' => PreCheckoutQuery::class,
-        'poll' => Poll::class
+        'poll' => Poll::class,
+        'poll_answer' => PollAnswer::class,
     ];
 
     /** @var int */
@@ -68,4 +70,7 @@ class Update extends BaseObject
 
     /** @var Poll|null */
     public $poll;
+
+    /** @var PollAnswer|null */
+    public $poll_answer;
 }

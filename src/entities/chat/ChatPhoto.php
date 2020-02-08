@@ -16,5 +16,11 @@ class ChatPhoto extends BaseObject
     public $small_file_id;
 
     /** @var string */
+    public $small_file_unique_id;
+
+    /** @var string */
     public $big_file_id;
+
+    /** @var string */
+    public $big_file_unique_id;
 }

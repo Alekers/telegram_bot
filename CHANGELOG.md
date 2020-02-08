@@ -1,16 +1,34 @@
 # CHANGE LOG
-## 2.2.1 - Upcoming
+## 2.3.0 - 2020/02/08
+* Compatibility with Bot API 4.6
 * Edited entities: 
     * `Audio` now has property `thumb`
     * `Animation` now has properties `width`, `height` and `duration`
     * `Contact` now has property `vcard`
     * `Venue` now has property `foursquare_type`
+    * Move type constants from `MessageEntity` to `MessageEntityType`
+    * Add types constants for `MessageEntityType`: `underline`, `strikethrough`, `cashtag`, `phone_number`
+    * Add `file_unique_id` property for: `Animation`, `Audio`, `Document`, `PassportFile`, `PhotoSize`, `Sticker`, `Video`, `VideoNote`, `Voice` and `File`
+    * Add `small_file_unique_id` and `big_file_unique_id` properties for `ChatPhoto`
+    * Add `custom_title` property for `ChatMember`
+    * Add `slow_mode_delay` property for `Chat`
+    * Add `request_poll` property for `KeyboardButton`
+    * Add `poll_answer` property for `Update`
+    * Add `language` property for `MessageEntity`
+    * Add new properties to `Poll`: `total_voter_count`, `is_anonymous`, `type`, `allows_multiple_answers` and `correct_option_id`
+    * Add new properties to `User`: `can_join_groups`, `can_read_all_group_messages` and `supports_inline_queries`
+    * Move status constants from `ChatMember` to `ChatMemberStatus`
 * New entities:
     * `ResponseParameters`
+    * `KeyboardButtonPollType`
+    * `PollAnswer`
 * Edited methods:
     * `createNewStickerSet`
     * `sendSticker`
     * `addStickerToSet`
+    * `sendPoll` <b>WARNING</b>, param's order was changed
+* New methods: 
+    * `setChatAdministratorCustomTitle`
 ## 2.2.0 - 2019/09/06
 * Currently all inner objects <b>WILL NOT</b> be loaded as empty, it will be `null`
 * New entities:

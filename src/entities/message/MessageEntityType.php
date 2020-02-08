@@ -25,4 +25,8 @@ abstract class MessageEntityType
     const TEXT_LINK = 'text_link';
     // for users without usernames
     const TEXT_MENTION = 'text_mention';
+    const UNDERLINE = 'underline';
+    const STRIKETHROUGH = 'strikethrough';
+    const CASHTAG = 'cashtag';
+    const PHONE_NUMBER = 'phone_number';
 }

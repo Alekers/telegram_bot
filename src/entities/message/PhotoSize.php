@@ -19,6 +19,9 @@ class PhotoSize extends BaseObject
     /** @var string */
     public $file_id;
 
+    /** @var string */
+    public $file_unique_id;
+
     /** @var int */
     public $width;
 

@@ -27,4 +27,13 @@ class User extends BaseObject
 
     /** @var string|null */
     public $language_code;
+
+    /** @var bool|null */
+    public $can_join_groups;
+
+    /** @var bool|null */
+    public $can_read_all_group_messages;
+
+    /** @var bool|null */
+    public $supports_inline_queries;
 }

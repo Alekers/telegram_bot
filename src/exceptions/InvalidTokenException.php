@@ -12,7 +12,7 @@ use Throwable;
  * Class InvalidTokenException
  * @package tsvetkov\telegram_bot\exceptions
  */
-class InvalidTokenException extends \Exception
+class InvalidTokenException extends TelegramException
 {
     /**
      * InvalidTokenException constructor.

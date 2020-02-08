@@ -19,6 +19,9 @@ class Document extends BaseObject
     /** @var string */
     public $file_id;
 
+    /** @var string */
+    public $file_unique_id;
+
     /** @var PhotoSize|null */
     public $thumb;
 

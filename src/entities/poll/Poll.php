@@ -27,4 +27,22 @@ class Poll extends BaseObject
 
     /** @var bool */
     public $is_closed;
+
+    /** @var int */
+    public $total_voter_count;
+
+    /** @var bool */
+    public $is_anonymous;
+
+    /**
+     * @see PollType
+     * @var string
+     */
+    public $type;
+
+    /** @var bool */
+    public $allows_multiple_answers;
+
+    /** @var int|null */
+    public $correct_option_id;
 }

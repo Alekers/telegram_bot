@@ -16,6 +16,9 @@ class File extends BaseObject
     /** @var string $file_id */
     public $file_id;
 
+    /** @var string */
+    public $file_unique_id;
+
     /** @var int|null $file_size */
     public $file_size;
 
