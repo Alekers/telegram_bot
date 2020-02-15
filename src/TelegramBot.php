@@ -32,6 +32,7 @@ use tsvetkov\telegram_bot\entities\user\UserProfilePhotos;
 use tsvetkov\telegram_bot\entities\webhook\WebhookInfo;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
+use tsvetkov\telegram_bot\exceptions\ForbiddenException;
 use tsvetkov\telegram_bot\helpers\JsonHelper;
 use function is_null;
 
@@ -44,7 +45,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getMe()
     {
@@ -70,7 +71,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendMessage(
         $chat_id, $text, $parse_mode = null, $reply_markup = null, $disable_web_page_preview = null,
@@ -105,7 +106,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notification = null)
     {
@@ -136,7 +137,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendPhoto(
         $chat_id, $photo, $caption = null, $parse_mode = null,
@@ -177,7 +178,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendAudio(
         $chat_id, $audio, $caption = null, $parse_mode = null, $duration = null, $performer = null,
@@ -226,7 +227,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendDocument(
         $chat_id, $document, $thumb = null, $caption = null, $parse_mode = null,
@@ -268,7 +269,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setWebhook($url, $max_connections = null, $certificate = null, $allowed_updates = null)
     {
@@ -288,7 +289,7 @@ class TelegramBot extends BaseBot
      * @return WebhookInfo|null
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getWebhookInfo()
     {
@@ -311,7 +312,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getUpdates($limit = null, $offset = null, $timeout = null, $allowed_updates = null)
     {
@@ -344,7 +345,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendSticker(
         $chat_id, $sticker, $disable_notification = null,
@@ -379,7 +380,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis, $contains_masks = null, $mask_position = null)
     {
@@ -406,7 +407,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $mask_position = null)
     {
@@ -425,7 +426,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function deleteStickerFromSet($sticker)
     {
@@ -444,7 +445,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function uploadStickerFile($user_id, $png_sticker)
     {
@@ -464,7 +465,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getStickerSet($name)
     {
@@ -485,7 +486,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setStickerPositionInSet($sticker, $position)
     {
@@ -502,7 +503,7 @@ class TelegramBot extends BaseBot
      *
      * @throws InvalidTokenException
      * @throws BadRequestException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function deleteWebhook()
     {
@@ -529,7 +530,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendVideo(
         $chat_id, $video, $duration = null, $width = null, $height = null,
@@ -582,7 +583,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendAnimation(
         $chat_id, $animation, $duration = null, $width = null, $height = null, $thumb = null, $caption = null,
@@ -631,7 +632,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendVoice(
         $chat_id, $voice, $caption = null, $parse_mode = null, $duration = null,
@@ -672,7 +673,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendVideoNote(
         $chat_id, $video_note, $duration = null, $length = null, $thumb = null,
@@ -716,7 +717,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendMediaGroup($chat_id, $media, $files = [], $disable_notification = null, $reply_to_message_id = null)
     {
@@ -750,7 +751,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendLocation(
         $chat_id, $latitude, $longitude, $live_period = null,
@@ -788,7 +789,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function editMessageLiveLocation(
         $latitude, $longitude, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null
@@ -822,7 +823,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function stopMessageLiveLocation($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
     {
@@ -862,7 +863,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendVenue(
         $chat_id, $latitude, $longitude, $title, $address, $foursquare_id = null, $foursquare_type = null,
@@ -905,7 +906,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendContact(
         $chat_id, $phone_number, $first_name, $last_name = null, $vcard = null,
@@ -950,7 +951,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendPoll(
         $chat_id, $question, $options,
@@ -991,8 +992,8 @@ class TelegramBot extends BaseBot
      * @return bool
      *
      * @throws BadRequestException
-     * @throws InvalidTokenException*@throws exceptions\ForbiddenException
-     * @throws exceptions\ForbiddenException
+     * @throws InvalidTokenException
+     * @throws ForbiddenException
      */
     public function sendChatAction($chat_id, $action)
     {
@@ -1013,7 +1014,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getUserProfilePhotos($user_id, $offset = null, $limit = null)
     {
@@ -1037,7 +1038,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getFile($file_id)
     {
@@ -1059,7 +1060,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function kickChatMember($chat_id, $user_id, $until_date = null)
     {
@@ -1080,7 +1081,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function unbanChatMember($chat_id, $user_id)
     {
@@ -1102,7 +1103,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function restrictChatMember($chat_id, $user_id, $permissions, $until_date = null)
     {
@@ -1124,7 +1125,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setChatPermissions($chat_id, $permissions)
     {
@@ -1152,7 +1153,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function promoteChatMember(
         $chat_id, $user_id, $can_change_info = null, $can_post_messages = null, $can_edit_messages = null,
@@ -1183,7 +1184,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function exportChatInviteLink($chat_id)
     {
@@ -1206,7 +1207,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setChatPhoto($chat_id, $photo)
     {
@@ -1222,7 +1223,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function deleteChatPhoto($chat_id)
     {
@@ -1239,7 +1240,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setChatTitle($chat_id, $title)
     {
@@ -1256,7 +1257,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setChatDescription($chat_id, $description = null)
     {
@@ -1274,7 +1275,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function pinChatMessage($chat_id, $message_id, $disable_notification = null)
     {
@@ -1294,7 +1295,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function unpinChatMessage($chat_id)
     {
@@ -1310,7 +1311,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function leaveChat($chat_id)
     {
@@ -1326,7 +1327,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getChat($chat_id)
     {
@@ -1346,7 +1347,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getChatAdministrators($chat_id)
     {
@@ -1370,7 +1371,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getChatMembersCount($chat_id)
     {
@@ -1391,7 +1392,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getChatMember($chat_id, $user_id)
     {
@@ -1412,7 +1413,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setChatStickerSet($chat_id, $sticker_set_name)
     {
@@ -1431,7 +1432,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function deleteChatStickerSet($chat_id)
     {
@@ -1453,7 +1454,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function answerCallbackQuery(
         $callback_query_id, $text = null, $show_alert = null,
@@ -1484,7 +1485,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function editMessageText(
         $text, $chat_id = null, $message_id = null, $inline_message_id = null,
@@ -1524,7 +1525,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function editMessageCaption(
         $caption = null, $chat_id = null, $message_id = null, $inline_message_id = null,
@@ -1563,7 +1564,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function editMessageMedia($media, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null, $files = [])
     {
@@ -1596,7 +1597,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function editMessageReplyMarkup($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
     {
@@ -1627,7 +1628,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function stopPoll($chat_id, $message_id, $reply_markup = null)
     {
@@ -1652,7 +1653,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function deleteMessage($chat_id, $message_id)
     {
@@ -1693,7 +1694,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendInvoice(
         $chat_id, $title, $description, $payload, $provider_token, $start_parameter, $currency, $prices,
@@ -1746,7 +1747,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function answerShippingQuery($shipping_query_id, $ok, $shipping_options = null, $error_message = null)
     {
@@ -1769,7 +1770,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function answerPreCheckoutQuery($pre_checkout_query_id, $ok, $error_message = null)
     {
@@ -1790,7 +1791,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setPassportDataErrors($user_id, $errors)
     {
@@ -1813,7 +1814,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function sendGame(
         $chat_id, $game_short_name, $disable_notification = null,
@@ -1848,7 +1849,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setGameScore(
         $user_id, $score, $chat_id = null, $message_id = null,
@@ -1882,7 +1883,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function getGameHighScores(
         $user_id, $chat_id = null, $message_id = null,
@@ -1920,7 +1921,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function answerInlineQuery(
         $inline_query_id, $results, $cache_time = null, $is_personal = null,
@@ -1949,7 +1950,7 @@ class TelegramBot extends BaseBot
      *
      * @throws BadRequestException
      * @throws InvalidTokenException
-     * @throws exceptions\ForbiddenException
+     * @throws ForbiddenException
      */
     public function setChatAdministratorCustomTitle($chat_id, $user_id, $custom_title)
     {
