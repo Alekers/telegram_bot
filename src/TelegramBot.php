@@ -10,6 +10,7 @@ use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatAction;
 use tsvetkov\telegram_bot\entities\chat\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
+use tsvetkov\telegram_bot\entities\command\BotCommand;
 use tsvetkov\telegram_bot\entities\game\GameHighScore;
 use tsvetkov\telegram_bot\entities\inline\queryResult\InlineQueryResult;
 use tsvetkov\telegram_bot\entities\inputMedia\InputMedia;
@@ -371,18 +372,22 @@ class TelegramBot extends BaseBot
      * @param int $user_id
      * @param string $name
      * @param string $title
-     * @param string $png_sticker
      * @param string $emojis
+     * @param string|null $png_sticker
+     * @param $tgs_sticker
      * @param bool|null $contains_masks
      * @param MaskPosition|null $mask_position
      *
      * @return bool
      *
      * @throws BadRequestException
-     * @throws InvalidTokenException
      * @throws ForbiddenException
+     * @throws InvalidTokenException
      */
-    public function createNewStickerSet($user_id, $name, $title, $png_sticker, $emojis, $contains_masks = null, $mask_position = null)
+    public function createNewStickerSet(
+        $user_id, $name, $title, $emojis, $png_sticker = null, $tgs_sticker = null,
+        $contains_masks = null, $mask_position = null
+    )
     {
         return $this->makeSimpleRequest('createNewStickerSet', [
             'user_id' => $user_id,
@@ -391,7 +396,10 @@ class TelegramBot extends BaseBot
             'emojis' => $emojis,
             'contains_masks' => $contains_masks,
             'mask_position' => $mask_position,
-        ], ['png_sticker' => $png_sticker]);
+        ], [
+            'png_sticker' => $png_sticker,
+            'tgs_sticker' => $tgs_sticker,
+        ]);
     }
 
     /**
@@ -401,6 +409,7 @@ class TelegramBot extends BaseBot
      * @param string $name
      * @param string $png_sticker
      * @param string $emojis
+     * @param $tgs_sticker
      * @param MaskPosition|null $mask_position
      *
      * @return bool
@@ -409,14 +418,17 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $mask_position = null)
+    public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $tgs_sticker = null, $mask_position = null)
     {
         return $this->makeSimpleRequest('addStickerToSet', [
             'user_id' => $user_id,
             'name' => $name,
             'emojis' => $emojis,
             'mask_position' => $mask_position,
-        ], ['png_sticker' => $png_sticker]);
+        ], [
+            'png_sticker' => $png_sticker,
+            'tgs_sticker' => $tgs_sticker,
+        ]);
     }
 
     /**
@@ -1959,5 +1971,96 @@ class TelegramBot extends BaseBot
             'user_id' => $user_id,
             'custom_title' => $custom_title,
         ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#senddice
+     *
+     * @param int|string $chat_id
+     * @param bool|null $disable_notification
+     * @param bool|null $reply_to_message_id
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws InvalidTokenException
+     */
+    public function sendDice($chat_id, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
+    {
+        $data = $this->makeRequest('sendDice', [
+            'chat_id' => $chat_id,
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ]);
+
+        if ($data['ok']) {
+            return new Message($data['result']);
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getmycommands
+     *
+     * @return BotCommand[]|null
+     *
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws InvalidTokenException
+     */
+    public function getMyCommands()
+    {
+        $data = $this->makeRequest('getMyCommands');
+
+        if ($data['ok']) {
+            $result = [];
+            foreach ($data['result'] as $datum) {
+                $result[] = new BotCommand($datum);
+            }
+            return $result;
+        }
+        return null;
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getmycommands
+     *
+     * @param BotCommand[] $commands
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws InvalidTokenException
+     */
+    public function setMyCommands($commands)
+    {
+        return $this->makeSimpleRequest('setMyCommands', [
+            'commands' => JsonHelper::encodeWithoutEmptyProperty($commands),
+        ]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#setstickersetthumb
+     *
+     * @param string $name
+     * @param string $user_id
+     * @param $thumb
+     *
+     * @return bool
+     *
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws InvalidTokenException
+     */
+    public function setStickerSetThumb($name, $user_id, $thumb = null)
+    {
+        return $this->makeSimpleRequest('setStickerSetThumb', [
+            'name' => $name,
+            'user_id' => $user_id,
+        ], ['thumb' => $thumb]);
     }
 }

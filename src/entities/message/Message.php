@@ -46,6 +46,7 @@ class Message extends BaseObject
         'location' => Location::class,
         'venue' => Venue::class,
         'poll' => Poll::class,
+        'dice' => Dice::class,
         'new_chat_members' => [User::class],
         'left_chat_member' => User::class,
         'new_chat_photo' => [PhotoSize::class],
@@ -148,6 +149,9 @@ class Message extends BaseObject
 
     /** @var Poll|null */
     public $poll;
+
+    /** @var Dice|null */
+    public $dice;
 
     /** @var User[] */
     public $new_chat_members;

@@ -1,4 +1,19 @@
 # CHANGE LOG
+## 2.4.0 - 2020/04/13
+* Compatibility with Bot API 4.7
+* New entities:
+    * `Dice`
+    * `BotCommand`
+* Edited entities:
+    * `Message` now has property `dice`
+    * `StickerSet` now has property `thumb`
+* New methods:
+    * `sendDice`
+    * `getMyCommands`
+    * `setMyCommands`
+    * `setStickerSetThumb`
+* Edited methods:
+    * `createNewStickerSet` and `addStickerToSet` now has parameter `tgs_sticker`
 ## 2.3.0 - 2020/02/08
 * Compatibility with Bot API 4.6
 * Edited entities: 

@@ -3,6 +3,7 @@
 namespace tsvetkov\telegram_bot\entities\sticker;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
+use tsvetkov\telegram_bot\entities\message\PhotoSize;
 
 /**
  * OfficialDocs: https://core.telegram.org/bots/api#stickerset
@@ -14,6 +15,7 @@ class StickerSet extends BaseObject
 {
     protected $objectsArray = [
         'stickers' => [Sticker::class],
+        'thumb' => PhotoSize::class,
     ];
 
     /** @var string */
@@ -30,4 +32,7 @@ class StickerSet extends BaseObject
 
     /** @var Sticker[] */
     public $stickers;
+
+    /** @var PhotoSize */
+    public $thumb;
 }
