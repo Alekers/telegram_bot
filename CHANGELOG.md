@@ -1,4 +1,11 @@
 # CHANGE LOG
+## 2.5.0 - 2020/04/24
+* Compatibility with Bot API 4.8
+* Edited entities:
+    * `Poll` now have `explanation`, `explanation_entities`, `open_period` and `close_date`
+* Edited methods: 
+    * `sendPoll` add new params: `explanation`, `explanation_parse_mode`, `open_period` and `close_date`
+    * `sendDice` add new param: `emoji`
 ## 2.4.0 - 2020/04/13
 * Compatibility with Bot API 4.7
 * New entities:

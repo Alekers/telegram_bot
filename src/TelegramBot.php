@@ -950,10 +950,13 @@ class TelegramBot extends BaseBot
      * @param string $question
      * @param string[] $options
      * @param bool $is_anonymous
-     * @see PollType
      * @param string $type
      * @param bool $allows_multiple_answers
+     * @param string|null $explanation
+     * @param string|null $explanation_parse_mode
      * @param int $correct_option_id
+     * @param int|null $open_period
+     * @param int|null $close_date
      * @param bool $is_closed
      * @param bool|null $disable_notification
      * @param int|null $reply_to_message_id
@@ -962,13 +965,15 @@ class TelegramBot extends BaseBot
      * @return Message|null
      *
      * @throws BadRequestException
-     * @throws InvalidTokenException
      * @throws ForbiddenException
+     * @throws InvalidTokenException
+     * @see PollType
      */
     public function sendPoll(
         $chat_id, $question, $options,
         $is_anonymous = null, $type = null, $allows_multiple_answers = null,
-        $correct_option_id = null, $is_closed = null,
+        $explanation = null, $explanation_parse_mode = null,
+        $correct_option_id = null, $open_period = null, $close_date = null, $is_closed = null,
         $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
     )
     {
@@ -981,6 +986,10 @@ class TelegramBot extends BaseBot
             'allows_multiple_answers' => $allows_multiple_answers,
             'correct_option_id' => $correct_option_id,
             'is_closed' => $is_closed,
+            'explanation' => $explanation,
+            'explanation_parse_mode' => $explanation_parse_mode,
+            'open_period' => $open_period,
+            'close_date' => $close_date,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
@@ -1977,6 +1986,7 @@ class TelegramBot extends BaseBot
      * OfficialDocs: https://core.telegram.org/bots/api#senddice
      *
      * @param int|string $chat_id
+     * @param string|null $emoji
      * @param bool|null $disable_notification
      * @param bool|null $reply_to_message_id
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
@@ -1987,10 +1997,11 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      * @throws InvalidTokenException
      */
-    public function sendDice($chat_id, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
+    public function sendDice($chat_id, $emoji = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
     {
         $data = $this->makeRequest('sendDice', [
             'chat_id' => $chat_id,
+            'emoji' => $emoji,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),

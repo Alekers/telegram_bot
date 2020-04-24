@@ -3,6 +3,7 @@
 namespace tsvetkov\telegram_bot\entities\poll;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
+use tsvetkov\telegram_bot\entities\message\MessageEntity;
 
 /**
  * OfficialDocs: https://core.telegram.org/bots/api#poll
@@ -14,6 +15,7 @@ class Poll extends BaseObject
 {
     protected $objectsArray = [
         'options' => [PollOption::class],
+        'explanation_entities' => [MessageEntity::class],
     ];
 
     /** @var string */
@@ -45,4 +47,16 @@ class Poll extends BaseObject
 
     /** @var int|null */
     public $correct_option_id;
+
+    /** @var string */
+    public $explanation;
+
+    /** @var MessageEntity[] */
+    public $explanation_entities;
+
+    /** @var int */
+    public $open_period;
+
+    /** @var int */
+    public $close_date;
 }
