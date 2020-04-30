@@ -21,6 +21,7 @@ use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\MaskPosition;
 use tsvetkov\telegram_bot\entities\message\Message;
+use tsvetkov\telegram_bot\entities\message\ParseMode;
 use tsvetkov\telegram_bot\entities\passport\errors\PassportElementError;
 use tsvetkov\telegram_bot\entities\payment\LabeledPrice;
 use tsvetkov\telegram_bot\entities\payment\ShippingOption;
@@ -62,11 +63,14 @@ class TelegramBot extends BaseBot
      *
      * @param integer|string $chat_id
      * @param string $text
-     * @param string $parse_mode
-     * @param bool $disable_web_page_preview
-     * @param bool $disable_notification
-     * @param integer $reply_to_message_id
+     *
+     * @param string|null $parse_mode
+     * @see ParseMode
+     *
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
+     * @param bool|null $disable_web_page_preview
+     * @param bool|null $disable_notification
+     * @param integer|null $reply_to_message_id
      *
      * @return Message|null
      *
