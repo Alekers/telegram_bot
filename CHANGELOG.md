@@ -1,4 +1,6 @@
 # CHANGE LOG
+## 2.5.1 - 2020/04/30
+* Add `ParseMode` class for constant help
 ## 2.5.0 - 2020/04/24
 * Compatibility with Bot API 4.8
 * Edited entities:
