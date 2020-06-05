@@ -1,4 +1,10 @@
 # CHANGE LOG
+## 2.6.0 - 2020/06/05
+* Compatibility with Bot API 4.9
+* Edited entities:
+    * `Message` now  have `via_bot` property
+    * `InlineQueryResultGif` and `InlineQueryResultMpeg4Gif` now  have `thumb_mime_type` property
+* Add `DiceType` class for constant help
 ## 2.5.1 - 2020/04/30
 * Add `ParseMode` class for constant help
 ## 2.5.0 - 2020/04/24

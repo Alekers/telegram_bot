@@ -31,6 +31,7 @@ class Message extends BaseObject
         'forward_from' => User::class,
         'forward_from_chat' => Chat::class,
         'reply_to_message' => self::class,
+        'via_bot' => User::class,
         'entities' => [MessageEntity::class],
         'caption_entities' => [MessageEntity::class],
         'audio' => Audio::class,
@@ -89,6 +90,9 @@ class Message extends BaseObject
 
     /** @var self|null */
     public $reply_to_message;
+
+    /** @var User|null */
+    public $via_bot;
 
     /** @var int|null */
     public $edit_date;

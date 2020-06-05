@@ -17,6 +17,7 @@ use tsvetkov\telegram_bot\entities\inputMedia\InputMedia;
 use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardMarkup;
 use tsvetkov\telegram_bot\entities\keyboard\ReplyKeyboardRemove;
+use tsvetkov\telegram_bot\entities\message\DiceType;
 use tsvetkov\telegram_bot\entities\message\File;
 use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\MaskPosition;
@@ -1990,7 +1991,10 @@ class TelegramBot extends BaseBot
      * OfficialDocs: https://core.telegram.org/bots/api#senddice
      *
      * @param int|string $chat_id
+     *
+     * @see DiceType
      * @param string|null $emoji
+     *
      * @param bool|null $disable_notification
      * @param bool|null $reply_to_message_id
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup

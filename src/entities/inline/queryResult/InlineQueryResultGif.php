@@ -28,6 +28,9 @@ class InlineQueryResultGif extends InlineQueryResult
     /** @var string */
     public $thumb_url;
 
+    /** @var string|null */
+    public $thumb_mime_type;
+
     /** @var string */
     public $title;
 

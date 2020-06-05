@@ -15,6 +15,9 @@ class Dice extends BaseObject
     /** @var int */
     public $value;
 
-    /** @var int */
+    /**
+     * @var int
+     * @see DiceType
+     */
     public $emoji;
 }
