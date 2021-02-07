@@ -1,4 +1,6 @@
 # CHANGE LOG
+## 2.6.1 - 2020/12/03
+* Compatibility with Guzzle ^7
 ## 2.6.0 - 2020/06/05
 * Compatibility with Bot API 4.9
 * Edited entities:
