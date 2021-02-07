@@ -10,36 +10,15 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultVideo extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'video';
-
-    /** @var string */
-    public $video_url;
-
-    /** @var string */
-    public $mime_type;
-
-    /** @var string */
-    public $thumb_url;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
-
-    /** @var int */
-    public $video_width;
-
-    /** @var int */
-    public $video_height;
-
-    /** @var int */
-    public $video_duration;
-
-    /** @var string */
-    public $description;
+    public string $type = 'video';
+    public string $video_url;
+    public string $mime_type;
+    public string $thumb_url;
+    public string $title;
+    public string $caption;
+    public string $parse_mode;
+    public int $video_width;
+    public int $video_height;
+    public int $video_duration;
+    public string $description;
 }

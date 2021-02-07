@@ -10,21 +10,10 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedPhoto extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'photo';
-
-    /** @var string */
-    public $photo_file_id;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $description;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'photo';
+    public string $photo_file_id;
+    public string $title;
+    public string $description;
+    public string $caption;
+    public string $parse_mode;
 }

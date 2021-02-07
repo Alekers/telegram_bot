@@ -26,82 +26,30 @@ abstract class BaseObject
      *
      * @var array
      */
-    protected $objectsArray = [];
+    protected array $objectsArray = [];
 
     /**
      * BaseObject constructor.
      * @param array $data
      */
-    public function __construct($data = [])
+    public function __construct(array $data = [])
     {
-        if (!empty($data)) {
-            $this->load($data);
-        }
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return bool
-     */
-    public function load($data)
-    {
-        $loaded = $this->simpleLoad((array)$data);
-        if (!$loaded) {
-            return false;
-        }
-        foreach ((array)$this->objectsArray as $attribute => $class) {
-            $this->$attribute = $this->createObjectsFromData($this->$attribute, $class);
-        }
-        return true;
-    }
-
-    /**
-     * @param array $data
-     * @param array|string $class
-     *
-     * @return null|object|object[]
-     */
-    protected function createObjectsFromData($data, $class)
-    {
-        if (is_string($class)) {
-            if (is_null($data) || empty($data)) {
-                return null;
-            }
-            $result = new $class();
-            if (method_exists($result, 'load')) {
-                $result->load($data);
-            }
-            return $result;
-        } elseif (is_array($class)) {
-            if (is_null($data) || empty($data)) {
-                return [];
-            }
-            $results = [];
-            foreach ($data as $key => $value) {
-                $results[$key] = $this->createObjectsFromData($value, $class[0]);
-            }
-            return $results;
-        }
-
-        return null;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return bool
-     */
-    protected function simpleLoad($data)
-    {
-        if (is_array($data) && !empty($data) ) {
-            foreach ($data as $name => $value) {
-                if (property_exists($this, $name)) {
+        foreach ($data as $name => $value) {
+            if (property_exists($this, $name)) {
+                if (key_exists($name, $this->objectsArray)) {
+                    if (is_array($this->objectsArray[$name])) {
+                        $result = [];
+                        foreach ($value as $valueItem) {
+                            $result[] = new $this->objectsArray[$name][0]($valueItem);
+                        }
+                        $this->$name = $result;
+                    } else {
+                        $this->$name = new $this->objectsArray[$name]($value);
+                    }
+                } else {
                     $this->$name = $value;
                 }
             }
-            return true;
         }
-        return false;
     }
 }

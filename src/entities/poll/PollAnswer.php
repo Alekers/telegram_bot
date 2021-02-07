@@ -13,7 +13,7 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class PollAnswer extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'user' => User::class,
     ];
 

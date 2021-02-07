@@ -13,7 +13,7 @@ use tsvetkov\telegram_bot\entities\message\PhotoSize;
  */
 class UserProfilePhotos extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'photos' => [[PhotoSize::class]]
     ];
 

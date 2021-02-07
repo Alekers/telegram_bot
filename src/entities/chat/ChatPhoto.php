@@ -12,15 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class ChatPhoto extends BaseObject
 {
-    /** @var string */
-    public $small_file_id;
-
-    /** @var string */
-    public $small_file_unique_id;
-
-    /** @var string */
-    public $big_file_id;
-
-    /** @var string */
-    public $big_file_unique_id;
+    public string $small_file_id;
+    public string $small_file_unique_id;
+    public string $big_file_id;
+    public string $big_file_unique_id;
 }

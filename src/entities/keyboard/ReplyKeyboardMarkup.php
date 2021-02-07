@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class ReplyKeyboardMarkup extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'keyboard' => [[KeyboardButton::class]],
     ];
 

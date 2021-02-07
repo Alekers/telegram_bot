@@ -14,23 +14,14 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class InlineQuery extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'from' => User::class,
         'location' => Location::class,
     ];
 
-    /** @var string */
-    public $id;
-
-    /** @var User */
-    public $from;
-
-    /** @var Location|null */
-    public $location;
-
-    /** @var string */
-    public $query;
-
-    /** @var string */
-    public $offset;
+    public string $id;
+    public User $from;
+    public ?Location $location = null;
+    public string $query;
+    public string $offset;
 }

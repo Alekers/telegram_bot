@@ -10,21 +10,10 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedDocument extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'document';
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $document_file_id;
-
-    /** @var string */
-    public $description;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'document';
+    public string $title;
+    public string $document_file_id;
+    public string $description;
+    public string $caption;
+    public string $parse_mode;
 }

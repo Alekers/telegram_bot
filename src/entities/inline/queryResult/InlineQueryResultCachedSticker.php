@@ -10,9 +10,6 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedSticker extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'sticker';
-
-    /** @var string */
-    public $sticker_file_id;
+    public string $type = 'sticker';
+    public string $sticker_file_id;
 }

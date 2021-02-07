@@ -10,21 +10,10 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedVideo extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'video';
-
-    /** @var string */
-    public $video_file_id;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $description;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'video';
+    public string $video_file_id;
+    public string $title;
+    public string $description;
+    public string $caption;
+    public string $parse_mode;
 }

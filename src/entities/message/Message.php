@@ -25,7 +25,7 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class Message extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'from' => User::class,
         'chat' => Chat::class,
         'forward_from' => User::class,

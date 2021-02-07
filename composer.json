@@ -10,8 +10,14 @@
     "require": {
         "ext-curl": "*",
         "ext-json": "*",
-        "php": "^7.2 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "guzzlehttp/guzzle": "^6.3 || ^7.0"
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse src",
+        "psalm-init": "psalm --init",
+        "psalm": "psalm",
+        "phpcs": "php-cs-fixer fix src"
     },
     "repositories": [
         {
@@ -24,7 +30,8 @@
     },
     "description": "PHP Library for telegram bot API",
     "require-dev": {
-        "phpstan/phpstan": "^0.11.15",
-        "vimeo/psalm": "^3.5"
+        "phpstan/phpstan": "^0.12",
+        "vimeo/psalm": "^4.4",
+        "friendsofphp/php-cs-fixer": "^2.18"
     }
 }

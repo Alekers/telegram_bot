@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class KeyboardButton extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'request_poll' => KeyboardButtonPollType::class,
     ];
 

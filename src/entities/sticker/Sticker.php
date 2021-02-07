@@ -14,7 +14,7 @@ use tsvetkov\telegram_bot\entities\message\PhotoSize;
  */
 class Sticker extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'thumb' => PhotoSize::class,
         'mask_position' => MaskPosition::class,
     ];

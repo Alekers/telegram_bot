@@ -12,9 +12,6 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class BotCommand extends BaseObject
 {
-    /** @var string */
-    public $command;
-
-    /** @var string */
-    public $description;
+    public string $command;
+    public string $description;
 }

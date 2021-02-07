@@ -21,7 +21,7 @@ class InvalidTokenException extends TelegramException
      * @param int $code
      * @param Throwable|null $previous
      */
-    public function __construct($token, $message = "", $code = 0, $previous = null)
+    public function __construct(string $token, string $message = "", int $code = 0, ?Throwable $previous = null)
     {
         if ($message === "") {
             $message = "Token \"{$token}\" is invalid";

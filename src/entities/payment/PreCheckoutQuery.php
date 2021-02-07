@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\user\User;
 
 class PreCheckoutQuery extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'from' => User::class,
         'order_info' => OrderInfo::class,
     ];

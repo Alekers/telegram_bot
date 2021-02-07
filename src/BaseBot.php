@@ -6,10 +6,9 @@
 
 namespace tsvetkov\telegram_bot;
 
-
-use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
+use Throwable;
 use tsvetkov\telegram_bot\exceptions\BadRequestException;
 use tsvetkov\telegram_bot\exceptions\ForbiddenException;
 use tsvetkov\telegram_bot\exceptions\InvalidTokenException;
@@ -21,26 +20,19 @@ use function json_decode;
 
 abstract class BaseBot
 {
-    /** @var string */
-    protected $token;
+    protected string $token;
 
-    /** @var string */
-    protected $baseUrl;
+    protected string $baseUrl;
 
-    /** @var array */
-    protected $requestOptions;
+    protected array $requestOptions;
 
     /**
      * TelegramBot constructor.
-     * @param $token
      *
-     * Use this for any request settings, for example - proxy
-     * $requestOptions = [
-     *      'proxy' => 'your_config'
-     * ];
+     * @param string $token
      * @param array $requestOptions
      */
-    public function __construct($token, $requestOptions = [])
+    public function __construct(string $token, array $requestOptions = [])
     {
         $this->token = $token;
         $this->baseUrl = "https://api.telegram.org/bot{$this->token}/";
@@ -53,7 +45,7 @@ abstract class BaseBot
      *
      * @return array
      */
-    protected function getOptionsForRequest($data = [], $files = [])
+    protected function getOptionsForRequest($data = [], $files = []): array
     {
         $options = $this->requestOptions;
         $decodedData = [];
@@ -74,7 +66,7 @@ abstract class BaseBot
     }
 
     /**
-     * @param ClientException $exception
+     * @param RequestException $exception
      *
      * @return bool
      *
@@ -82,7 +74,7 @@ abstract class BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    protected function processClientException($exception)
+    protected function processException(RequestException $exception): bool
     {
         switch ($exception->getCode()) {
             case 400:
@@ -116,7 +108,7 @@ abstract class BaseBot
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    protected function makeRequest($url, $data = [], $files = [])
+    protected function makeRequest(string $url, array $data = [], array $files = []): array
     {
         $url = $this->baseUrl . $url;
         try {
@@ -125,9 +117,9 @@ abstract class BaseBot
             $options = $this->getOptionsForRequest($data, $files);
 
             return json_decode($client->post($url, $options)->getBody()->getContents(), true);
-        } catch (ClientException $clientException) {
-            $this->processClientException($clientException);
-        } catch (Exception $exception) {
+        } catch (RequestException $clientException) {
+            $this->processException($clientException);
+        } catch (Throwable $throwable) {
             // TODO?
         }
         return [];
@@ -144,7 +136,7 @@ abstract class BaseBot
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    protected function makeSimpleRequest($url, $data = [], $files = [])
+    protected function makeSimpleRequest(string $url, array $data = [], array $files = []): bool
     {
         $url = $this->baseUrl . $url;
         try {
@@ -155,9 +147,9 @@ abstract class BaseBot
             $decodedResponse = json_decode($client->post($url, $options)->getBody()->getContents(), true);
 
             return $decodedResponse['result'];
-        } catch (ClientException $clientException) {
-            $this->processClientException($clientException);
-        } catch (Exception $exception) {
+        } catch (RequestException $e) {
+            $this->processException($e);
+        } catch (Throwable $throwable) {
             // TODO?
         }
         return false;
@@ -166,10 +158,10 @@ abstract class BaseBot
     /**
      * @param array $data
      * @param string $name
-     * @param string $contents
+     * @param mixed $contents
      * @param bool $checkOnFile
      */
-    protected function addField(&$data, $name, $contents, $checkOnFile = false)
+    protected function addField(array &$data, string $name, $contents, $checkOnFile = false)
     {
         if (is_null($contents)) {
             return;
@@ -195,7 +187,7 @@ abstract class BaseBot
      * @param string $file_path
      * @return string
      */
-    public function getLinkForFileDownload($file_path)
+    public function getLinkForFileDownload(string $file_path): string
     {
         return "https://api.telegram.org/file/bot{$this->token}/{$file_path}";
     }

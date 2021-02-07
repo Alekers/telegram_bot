@@ -13,7 +13,7 @@ use tsvetkov\telegram_bot\entities\message\MessageEntity;
  */
 class Poll extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'options' => [PollOption::class],
         'explanation_entities' => [MessageEntity::class],
     ];

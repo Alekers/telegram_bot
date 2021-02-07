@@ -11,7 +11,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
 
 class ShippingOption extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'prices' => [LabeledPrice::class],
     ];
 

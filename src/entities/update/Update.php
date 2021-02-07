@@ -24,7 +24,7 @@ use tsvetkov\telegram_bot\entities\poll\PollAnswer;
  */
 class Update extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'message' => Message::class,
         'edited_message' => Message::class,
         'channel_post' => Message::class,

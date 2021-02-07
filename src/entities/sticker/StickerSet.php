@@ -13,7 +13,7 @@ use tsvetkov\telegram_bot\entities\message\PhotoSize;
  */
 class StickerSet extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'stickers' => [Sticker::class],
         'thumb' => PhotoSize::class,
     ];

@@ -1,4 +1,11 @@
 # CHANGE LOG
+## 3.0.0 - TBA
+* `!IMPORTANT` Minimum requirement for `PHP` is now 7.4
+* Compatibility with Bot API 5.0
+* New methods:
+* New entities:
+* Edited entities:
+* Edited methods:
 ## 2.6.1 - 2020/12/03
 * Compatibility with Guzzle ^7
 ## 2.6.0 - 2020/06/05

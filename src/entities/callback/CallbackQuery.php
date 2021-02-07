@@ -14,29 +14,16 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class CallbackQuery extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'from' => User::class,
         'message' => Message::class,
     ];
 
-    /** @var string */
-    public $id;
-
-    /** @var User */
-    public $from;
-
-    /** @var Message|null */
-    public $message;
-
-    /** @var string|null */
-    public $inline_message_id;
-
-    /** @var string|null */
-    public $chat_instance;
-
-    /** @var string|null */
-    public $data;
-
-    /** @var string|null */
-    public $game_short_name;
+    public string $id;
+    public User $from;
+    public ?Message $message = null;
+    public ?string $inline_message_id = null;
+    public ?string $chat_instance = null;
+    public ?string $data = null;
+    public ?string $game_short_name = null;
 }

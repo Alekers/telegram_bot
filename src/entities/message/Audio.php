@@ -16,7 +16,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Audio extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'thumb' => PhotoSize::class
     ];
 

@@ -14,19 +14,12 @@ use tsvetkov\telegram_bot\entities\keyboard\InlineKeyboardMarkup;
  */
 abstract class InlineQueryResult extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'reply_markup' => InlineKeyboardMarkup::class,
     ];
 
-    /** @var string */
-    public $type;
-
-    /** @var string */
-    public $id;
-
-    /** @var InputMessageContent */
-    public $input_message_content;
-
-    /** @var InlineKeyboardMarkup */
-    public $reply_markup;
+    public string $type;
+    public string $id;
+    public InputMessageContent $input_message_content;
+    public InlineKeyboardMarkup $reply_markup;
 }

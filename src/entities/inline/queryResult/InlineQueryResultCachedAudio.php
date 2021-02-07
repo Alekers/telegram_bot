@@ -10,15 +10,8 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedAudio extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'audio';
-
-    /** @var string */
-    public $audio_file_id;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'audio';
+    public string $audio_file_id;
+    public string $caption;
+    public string $parse_mode;
 }

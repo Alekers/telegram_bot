@@ -10,15 +10,19 @@ use function is_array;
 use function is_null;
 use function is_object;
 
+/**
+ * Class JsonHelper
+ * @package tsvetkov\telegram_bot\helpers
+ */
 class JsonHelper
 {
     /**
-     * @param $value
+     * @param mixed $value
      * @param int $options
      *
      * @return string|null
      */
-    public static function encodeWithoutEmptyProperty($value, $options = 320)
+    public static function encodeWithoutEmptyProperty($value, int $options = 320): ?string
     {
         if (is_null($value)) {
             return null;
@@ -28,10 +32,11 @@ class JsonHelper
     }
 
     /**
-     * @param $value
-     * @return mixed
+     * @param mixed $value
+     *
+     * @return array
      */
-    private static function unsetEmptyProperties($value)
+    private static function unsetEmptyProperties($value): array
     {
         $newArray = [];
         foreach ($value as $key => $item) {

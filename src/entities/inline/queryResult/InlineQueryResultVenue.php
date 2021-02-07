@@ -10,33 +10,14 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultVenue extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'venue';
-
-    /** @var float */
-    public $latitude;
-
-    /** @var float */
-    public $longitude;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $address;
-
-    /** @var string */
-    public $foursquare_id;
-
-    /** @var string */
-    public $foursquare_type;
-
-    /** @var string */
-    public $thumb_url;
-
-    /** @var int */
-    public $thumb_width;
-
-    /** @var int */
-    public $thumb_height;
+    public string $type = 'venue';
+    public float $latitude;
+    public float $longitude;
+    public string $title;
+    public string $address;
+    public string $foursquare_id;
+    public string $foursquare_type;
+    public string $thumb_url;
+    public int $thumb_width;
+    public int $thumb_height;
 }

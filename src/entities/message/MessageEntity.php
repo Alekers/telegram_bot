@@ -13,7 +13,7 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class MessageEntity extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'user' => User::class,
     ];
 

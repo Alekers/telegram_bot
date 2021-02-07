@@ -10,18 +10,9 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedMpeg4Gif extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'mpeg4_gif';
-
-    /** @var string */
-    public $mpeg4_file_id;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'mpeg4_gif';
+    public string $mpeg4_file_id;
+    public string $title;
+    public string $caption;
+    public string $parse_mode;
 }

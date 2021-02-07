@@ -19,27 +19,16 @@ use tsvetkov\telegram_bot\entities\message\PhotoSize;
  */
 class Game extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'photo' => [PhotoSize::class],
         'text_entities' => [MessageEntity::class],
         'animation' => Animation::class,
     ];
 
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $description;
-
-    /** @var PhotoSize[] */
-    public $photo;
-
-    /** @var string */
-    public $text;
-
-    /** @var MessageEntity[] */
-    public $text_entities;
-
-    /** @var Animation */
-    public $animation;
+    public string $title;
+    public string $description;
+    public array $photo;
+    public string $text;
+    public array $text_entities;
+    public Animation $animation;
 }

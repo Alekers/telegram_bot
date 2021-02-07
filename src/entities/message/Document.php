@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Document extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'thumb' => PhotoSize::class,
     ];
 

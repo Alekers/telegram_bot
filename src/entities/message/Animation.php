@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Animation extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'thumb' => PhotoSize::class,
     ];
 

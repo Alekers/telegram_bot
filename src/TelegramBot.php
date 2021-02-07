@@ -1,6 +1,8 @@
 <?php
 /**
  * Created date 5/5/2018 10:21 PM
+ *
+ * TODO - change author e-mail
  * @author Tsvetkov Alexander <ac@goldcarrot.ru>
  */
 
@@ -50,7 +52,7 @@ class TelegramBot extends BaseBot
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    public function getMe()
+    public function getMe(): ?User
     {
         $data = $this->makeRequest('getMe');
         if ($data['ok']) {
@@ -65,8 +67,7 @@ class TelegramBot extends BaseBot
      * @param integer|string $chat_id
      * @param string $text
      *
-     * @param string|null $parse_mode
-     * @see ParseMode
+     * @param string|null $parse_mode @see ParseMode
      *
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      * @param bool|null $disable_web_page_preview
@@ -80,9 +81,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendMessage(
-        $chat_id, $text, $parse_mode = null, $reply_markup = null, $disable_web_page_preview = null,
-        $disable_notification = null, $reply_to_message_id = null
-    )
+        $chat_id, string $text, ?string $parse_mode = null, $reply_markup = null,
+        ?bool $disable_web_page_preview = null, ?bool $disable_notification = null, ?int $reply_to_message_id = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -114,7 +115,9 @@ class TelegramBot extends BaseBot
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    public function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notification = null)
+    public function forwardMessage(
+        $chat_id, $from_chat_id, int $message_id, ?bool $disable_notification = null
+    ): ?Message
     {
         $data = $this->makeRequest('forwardMessage', [
             'chat_id' => $chat_id,
@@ -132,7 +135,7 @@ class TelegramBot extends BaseBot
      * Official docs: https://core.telegram.org/bots/api#sendphoto
      *
      * @param integer|string $chat_id
-     * @param $photo
+     * @param mixed $photo
      * @param string|null $caption
      * @param string|null $parse_mode
      * @param bool|null $disable_notification
@@ -146,9 +149,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendPhoto(
-        $chat_id, $photo, $caption = null, $parse_mode = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $photo, ?string $caption = null, ?string $parse_mode = null, ?bool $disable_notification = null,
+        ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -169,13 +172,13 @@ class TelegramBot extends BaseBot
      * Official docs: https://core.telegram.org/bots/api#sendaudio
      *
      * @param int|string $chat_id
-     * @param $audio
+     * @param mixed $audio
      * @param string|null $caption
      * @param string|null $parse_mode
      * @param int|null $duration
      * @param string|null $performer
      * @param string|null $title
-     * @param $thumb
+     * @param mixed $thumb
      * @param bool|null $disable_notification
      * @param int|null $reply_to_message_id
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
@@ -187,9 +190,10 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendAudio(
-        $chat_id, $audio, $caption = null, $parse_mode = null, $duration = null, $performer = null,
-        $title = null, $thumb = null, $disable_notification = false, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $audio, ?string $caption = null, ?string $parse_mode = null, ?int $duration = null,
+        ?string $performer = null, ?string $title = null, $thumb = null, ?bool $disable_notification = false,
+        ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -203,9 +207,8 @@ class TelegramBot extends BaseBot
             'title' => $title,
         ];
 
-        $files = [
-            'audio' => $audio,
-        ];
+        $files = ['audio' => $audio];
+
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
@@ -221,8 +224,8 @@ class TelegramBot extends BaseBot
      * Official docs: https://core.telegram.org/bots/api#senddocument
      *
      * @param int|string $chat_id
-     * @param $document
-     * @param $thumb
+     * @param mixed $document
+     * @param mixed $thumb
      * @param string|null $caption
      * @param string|null $parse_mode
      * @param bool|null $disable_notification
@@ -236,9 +239,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendDocument(
-        $chat_id, $document, $thumb = null, $caption = null, $parse_mode = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $document, $thumb = null, ?string $caption = null, ?string $parse_mode = null,
+        ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -249,9 +252,8 @@ class TelegramBot extends BaseBot
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
-        $files = [
-            'document' => $document,
-        ];
+        $files = ['document' => $document];
+
         if (!is_null($thumb)) {
             $files['thumb'] = $thumb;
         }
@@ -267,8 +269,8 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#setwebhook
      *
      * @param string $url
-     * @param $certificate
      * @param int|null $max_connections
+     * @param mixed $certificate
      * @param string[]|null $allowed_updates
      *
      * @return bool
@@ -277,7 +279,9 @@ class TelegramBot extends BaseBot
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    public function setWebhook($url, $max_connections = null, $certificate = null, $allowed_updates = null)
+    public function setWebhook(
+        string $url, ?int $max_connections = null, $certificate = null, ?array $allowed_updates = null
+    ): bool
     {
         $data = [
             'url' => $url,
@@ -292,12 +296,15 @@ class TelegramBot extends BaseBot
     }
 
     /**
+     * OfficialDocs: https://core.telegram.org/bots/api#getwebhookinfo
+     *
      * @return WebhookInfo|null
+     *
      * @throws InvalidTokenException
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    public function getWebhookInfo()
+    public function getWebhookInfo(): ?WebhookInfo
     {
         $data = $this->makeRequest('getWebhookInfo');
         if ($data['ok']) {
@@ -309,8 +316,8 @@ class TelegramBot extends BaseBot
     /**
      * Official Docs: https://core.telegram.org/bots/api#getupdates
      *
-     * @param int|null $offset
      * @param int|null $limit
+     * @param int|null $offset
      * @param int|null $timeout
      * @param string[]|null $allowed_updates
      *
@@ -320,7 +327,9 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getUpdates($limit = null, $offset = null, $timeout = null, $allowed_updates = null)
+    public function getUpdates(
+        ?int $limit = null, ?int $offset = null, ?int $timeout = null, ?array $allowed_updates = null
+    ): ?array
     {
         $data = $this->makeRequest('getUpdates', [
             'offset' => $offset,
@@ -342,7 +351,7 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#sendsticker
      *
      * @param string|int $chat_id
-     * @param $sticker
+     * @param mixed $sticker
      * @param bool|null $disable_notification
      * @param int|null $reply_to_message_id
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
@@ -354,9 +363,8 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendSticker(
-        $chat_id, $sticker, $disable_notification = null,
-        $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $sticker, ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = $this->makeRequest('sendSticker', [
             'chat_id' => $chat_id,
@@ -379,7 +387,7 @@ class TelegramBot extends BaseBot
      * @param string $title
      * @param string $emojis
      * @param string|null $png_sticker
-     * @param $tgs_sticker
+     * @param mixed $tgs_sticker
      * @param bool|null $contains_masks
      * @param MaskPosition|null $mask_position
      *
@@ -390,9 +398,9 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      */
     public function createNewStickerSet(
-        $user_id, $name, $title, $emojis, $png_sticker = null, $tgs_sticker = null,
-        $contains_masks = null, $mask_position = null
-    )
+        int $user_id, string $name, string $title, string $emojis, ?string $png_sticker = null, $tgs_sticker = null,
+        ?bool $contains_masks = null, ?MaskPosition $mask_position = null
+    ): bool
     {
         return $this->makeSimpleRequest('createNewStickerSet', [
             'user_id' => $user_id,
@@ -414,7 +422,7 @@ class TelegramBot extends BaseBot
      * @param string $name
      * @param string $png_sticker
      * @param string $emojis
-     * @param $tgs_sticker
+     * @param mixed $tgs_sticker
      * @param MaskPosition|null $mask_position
      *
      * @return bool
@@ -423,7 +431,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function addStickerToSet($user_id, $name, $png_sticker, $emojis, $tgs_sticker = null, $mask_position = null)
+    public function addStickerToSet(
+        int $user_id, string $name, string $png_sticker, string $emojis, $tgs_sticker = null,
+        ?MaskPosition $mask_position = null
+    ): bool
     {
         return $this->makeSimpleRequest('addStickerToSet', [
             'user_id' => $user_id,
@@ -437,6 +448,8 @@ class TelegramBot extends BaseBot
     }
 
     /**
+     * OfficialDocs: https://core.telegram.org/bots/api#deletestickerfromset
+     *
      * @param string $sticker
      *
      * @return bool
@@ -445,7 +458,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function deleteStickerFromSet($sticker)
+    public function deleteStickerFromSet(string $sticker): bool
     {
         return $this->makeSimpleRequest('deleteStickerFromSet', [
             'sticker' => $sticker,
@@ -456,7 +469,7 @@ class TelegramBot extends BaseBot
      * OfficialDocs: https://core.telegram.org/bots/api#uploadstickerfile
      *
      * @param int $user_id
-     * @param $png_sticker
+     * @param mixed $png_sticker
      *
      * @return File|null
      *
@@ -464,7 +477,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function uploadStickerFile($user_id, $png_sticker)
+    public function uploadStickerFile(int $user_id, $png_sticker): ?File
     {
         $data = $this->makeRequest('uploadStickerFile', ['user_id' => $user_id], ['png_sticker' => $png_sticker]);
         if ($data['ok']) {
@@ -484,7 +497,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getStickerSet($name)
+    public function getStickerSet(string $name): ?StickerSet
     {
         $data = $this->makeRequest('getStickerSet', ['name' => $name]);
         if ($data['ok']) {
@@ -505,7 +518,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setStickerPositionInSet($sticker, $position)
+    public function setStickerPositionInSet(string $sticker, int $position): bool
     {
         return $this->makeSimpleRequest('setStickerPositionInSet', [
             'sticker' => $sticker,
@@ -522,7 +535,7 @@ class TelegramBot extends BaseBot
      * @throws BadRequestException
      * @throws ForbiddenException
      */
-    public function deleteWebhook()
+    public function deleteWebhook(): bool
     {
         return $this->makeSimpleRequest('deleteWebhook');
     }
@@ -531,11 +544,11 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#sendvideo
      *
      * @param int|string $chat_id
-     * @param $video
+     * @param mixed $video
      * @param int|null $duration
      * @param int|null $width
      * @param int|null $height
-     * @param $thumb
+     * @param mixed $thumb
      * @param string|null $caption
      * @param string|null $parse_mode
      * @param bool|null $supports_streaming
@@ -550,10 +563,10 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendVideo(
-        $chat_id, $video, $duration = null, $width = null, $height = null,
-        $thumb = null, $caption = null, $parse_mode = null, $supports_streaming = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $video, ?int $duration = null, ?int $width = null, ?int $height = null, $thumb = null,
+        ?string $caption = null, ?string $parse_mode = null, ?bool $supports_streaming = null,
+        ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -585,11 +598,11 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#sendanimation
      *
      * @param string|int $chat_id
-     * @param $animation
+     * @param mixed $animation
      * @param int|null $duration
      * @param int|null $width
      * @param int|null $height
-     * @param $thumb
+     * @param mixed $thumb
      * @param string|null $caption
      * @param string|null $parse_mode
      * @param bool|null $disable_notification
@@ -603,9 +616,10 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendAnimation(
-        $chat_id, $animation, $duration = null, $width = null, $height = null, $thumb = null, $caption = null,
-        $parse_mode = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $animation, ?int $duration = null, ?int $width = null, ?int $height = null, $thumb = null,
+        ?string $caption = null, ?string $parse_mode = null, ?bool $disable_notification = null,
+        ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -637,7 +651,7 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#sendvoice
      *
      * @param string|int $chat_id
-     * @param $voice
+     * @param mixed $voice
      * @param string|null $caption
      * @param string|null $parse_mode
      * @param int|null $duration
@@ -652,9 +666,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendVoice(
-        $chat_id, $voice, $caption = null, $parse_mode = null, $duration = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $voice, ?string $caption = null, ?string $parse_mode = null, ?int $duration = null,
+        ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -678,10 +692,10 @@ class TelegramBot extends BaseBot
      * Official Docs: https://core.telegram.org/bots/api#sendvideonote
      *
      * @param string|int $chat_id
-     * @param $video_note
+     * @param mixed $video_note
      * @param int|null $duration
      * @param int|null $length
-     * @param $thumb
+     * @param mixed $thumb
      * @param bool|null $disable_notification
      * @param int|null $reply_to_message_id
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
@@ -693,9 +707,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendVideoNote(
-        $chat_id, $video_note, $duration = null, $length = null, $thumb = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, $video_note, ?int $duration = null, ?int $length = null, $thumb = null,
+        ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -736,7 +750,9 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function sendMediaGroup($chat_id, $media, $files = [], $disable_notification = null, $reply_to_message_id = null)
+    public function sendMediaGroup(
+        $chat_id, array $media, array $files = [], ?bool $disable_notification = null, ?int $reply_to_message_id = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -771,9 +787,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendLocation(
-        $chat_id, $latitude, $longitude, $live_period = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, float $latitude, float $longitude, ?int $live_period = null, ?bool $disable_notification = null,
+        ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -809,8 +825,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function editMessageLiveLocation(
-        $latitude, $longitude, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null
-    )
+        float $latitude, float $longitude, $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -842,7 +859,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function stopMessageLiveLocation($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
+    public function stopMessageLiveLocation(
+        $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        ?InlineKeyboardMarkup $reply_markup = null
+    )
     {
         $data = [
             'chat_id' => $chat_id,
@@ -883,9 +903,10 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendVenue(
-        $chat_id, $latitude, $longitude, $title, $address, $foursquare_id = null, $foursquare_type = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, float $latitude, float $longitude, string $title, string $address, ?string $foursquare_id = null,
+        ?string $foursquare_type = null, ?bool $disable_notification = null, ?int $reply_to_message_id = null,
+        $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -926,9 +947,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendContact(
-        $chat_id, $phone_number, $first_name, $last_name = null, $vcard = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, string $phone_number, string $first_name, ?string $last_name = null, ?string $vcard = null,
+        ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -954,15 +975,15 @@ class TelegramBot extends BaseBot
      * @param string|int $chat_id
      * @param string $question
      * @param string[] $options
-     * @param bool $is_anonymous
-     * @param string $type
-     * @param bool $allows_multiple_answers
+     * @param bool|null $is_anonymous
+     * @param string|null $type
+     * @param bool|null $allows_multiple_answers
      * @param string|null $explanation
      * @param string|null $explanation_parse_mode
-     * @param int $correct_option_id
+     * @param int|null $correct_option_id
      * @param int|null $open_period
      * @param int|null $close_date
-     * @param bool $is_closed
+     * @param bool|null $is_closed
      * @param bool|null $disable_notification
      * @param int|null $reply_to_message_id
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
@@ -975,12 +996,11 @@ class TelegramBot extends BaseBot
      * @see PollType
      */
     public function sendPoll(
-        $chat_id, $question, $options,
-        $is_anonymous = null, $type = null, $allows_multiple_answers = null,
-        $explanation = null, $explanation_parse_mode = null,
-        $correct_option_id = null, $open_period = null, $close_date = null, $is_closed = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        $chat_id, string $question, array $options, ?bool $is_anonymous = null, ?string $type = null,
+        ?bool $allows_multiple_answers = null, ?string $explanation = null, ?string $explanation_parse_mode = null,
+        ?int $correct_option_id = null, ?int $open_period = null, ?int $close_date = null, ?bool $is_closed = null,
+        ?bool $disable_notification = null, ?int $reply_to_message_id = null, $reply_markup = null
+    ): ?Message
     {
         $data = [
             'chat_id' => $chat_id,
@@ -1021,7 +1041,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function sendChatAction($chat_id, $action)
+    public function sendChatAction($chat_id, string $action): bool
     {
         return $this->makeSimpleRequest('sendChatAction', [
             'chat_id' => $chat_id,
@@ -1042,7 +1062,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getUserProfilePhotos($user_id, $offset = null, $limit = null)
+    public function getUserProfilePhotos(int $user_id, ?int $offset = null, ?int $limit = null): ?UserProfilePhotos
     {
         $answer = $this->makeRequest('getUserProfilePhotos', [
             'user_id' => $user_id,
@@ -1066,7 +1086,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getFile($file_id)
+    public function getFile(string $file_id): ?File
     {
         $answer = $this->makeRequest('getFile', ['file_id' => $file_id]);
         if ($answer['ok']) {
@@ -1088,7 +1108,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function kickChatMember($chat_id, $user_id, $until_date = null)
+    public function kickChatMember($chat_id, int $user_id, ?int $until_date = null): bool
     {
         return $this->makeSimpleRequest('kickChatMember', [
             'chat_id' => $chat_id,
@@ -1109,7 +1129,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function unbanChatMember($chat_id, $user_id)
+    public function unbanChatMember($chat_id, int $user_id): bool
     {
         return $this->makeSimpleRequest('unbanChatMember', [
             'chat_id' => $chat_id,
@@ -1131,7 +1151,9 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function restrictChatMember($chat_id, $user_id, $permissions, $until_date = null)
+    public function restrictChatMember(
+        $chat_id, int $user_id, ChatPermissions $permissions, ?int $until_date = null
+    ): bool
     {
         return $this->makeSimpleRequest('restrictChatMember', [
             'chat_id' => $chat_id,
@@ -1153,7 +1175,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setChatPermissions($chat_id, $permissions)
+    public function setChatPermissions($chat_id, ChatPermissions $permissions): bool
     {
         return $this->makeSimpleRequest('setChatPermissions', [
             'chat_id' => $chat_id,
@@ -1182,10 +1204,10 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function promoteChatMember(
-        $chat_id, $user_id, $can_change_info = null, $can_post_messages = null, $can_edit_messages = null,
-        $can_delete_messages = null, $can_invite_users = null, $can_restrict_members = null,
-        $can_pin_messages = null, $can_promote_members = null
-    )
+        $chat_id, int $user_id, ?bool $can_change_info = null, ?bool $can_post_messages = null,
+        ?bool $can_edit_messages = null, ?bool $can_delete_messages = null, ?bool $can_invite_users = null,
+        ?bool $can_restrict_members = null, ?bool $can_pin_messages = null, ?bool $can_promote_members = null
+    ): bool
     {
         return $this->makeSimpleRequest('promoteChatMember', [
             'chat_id' => $chat_id,
@@ -1212,7 +1234,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function exportChatInviteLink($chat_id)
+    public function exportChatInviteLink($chat_id): ?string
     {
         $data = $this->makeRequest('exportChatInviteLink', [
             'chat_id' => $chat_id,
@@ -1227,7 +1249,7 @@ class TelegramBot extends BaseBot
      * OfficialDocs: https://core.telegram.org/bots/api#setchatphoto
      *
      * @param int|string $chat_id
-     * @param $photo
+     * @param mixed $photo
      *
      * @return bool
      *
@@ -1235,7 +1257,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setChatPhoto($chat_id, $photo)
+    public function setChatPhoto($chat_id, $photo): bool
     {
         return $this->makeSimpleRequest('setChatPhoto', ['chat_id' => $chat_id], ['photo' => $photo]);
     }
@@ -1251,7 +1273,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function deleteChatPhoto($chat_id)
+    public function deleteChatPhoto($chat_id): bool
     {
         return $this->makeSimpleRequest('deleteChatPhoto', ['chat_id' => $chat_id]);
     }
@@ -1268,7 +1290,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setChatTitle($chat_id, $title)
+    public function setChatTitle($chat_id, string $title): bool
     {
         return $this->makeSimpleRequest('setChatTitle', ['chat_id' => $chat_id, 'title' => $title]);
     }
@@ -1285,7 +1307,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setChatDescription($chat_id, $description = null)
+    public function setChatDescription($chat_id, ?string $description = null): bool
     {
         return $this->makeSimpleRequest('setChatDescription', ['chat_id' => $chat_id, 'description' => $description]);
     }
@@ -1303,7 +1325,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function pinChatMessage($chat_id, $message_id, $disable_notification = null)
+    public function pinChatMessage($chat_id, int $message_id, ?bool $disable_notification = null): bool
     {
         return $this->makeSimpleRequest('pinChatMessage', [
             'chat_id' => $chat_id,
@@ -1323,7 +1345,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function unpinChatMessage($chat_id)
+    public function unpinChatMessage($chat_id): bool
     {
         return $this->makeSimpleRequest('unpinChatMessage', ['chat_id' => $chat_id]);
     }
@@ -1339,7 +1361,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function leaveChat($chat_id)
+    public function leaveChat($chat_id): bool
     {
         return $this->makeSimpleRequest('leaveChat', ['chat_id' => $chat_id]);
     }
@@ -1355,7 +1377,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getChat($chat_id)
+    public function getChat($chat_id): ?Chat
     {
         $data = $this->makeRequest('getChat', ['chat_id' => $chat_id]);
         if ($data['ok']) {
@@ -1375,7 +1397,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getChatAdministrators($chat_id)
+    public function getChatAdministrators($chat_id): ?array
     {
         $data = $this->makeRequest('getChatAdministrators', ['chat_id' => $chat_id]);
         if ($data['ok']) {
@@ -1399,7 +1421,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getChatMembersCount($chat_id)
+    public function getChatMembersCount($chat_id): ?int
     {
         $data = $this->makeRequest('getChatMembersCount', ['chat_id' => $chat_id]);
         if ($data['ok']) {
@@ -1420,7 +1442,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function getChatMember($chat_id, $user_id)
+    public function getChatMember($chat_id, int $user_id): ?ChatMember
     {
         $data = $this->makeRequest('getChatMember', ['chat_id' => $chat_id, 'user_id' => $user_id]);
         if ($data['ok']) {
@@ -1441,7 +1463,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setChatStickerSet($chat_id, $sticker_set_name)
+    public function setChatStickerSet($chat_id, string $sticker_set_name): bool
     {
         return $this->makeSimpleRequest('setChatStickerSet', [
             'chat_id' => $chat_id,
@@ -1460,7 +1482,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function deleteChatStickerSet($chat_id)
+    public function deleteChatStickerSet($chat_id): bool
     {
         return $this->makeSimpleRequest('deleteChatStickerSet', [
             'chat_id' => $chat_id,
@@ -1483,9 +1505,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function answerCallbackQuery(
-        $callback_query_id, $text = null, $show_alert = null,
-        $url = null, $cache_time = null
-    )
+        string $callback_query_id, ?string $text = null, ?bool $show_alert = null, ?string $url = null,
+        ?int $cache_time = null
+    ): bool
     {
         return $this->makeSimpleRequest('answerCallbackQuery', [
             'callback_query_id' => $callback_query_id,
@@ -1514,8 +1536,8 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function editMessageText(
-        $text, $chat_id = null, $message_id = null, $inline_message_id = null,
-        $parse_mode = null, $disable_web_page_preview = null, $reply_markup = null
+        string $text, $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        ?string $parse_mode = null, ?bool $disable_web_page_preview = null, $reply_markup = null
     )
     {
         $data = $this->makeRequest('editMessageText', [
@@ -1554,8 +1576,8 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function editMessageCaption(
-        $caption = null, $chat_id = null, $message_id = null, $inline_message_id = null,
-        $parse_mode = null, $reply_markup = null
+        ?string $caption = null, $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        ?string $parse_mode = null, $reply_markup = null
     )
     {
         $data = $this->makeRequest('editMessageCaption', [
@@ -1592,7 +1614,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function editMessageMedia($media, $chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null, $files = [])
+    public function editMessageMedia(
+        InputMedia $media, $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        ?InlineKeyboardMarkup $reply_markup = null, array $files = []
+    )
     {
         $data = $this->makeRequest('editMessageMedia', [
             'media' => JsonHelper::encodeWithoutEmptyProperty($media),
@@ -1625,7 +1650,10 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function editMessageReplyMarkup($chat_id = null, $message_id = null, $inline_message_id = null, $reply_markup = null)
+    public function editMessageReplyMarkup(
+        $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        ?InlineKeyboardMarkup $reply_markup = null
+    )
     {
         $data = $this->makeRequest('editMessageReplyMarkup', [
             'chat_id' => $chat_id,
@@ -1656,7 +1684,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function stopPoll($chat_id, $message_id, $reply_markup = null)
+    public function stopPoll($chat_id, int $message_id, ?InlineKeyboardMarkup $reply_markup = null): ?Poll
     {
         $data = $this->makeRequest('stopPoll', [
             'chat_id' => $chat_id,
@@ -1681,7 +1709,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function deleteMessage($chat_id, $message_id)
+    public function deleteMessage($chat_id, int $message_id): bool
     {
         return $this->makeSimpleRequest('deleteMessage', [
             'chat_id' => $chat_id,
@@ -1723,12 +1751,14 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendInvoice(
-        $chat_id, $title, $description, $payload, $provider_token, $start_parameter, $currency, $prices,
-        $provider_data = null, $photo_url = null, $photo_size = null, $photo_width = null, $photo_height = null,
-        $need_name = null, $need_phone_number = null, $need_email = null, $need_shipping_address = null,
-        $send_phone_number_to_provider = null, $send_email_to_provider = null, $is_flexible = null,
-        $disable_notification = null, $reply_to_message_id = null, $reply_markup = null
-    )
+        int $chat_id, string $title, string $description, string $payload, string $provider_token,
+        string $start_parameter, string $currency, array $prices, ?string $provider_data = null,
+        ?string $photo_url = null, ?int $photo_size = null, ?int $photo_width = null, ?int $photo_height = null,
+        ?bool $need_name = null, ?bool $need_phone_number = null, ?bool $need_email = null,
+        ?bool $need_shipping_address = null, ?bool $send_phone_number_to_provider = null,
+        ?bool $send_email_to_provider = null, ?bool $is_flexible = null, ?bool $disable_notification = null,
+        ?int $reply_to_message_id = null, ?InlineKeyboardMarkup $reply_markup = null
+    ): ?Message
     {
         $data = $this->makeRequest('sendInvoice', [
             'chat_id' => $chat_id,
@@ -1775,7 +1805,9 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function answerShippingQuery($shipping_query_id, $ok, $shipping_options = null, $error_message = null)
+    public function answerShippingQuery(
+        string $shipping_query_id, bool $ok, ?array $shipping_options = null, ?string $error_message = null
+    ): bool
     {
         return $this->makeSimpleRequest('answerShippingQuery', [
             'shipping_query_id' => $shipping_query_id,
@@ -1798,7 +1830,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function answerPreCheckoutQuery($pre_checkout_query_id, $ok, $error_message = null)
+    public function answerPreCheckoutQuery(string $pre_checkout_query_id, bool $ok, ?string $error_message = null): bool
     {
         return $this->makeSimpleRequest('answerPreCheckoutQuery', [
             'pre_checkout_query_id' => $pre_checkout_query_id,
@@ -1819,7 +1851,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setPassportDataErrors($user_id, $errors)
+    public function setPassportDataErrors(int $user_id, array $errors): bool
     {
         return $this->makeSimpleRequest('setPassportDataErrors', [
             'user_id' => $user_id,
@@ -1843,9 +1875,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function sendGame(
-        $chat_id, $game_short_name, $disable_notification = null,
-        $reply_to_message_id = null, $reply_markup = null
-    )
+        int $chat_id, string $game_short_name, ?bool $disable_notification = null, ?int $reply_to_message_id = null,
+        ?InlineKeyboardMarkup $reply_markup = null
+    ): ?Message
     {
         $data = $this->makeRequest('sendGame', [
             'chat_id' => $chat_id,
@@ -1878,9 +1910,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function setGameScore(
-        $user_id, $score, $chat_id = null, $message_id = null,
-        $inline_message_id = null, $force = null, $disable_edit_message = null
-    )
+        int $user_id, int $score, ?int $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null,
+        ?bool $force = null, ?bool $disable_edit_message = null
+    ): ?Message
     {
         $data = $this->makeRequest('sendGame', [
             'user_id' => $user_id,
@@ -1912,9 +1944,8 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function getGameHighScores(
-        $user_id, $chat_id = null, $message_id = null,
-        $inline_message_id = null
-    )
+        int $user_id, ?int $chat_id = null, ?int $message_id = null, ?string $inline_message_id = null
+    ): ?array
     {
         $data = $this->makeRequest('sendGame', [
             'user_id' => $user_id,
@@ -1950,9 +1981,9 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      */
     public function answerInlineQuery(
-        $inline_query_id, $results, $cache_time = null, $is_personal = null,
-        $next_offset = null, $switch_pm_text = null, $switch_pm_parameter = null
-    )
+        string $inline_query_id, array $results, ?int $cache_time = null, ?bool $is_personal = null,
+        ?string $next_offset = null, ?string $switch_pm_text = null, ?string $switch_pm_parameter = null
+    ): bool
     {
         return $this->makeSimpleRequest('answerInlineQuery', [
             'inline_query_id' => $inline_query_id,
@@ -1978,7 +2009,7 @@ class TelegramBot extends BaseBot
      * @throws InvalidTokenException
      * @throws ForbiddenException
      */
-    public function setChatAdministratorCustomTitle($chat_id, $user_id, $custom_title)
+    public function setChatAdministratorCustomTitle($chat_id, int $user_id, string $custom_title): bool
     {
         return $this->makeSimpleRequest('setChatAdministratorCustomTitle', [
             'chat_id' => $chat_id,
@@ -2005,7 +2036,10 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      * @throws InvalidTokenException
      */
-    public function sendDice($chat_id, $emoji = null, $disable_notification = null, $reply_to_message_id = null, $reply_markup = null)
+    public function sendDice(
+        $chat_id, ?string $emoji = null, ?bool $disable_notification = null, ?bool $reply_to_message_id = null,
+        $reply_markup = null
+    ): ?Message
     {
         $data = $this->makeRequest('sendDice', [
             'chat_id' => $chat_id,
@@ -2030,7 +2064,7 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      * @throws InvalidTokenException
      */
-    public function getMyCommands()
+    public function getMyCommands(): ?array
     {
         $data = $this->makeRequest('getMyCommands');
 
@@ -2055,7 +2089,7 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      * @throws InvalidTokenException
      */
-    public function setMyCommands($commands)
+    public function setMyCommands(array $commands): bool
     {
         return $this->makeSimpleRequest('setMyCommands', [
             'commands' => JsonHelper::encodeWithoutEmptyProperty($commands),
@@ -2067,7 +2101,7 @@ class TelegramBot extends BaseBot
      *
      * @param string $name
      * @param string $user_id
-     * @param $thumb
+     * @param mixed $thumb
      *
      * @return bool
      *
@@ -2075,7 +2109,7 @@ class TelegramBot extends BaseBot
      * @throws ForbiddenException
      * @throws InvalidTokenException
      */
-    public function setStickerSetThumb($name, $user_id, $thumb = null)
+    public function setStickerSetThumb(string $name, string $user_id, $thumb = null): bool
     {
         return $this->makeSimpleRequest('setStickerSetThumb', [
             'name' => $name,

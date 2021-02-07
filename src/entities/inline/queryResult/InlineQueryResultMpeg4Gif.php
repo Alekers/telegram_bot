@@ -10,33 +10,14 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultMpeg4Gif extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'mpeg4_gif';
-
-    /** @var string */
-    public $mpeg4_url;
-
-    /** @var int */
-    public $mpeg4_width;
-
-    /** @var int */
-    public $mpeg4_height;
-
-    /** @var int */
-    public $mpeg4_duration;
-
-    /** @var string */
-    public $thumb_url;
-
-    /** @var string|null */
-    public $thumb_mime_type;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'mpeg4_gif';
+    public string $mpeg4_url;
+    public int $mpeg4_width;
+    public int $mpeg4_height;
+    public int $mpeg4_duration;
+    public string $thumb_url;
+    public ?string $thumb_mime_type = null;
+    public string $title;
+    public string $caption;
+    public string $parse_mode;
 }

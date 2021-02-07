@@ -8,27 +8,12 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultContact extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'contact';
-
-    /** @var string */
-    public $phone_number;
-
-    /** @var string */
-    public $first_name;
-
-    /** @var string */
-    public $last_name;
-
-    /** @var string */
-    public $vcard;
-
-    /** @var string */
-    public $thumb_url;
-
-    /** @var int */
-    public $thumb_width;
-
-    /** @var int */
-    public $thumb_height;
+    public string $type = 'contact';
+    public string $phone_number;
+    public string $first_name;
+    public string $last_name;
+    public string $vcard;
+    public string $thumb_url;
+    public int $thumb_width;
+    public int $thumb_height;
 }

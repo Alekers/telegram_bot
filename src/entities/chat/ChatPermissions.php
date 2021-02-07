@@ -12,27 +12,12 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class ChatPermissions extends BaseObject
 {
-    /** @var bool|null */
-    public $can_send_messages;
-
-    /** @var bool|null */
-    public $can_send_media_messages;
-
-    /** @var bool|null */
-    public $can_send_polls;
-
-    /** @var bool|null */
-    public $can_send_other_messages;
-
-    /** @var bool|null */
-    public $can_add_web_page_previews;
-
-    /** @var bool|null */
-    public $can_change_info;
-
-    /** @var bool|null */
-    public $can_invite_users;
-
-    /** @var bool|null */
-    public $can_pin_messages;
+    public ?bool $can_send_messages = null;
+    public ?bool $can_send_media_messages = null;
+    public ?bool $can_send_polls = null;
+    public ?bool $can_send_other_messages = null;
+    public ?bool $can_add_web_page_previews = null;
+    public ?bool $can_change_info = null;
+    public ?bool $can_invite_users = null;
+    public ?bool $can_pin_messages = null;
 }

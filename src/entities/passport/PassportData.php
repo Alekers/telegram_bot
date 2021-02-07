@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class PassportData extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'data' => [EncryptedPassportElement::class],
         'credentials' => EncryptedCredentials::class,
     ];

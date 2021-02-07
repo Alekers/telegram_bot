@@ -10,7 +10,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
 
 class SuccessfulPayment extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'order_info' => OrderInfo::class,
     ];
 

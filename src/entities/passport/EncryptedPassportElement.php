@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class EncryptedPassportElement extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'files' => [PassportFile::class],
         'front_side' => PassportFile::class,
         'reverse_side' => PassportFile::class,

@@ -13,64 +13,27 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class ChatMember extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'user' => User::class,
     ];
 
-    /** @var User $user */
-    public $user;
-
-    /** @var string */
-    public $status;
-
-    /** @var string */
-    public $custom_title;
-
-    /** @var int|null */
-    public $until_date;
-
-    /** @var bool|null */
-    public $can_be_edited;
-
-    /** @var bool|null */
-    public $can_post_messages;
-
-    /** @var bool|null */
-    public $can_edit_messages;
-
-    /** @var bool|null */
-    public $can_delete_messages;
-
-    /** @var bool|null */
-    public $can_restrict_members;
-
-    /** @var bool|null */
-    public $can_promote_members;
-
-    /** @var bool|null */
-    public $can_change_info;
-
-    /** @var bool|null */
-    public $can_invite_users;
-
-    /** @var bool|null */
-    public $can_pin_messages;
-
-    /** @var bool|null */
-    public $is_member;
-
-    /** @var bool|null */
-    public $can_send_messages;
-
-    /** @var bool|null */
-    public $can_send_media_messages;
-
-    /** @var bool|null */
-    public $can_send_polls;
-
-    /** @var bool|null */
-    public $can_send_other_messages;
-
-    /** @var bool|null */
-    public $can_add_web_page_previews;
+    public User $user;
+    public string $status;
+    public string $custom_title;
+    public ?int $until_date = null;
+    public ?bool $can_be_edited = null;
+    public ?bool $can_post_messages = null;
+    public ?bool $can_edit_messages = null;
+    public ?bool $can_delete_messages = null;
+    public ?bool $can_restrict_members = null;
+    public ?bool $can_promote_members = null;
+    public ?bool $can_change_info = null;
+    public ?bool $can_invite_users = null;
+    public ?bool $can_pin_messages = null;
+    public ?bool $is_member = null;
+    public ?bool $can_send_messages = null;
+    public ?bool $can_send_media_messages = null;
+    public ?bool $can_send_polls = null;
+    public ?bool $can_send_other_messages = null;
+    public ?bool $can_add_web_page_previews = null;
 }

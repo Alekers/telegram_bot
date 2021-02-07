@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class InlineKeyboardMarkup extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'inline_keyboard' => [[InlineKeyboardButton::class]],
     ];
 

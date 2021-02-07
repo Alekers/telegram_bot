@@ -13,16 +13,11 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class GameHighScore extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'user' => User::class,
     ];
 
-    /** @var int */
-    public $position;
-
-    /** @var User */
-    public $user;
-
-    /** @var int */
-    public $score;
+    public int $position;
+    public User $user;
+    public int $score;
 }

@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class InlineKeyboardButton extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'login_url' => LoginUrl::class,
     ];
 

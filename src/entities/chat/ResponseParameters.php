@@ -12,9 +12,6 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class ResponseParameters extends BaseObject
 {
-    /** @var int|null */
-    public $migrate_to_chat_id;
-
-    /** @var int|null */
-    public $retry_after;
+    public ?int $migrate_to_chat_id = null;
+    public ?int $retry_after = null;
 }

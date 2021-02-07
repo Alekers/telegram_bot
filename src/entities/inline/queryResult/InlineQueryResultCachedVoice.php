@@ -10,18 +10,9 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultCachedVoice extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'voice';
-
-    /** @var string */
-    public $voice_file_id;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $caption;
-
-    /** @var string */
-    public $parse_mode;
+    public string $type = 'voice';
+    public string $voice_file_id;
+    public string $title;
+    public string $caption;
+    public string $parse_mode;
 }

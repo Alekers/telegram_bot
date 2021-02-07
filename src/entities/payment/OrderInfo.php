@@ -10,7 +10,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
 
 class OrderInfo extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'shipping_address' => ShippingAddress::class,
     ];
 

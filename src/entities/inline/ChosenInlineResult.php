@@ -14,23 +14,14 @@ use tsvetkov\telegram_bot\entities\user\User;
  */
 class ChosenInlineResult extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'from' => User::class,
         'location' => Location::class,
     ];
 
-    /** @var string */
-    public $result_id;
-
-    /** @var User */
-    public $from;
-
-    /** @var Location */
-    public $location;
-
-    /** @var string */
-    public $inline_message_id;
-
-    /** @var string */
-    public $query;
+    public string $result_id;
+    public User $from;
+    public Location $location;
+    public string $inline_message_id;
+    public string $query;
 }

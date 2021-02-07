@@ -10,27 +10,12 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultArticle extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'article';
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $url;
-
-    /** @var bool */
-    public $hide_url;
-
-    /** @var string */
-    public $description;
-
-    /** @var string */
-    public $thumb_url;
-
-    /** @var int */
-    public $thumb_width;
-
-    /** @var int */
-    public $thumb_height;
+    public string $type = 'article';
+    public string $title;
+    public string $url;
+    public bool $hide_url;
+    public string $description;
+    public string $thumb_url;
+    public int $thumb_width;
+    public int $thumb_height;
 }

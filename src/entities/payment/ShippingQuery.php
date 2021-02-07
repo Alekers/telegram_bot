@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\user\User;
 
 class ShippingQuery extends BaseObject
 {
-    protected $objectsArray = [
+    protected array $objectsArray = [
         'from' => User::class,
         'shipping_address' => ShippingAddress::class,
     ];

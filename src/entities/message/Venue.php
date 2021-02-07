@@ -12,7 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Venue extends BaseObject
 {
-    public $objectsArray = [
+    public array $objectsArray = [
         'location' => Location::class,
     ];
 

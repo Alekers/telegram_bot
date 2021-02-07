@@ -10,9 +10,6 @@ namespace tsvetkov\telegram_bot\entities\inline\queryResult;
  */
 class InlineQueryResultGame extends InlineQueryResult
 {
-    /** @var string */
-    public $type = 'game';
-
-    /** @var string */
-    public $game_short_name;
+    public string $type = 'game';
+    public string $game_short_name;
 }
