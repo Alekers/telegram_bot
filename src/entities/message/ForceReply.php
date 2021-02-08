@@ -12,9 +12,6 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class ForceReply extends BaseObject
 {
-    /** @var bool */
-    public $force_reply;
-
-    /** @var bool|null */
-    public $selective;
+    public bool $force_reply;
+    public ?bool $selective = null;
 }

@@ -10,6 +10,5 @@ namespace tsvetkov\telegram_bot\entities\inputMedia;
  */
 class InputMediaPhoto extends InputMedia
 {
-    /** @var string */
-    public $type = "photo";
+    public string $type = "photo";
 }

@@ -10,17 +10,9 @@ namespace tsvetkov\telegram_bot\entities\inputMedia;
  */
 class InputMediaAnimation extends InputMedia
 {
-    /** @var string */
-    public $type = "animation";
-
+    public string $type = "animation";
     public $thumb;
-
-    /** @var int|null */
-    public $width;
-
-    /** @var int|null */
-    public $height;
-
-    /** @var int|null */
-    public $duration;
+    public ?int $width = null;
+    public ?int $height = null;
+    public ?int $duration = null;
 }

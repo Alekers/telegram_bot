@@ -17,12 +17,9 @@ class PollAnswer extends BaseObject
         'user' => User::class,
     ];
 
-    /** @var string */
-    public $poll_id;
-
-    /** @var User */
-    public $user;
+    public string $poll_id;
+    public User $user;
 
     /** @var int[] */
-    public $options_ids = [];
+    public array $options_ids = [];
 }

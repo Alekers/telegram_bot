@@ -8,23 +8,16 @@ namespace tsvetkov\telegram_bot\entities\payment;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * Class ShippingAddress
+ * @package tsvetkov\telegram_bot\entities\payment
+ */
 class ShippingAddress extends BaseObject
 {
-    /** @var string $country_code */
-    public $country_code;
-
-    /** @var string $state */
-    public $state;
-
-    /** @var string $city */
-    public $city;
-
-    /** @var string $street_line1 */
-    public $street_line1;
-
-    /** @var string $street_line2 */
-    public $street_line2;
-
-    /** @var string $post_code */
-    public $post_code;
+    public string $country_code;
+    public string $state;
+    public string $city;
+    public string $street_line1;
+    public string $street_line2;
+    public string $post_code;
 }

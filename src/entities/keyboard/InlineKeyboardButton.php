@@ -16,27 +16,12 @@ class InlineKeyboardButton extends BaseObject
         'login_url' => LoginUrl::class,
     ];
 
-    /** @var string */
-    public $text;
-
-    /** @var string|null */
-    public $url;
-
-    /** @var LoginUrl|null */
-    public $login_url;
-
-    /** @var string|null */
-    public $callback_data;
-
-    /** @var string|null */
-    public $switch_inline_query;
-
-    /** @var string|null */
-    public $switch_inline_query_current_chat;
-
-
+    public string $text;
+    public ?string $url = null;
+    public ?LoginUrl $login_url = null;
+    public ?string $callback_data = null;
+    public ?string $switch_inline_query = null;
+    public ?string $switch_inline_query_current_chat = null;
     public $callback_game;
-
-    /** @var bool|null */
-    public $pay;
+    public ?bool $pay = null;
 }

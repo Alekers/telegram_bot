@@ -12,9 +12,6 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class PollOption extends BaseObject
 {
-    /** @var string */
-    public $text;
-
-    /** @var int */
-    public $voter_count;
+    public string $text;
+    public int $voter_count;
 }

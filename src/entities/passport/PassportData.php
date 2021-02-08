@@ -18,8 +18,6 @@ class PassportData extends BaseObject
     ];
 
     /** @var EncryptedPassportElement[] */
-    public $data;
-
-    /** @var EncryptedCredentials */
-    public $credentials;
+    public array $data;
+    public EncryptedCredentials $credentials;
 }

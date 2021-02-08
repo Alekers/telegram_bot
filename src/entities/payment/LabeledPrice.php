@@ -6,14 +6,14 @@
 
 namespace tsvetkov\telegram_bot\entities\payment;
 
-
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * Class LabeledPrice
+ * @package tsvetkov\telegram_bot\entities\payment
+ */
 class LabeledPrice extends BaseObject
 {
-    /** @var string */
-    public $label;
-
-    /** @var int */
-    public $amount;
+    public string $label;
+    public int $amount;
 }

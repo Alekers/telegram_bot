@@ -12,18 +12,9 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Voice extends BaseObject
 {
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int */
-    public $duration;
-
-    /** @var string|null */
-    public $mime_type;
-
-    /** @var int|null */
-    public $file_size;
+    public string $file_id;
+    public string $file_unique_id;
+    public int $duration;
+    public ?string $mime_type = null;
+    public ?int $file_size = null;
 }

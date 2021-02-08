@@ -10,20 +10,10 @@ namespace tsvetkov\telegram_bot\entities\inputMedia;
  */
 class InputMediaVideo extends InputMedia
 {
-    /** @var string */
-    public $type = "video";
-
+    public string $type = "video";
     public $thumb;
-
-    /** @var int|null */
-    public $width;
-
-    /** @var int|null */
-    public $height;
-
-    /** @var int|null */
-    public $duration;
-
-    /** @var bool|null*/
-    public $supports_streaming;
+    public ?int $width = null;
+    public ?int $height = null;
+    public ?int $duration = null;
+    public ?bool $supports_streaming = null;
 }

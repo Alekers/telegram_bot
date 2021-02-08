@@ -12,15 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class MaskPosition extends BaseObject
 {
-    /** @var string */
-    public $point;
-
-    /** @var float */
-    public $x_shift;
-
-    /** @var float */
-    public $y_shift;
-
-    /** @var float */
-    public $scale;
+    public string $point;
+    public float $x_shift;
+    public float $y_shift;
+    public float $scale;
 }

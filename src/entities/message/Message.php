@@ -58,150 +58,63 @@ class Message extends BaseObject
         'reply_markup' => InlineKeyboardMarkup::class,
     ];
 
-    /** @var int */
-    public $message_id;
-
-    /** @var User|null */
-    public $from;
-
-    /** @var int */
-    public $date;
-
-    /** @var Chat */
-    public $chat;
-
-    /** @var User|null */
-    public $forward_from;
-
-    /** @var Chat|null */
-    public $forward_from_chat;
-
-    /** @var int|null */
-    public $forward_from_message_id;
-
-    /** @var string|null */
-    public $forward_signature;
-
-    /** @var string|null */
-    public $forward_sender_name;
-
-    /** @var int|null */
-    public $forward_date;
-
-    /** @var self|null */
-    public $reply_to_message;
-
-    /** @var User|null */
-    public $via_bot;
-
-    /** @var int|null */
-    public $edit_date;
-
-    /** @var string|null */
-    public $media_group_id;
-
-    /** @var string|null */
-    public $author_signature;
-
-    /** @var string|null */
-    public $text;
+    public int $message_id;
+    public ?User $from = null;
+    public int $date;
+    public Chat $chat;
+    public ?User $forward_from = null;
+    public ?Chat $forward_from_chat = null;
+    public ?int $forward_from_message_id = null;
+    public ?string $forward_signature = null;
+    public ?string $forward_sender_name = null;
+    public ?int $forward_date = null;
+    public ?self $reply_to_message = null;
+    public ?User $via_bot = null;
+    public ?int $edit_date = null;
+    public ?string $media_group_id = null;
+    public ?string $author_signature = null;
+    public ?string $text = null;
 
     /** @var MessageEntity[] */
-    public $entities;
+    public array $entities;
 
     /** @var MessageEntity[] */
-    public $caption_entities;
-
-    /** @var Audio|null */
-    public $audio;
-
-    /** @var Document|null */
-    public $document;
-
-    /** @var Animation|null */
-    public $animation;
-
-    /** @var Game|null */
-    public $game;
+    public array $caption_entities;
+    public ?Audio $audio = null;
+    public ?Document $document = null;
+    public ?Animation $animation = null;
+    public ?Game $game = null;
 
     /** @var PhotoSize[] */
-    public $photo;
-
-    /** @var Sticker|null */
-    public $sticker;
-
-    /** @var Video|null */
-    public $video;
-
-    /** @var Voice|null */
-    public $voice;
-
-    /** @var VideoNote|null */
-    public $video_note;
-
-    /** @var string|null */
-    public $caption;
-
-    /** @var Contact|null */
-    public $contact;
-
-    /** @var Location|null */
-    public $location;
-
-    /** @var Venue|null */
-    public $venue;
-
-    /** @var Poll|null */
-    public $poll;
-
-    /** @var Dice|null */
-    public $dice;
+    public array $photo;
+    public ?Sticker $sticker = null;
+    public ?Video $video = null;
+    public ?Voice $voice = null;
+    public ?VideoNote $video_note = null;
+    public ?string $caption = null;
+    public ?Contact $contact = null;
+    public ?Location $location = null;
+    public ?Venue $venue = null;
+    public ?Poll $poll = null;
+    public ?Dice $dice = null;
 
     /** @var User[] */
-    public $new_chat_members;
-
-    /** @var User|null */
-    public $left_chat_member;
-
-    /** @var string|null */
-    public $new_chat_title;
+    public array $new_chat_members;
+    public ?User $left_chat_member = null;
+    public ?string $new_chat_title = null;
 
     /** @var PhotoSize[] */
-    public $new_chat_photo;
-
-    /** @var bool|null */
-    public $delete_chat_photo;
-
-    /** @var bool|null */
-    public $group_chat_created;
-
-    /** @var bool|null */
-    public $supergroup_chat_created;
-
-    /** @var bool|null */
-    public $channel_chat_created;
-
-    /** @var int|null */
-    public $migrate_to_chat_id;
-
-    /** @var int|null */
-    public $migrate_from_chat_id;
-
-    /** @var Message|null */
-    public $pinned_message;
-
-    /** @var Invoice|null */
-    public $invoice;
-
-    /** @var SuccessfulPayment|null */
-    public $successful_payment;
-
-    /** @var string|null */
-    public $connected_website;
-
-    /** @var PassportData|null */
-    public $passport_data;
-
-    /** @var InlineKeyboardMarkup|null */
-    public $reply_markup;
+    public array $new_chat_photo;
+    public ?bool $delete_chat_photo = null;
+    public ?bool $group_chat_created = null;
+    public ?bool $supergroup_chat_created = null;
+    public ?bool $channel_chat_created = null;
+    public ?int $migrate_to_chat_id = null;
+    public ?int $migrate_from_chat_id = null;
+    public ?self $pinned_message = null;
+    public ?Invoice $invoice = null;
+    public ?SuccessfulPayment $successful_payment = null;
+    public ?string $connected_website = null;
+    public ?PassportData $passport_data = null;
+    public ?InlineKeyboardMarkup $reply_markup = null;
 }

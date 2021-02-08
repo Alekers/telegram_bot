@@ -12,18 +12,9 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Contact extends BaseObject
 {
-    /** @var string */
-    public $phone_number;
-
-    /** @var string */
-    public $first_name;
-
-    /** @var string|null */
-    public $last_name;
-
-    /** @var int|null */
-    public $user_id;
-
-    /** @var string|null */
-    public $vcard;
+    public string $phone_number;
+    public string $first_name;
+    public ?string $last_name = null;
+    public ?int $user_id = null;
+    public ?string $vcard = null;
 }

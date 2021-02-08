@@ -17,22 +17,12 @@ class StickerSet extends BaseObject
         'stickers' => [Sticker::class],
         'thumb' => PhotoSize::class,
     ];
-
-    /** @var string */
-    public $name;
-
-    /** @var string */
-    public $title;
-
-    /** @var bool */
-    public $is_animated;
-
-    /** @var bool */
-    public $contains_masks;
+    public string $name;
+    public string $title;
+    public bool $is_animated;
+    public bool $contains_masks;
 
     /** @var Sticker[] */
-    public $stickers;
-
-    /** @var PhotoSize */
-    public $thumb;
+    public array $stickers;
+    public PhotoSize $thumb;
 }

@@ -12,12 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class InputLocationMessageContent extends BaseObject implements InputMessageContent
 {
-    /** @var float */
-    public $latitude;
-
-    /** @var float */
-    public $longitude;
-
-    /** @var int */
-    public $live_period;
+    public float $latitude;
+    public float $longitude;
+    public int $live_period;
 }

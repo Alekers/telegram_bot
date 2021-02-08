@@ -10,9 +10,6 @@ namespace tsvetkov\telegram_bot\entities\passport\errors;
  */
 class PassportElementErrorUnspecified extends PassportElementError
 {
-    /** @var string */
-    public $source = 'unspecified';
-
-    /** @var string */
-    public $element_hash;
+    public string $source = 'unspecified';
+    public string $element_hash;
 }

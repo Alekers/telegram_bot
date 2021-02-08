@@ -8,32 +8,19 @@ namespace tsvetkov\telegram_bot\entities\user;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * Class User
+ * @package tsvetkov\telegram_bot\entities\user
+ */
 class User extends BaseObject
 {
-    /** @var integer */
-    public $id;
-
-    /** @var bool */
-    public $is_bot;
-
-    /** @var string */
-    public $first_name;
-
-    /** @var string|null */
-    public $last_name;
-
-    /** @var string|null */
-    public $username;
-
-    /** @var string|null */
-    public $language_code;
-
-    /** @var bool|null */
-    public $can_join_groups;
-
-    /** @var bool|null */
-    public $can_read_all_group_messages;
-
-    /** @var bool|null */
-    public $supports_inline_queries;
+    public int $id;
+    public bool $is_bot;
+    public string $first_name;
+    public ?string $last_name = null;
+    public ?string $username = null;
+    public ?string $language_code = null;
+    public ?bool $can_join_groups = null;
+    public ?bool $can_read_all_group_messages = null;
+    public ?bool $supports_inline_queries = null;
 }

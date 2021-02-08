@@ -8,6 +8,6 @@ namespace tsvetkov\telegram_bot\entities\poll;
  */
 abstract class PollType
 {
-    const QUIZ = "quiz";
-    const REGULAR = "regular";
+    public const QUIZ = "quiz";
+    public const REGULAR = "regular";
 }

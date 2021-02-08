@@ -17,5 +17,5 @@ class InlineKeyboardMarkup extends BaseObject
     ];
 
     /** @var InlineKeyboardButton[][] */
-    public $inline_keyboard;
+    public array $inline_keyboard;
 }

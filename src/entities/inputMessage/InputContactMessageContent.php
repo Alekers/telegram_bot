@@ -12,15 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class InputContactMessageContent extends BaseObject implements InputMessageContent
 {
-    /** @var string */
-    public $phone_number;
-
-    /** @var string */
-    public $first_name;
-
-    /** @var string */
-    public $last_name;
-
-    /** @var string */
-    public $vcard;
+    public string $phone_number;
+    public string $first_name;
+    public string $last_name;
+    public string $vcard;
 }

@@ -12,9 +12,6 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class ReplyKeyboardRemove extends BaseObject
 {
-    /** @var bool */
-    public $remove_keyboard;
-
-    /** @var bool|null */
-    public $selective;
+    public bool $remove_keyboard;
+    public ?bool $selective = null;
 }

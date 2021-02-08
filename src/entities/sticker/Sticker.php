@@ -18,34 +18,14 @@ class Sticker extends BaseObject
         'thumb' => PhotoSize::class,
         'mask_position' => MaskPosition::class,
     ];
-
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int */
-    public $width;
-
-    /** @var int */
-    public $height;
-
-    /** @var bool */
-    public $is_animated;
-
-    /** @var PhotoSize|null */
-    public $thumb;
-
-    /** @var string|null */
-    public $emoji;
-
-    /** @var string|null */
-    public $set_name;
-
-    /** @var MaskPosition|null */
-    public $mask_position;
-
-    /** @var int|null */
-    public $file_size;
+    public string $file_id;
+    public string $file_unique_id;
+    public int $width;
+    public int $height;
+    public bool $is_animated;
+    public ?PhotoSize $thumb = null;
+    public ?string $emoji = null;
+    public ?string $set_name = null;
+    public ?MaskPosition $mask_position = null;
+    public ?int $file_size = null;
 }

@@ -16,21 +16,10 @@ class VideoNote extends BaseObject
         'thumb' => PhotoSize::class,
     ];
 
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int */
-    public $length;
-
-    /** @var int */
-    public $duration;
-
-    /** @var PhotoSize|null */
-    public $thumb;
-
-    /** @var int|null */
-    public $file_size;
+    public string $file_id;
+    public string $file_unique_id;
+    public int $length;
+    public int $duration;
+    public ?PhotoSize $thumb = null;
+    public ?int $file_size = null;
 }

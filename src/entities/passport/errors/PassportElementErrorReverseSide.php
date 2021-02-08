@@ -10,9 +10,6 @@ namespace tsvetkov\telegram_bot\entities\passport\errors;
  */
 class PassportElementErrorReverseSide extends PassportElementError
 {
-    /** @var string */
-    public $source = 'reverse_side';
-
-    /** @var string */
-    public $file_hash;
+    public string $source = 'reverse_side';
+    public string $file_hash;
 }

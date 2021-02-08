@@ -9,24 +9,24 @@ namespace tsvetkov\telegram_bot\entities\message;
 abstract class MessageEntityType
 {
     // User calling (@username)
-    const MENTION = 'mention';
+    public const MENTION = 'mention';
     // #HASHTAG
-    const HASHTAG = 'hashtag';
-    const BOT_COMMAND = 'bot_command';
-    const URL = 'url';
-    const EMAIL = 'email';
-    const BOLD = 'bold';
-    const ITALIC = 'italic';
+    public const HASHTAG = 'hashtag';
+    public const BOT_COMMAND = 'bot_command';
+    public const URL = 'url';
+    public const EMAIL = 'email';
+    public const BOLD = 'bold';
+    public const ITALIC = 'italic';
     // monowidth string
-    const CODE = 'code';
+    public const CODE = 'code';
     // monowidth block
-    const PRE = 'pre';
+    public const PRE = 'pre';
     // for clickable text URLs
-    const TEXT_LINK = 'text_link';
+    public const TEXT_LINK = 'text_link';
     // for users without usernames
-    const TEXT_MENTION = 'text_mention';
-    const UNDERLINE = 'underline';
-    const STRIKETHROUGH = 'strikethrough';
-    const CASHTAG = 'cashtag';
-    const PHONE_NUMBER = 'phone_number';
+    public const TEXT_MENTION = 'text_mention';
+    public const UNDERLINE = 'underline';
+    public const STRIKETHROUGH = 'strikethrough';
+    public const CASHTAG = 'cashtag';
+    public const PHONE_NUMBER = 'phone_number';
 }

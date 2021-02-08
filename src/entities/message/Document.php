@@ -15,22 +15,10 @@ class Document extends BaseObject
     public array $objectsArray = [
         'thumb' => PhotoSize::class,
     ];
-
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var PhotoSize|null */
-    public $thumb;
-
-    /** @var string|null */
-    public $file_name;
-
-    /** @var string|null  */
-    public $mime_type;
-
-    /** @var int|null  */
-    public $file_size;
+    public string $file_id;
+    public string $file_unique_id;
+    public ?PhotoSize $thumb = null;
+    public ?string $file_name = null;
+    public ?string $mime_type = null;
+    public ?int $file_size = null;
 }

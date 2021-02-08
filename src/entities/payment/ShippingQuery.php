@@ -17,15 +17,8 @@ class ShippingQuery extends BaseObject
         'shipping_address' => ShippingAddress::class,
     ];
 
-    /** @var int */
-    public $id;
-
-    /** @var User */
-    public $from;
-
-    /** @var string */
-    public $invoice_payload;
-
-    /** @var ShippingAddress */
-    public $shipping_address;
+    public int $id;
+    public User $from;
+    public string $invoice_payload;
+    public ShippingAddress $shipping_address;
 }

@@ -17,46 +17,23 @@ class Poll extends BaseObject
         'options' => [PollOption::class],
         'explanation_entities' => [MessageEntity::class],
     ];
-
-    /** @var string */
-    public $id;
-
-    /** @var string */
-    public $question;
+    public string $id;
+    public string $question;
 
     /** @var PollOption[] */
-    public $options;
+    public array $options;
+    public bool $is_closed;
+    public int $total_voter_count;
+    public bool $is_anonymous;
 
-    /** @var bool */
-    public $is_closed;
-
-    /** @var int */
-    public $total_voter_count;
-
-    /** @var bool */
-    public $is_anonymous;
-
-    /**
-     * @see PollType
-     * @var string
-     */
-    public $type;
-
-    /** @var bool */
-    public $allows_multiple_answers;
-
-    /** @var int|null */
-    public $correct_option_id;
-
-    /** @var string */
-    public $explanation;
+    /** @see PollType */
+    public string $type;
+    public bool $allows_multiple_answers;
+    public ?int $correct_option_id = null;
+    public string $explanation;
 
     /** @var MessageEntity[] */
-    public $explanation_entities;
-
-    /** @var int */
-    public $open_period;
-
-    /** @var int */
-    public $close_date;
+    public array $explanation_entities;
+    public int $open_period;
+    public int $close_date;
 }

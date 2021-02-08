@@ -17,14 +17,8 @@ class ReplyKeyboardMarkup extends BaseObject
     ];
 
     /** @var KeyboardButton[][] */
-    public $keyboard;
-
-    /** @var bool|null */
-    public $resize_keyboard;
-
-    /** @var bool|null */
-    public $one_time_keyboard;
-
-    /** @var bool|null */
-    public $selective;
+    public array $keyboard;
+    public ?bool $resize_keyboard = null;
+    public ?bool $one_time_keyboard = null;
+    public ?bool $selective = null;
 }

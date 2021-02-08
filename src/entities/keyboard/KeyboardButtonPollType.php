@@ -15,7 +15,6 @@ class KeyboardButtonPollType extends BaseObject
 {
     /**
      * @see PollType
-     * @var string
      */
-    public $type;
+    public string $type;
 }

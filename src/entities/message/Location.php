@@ -12,9 +12,6 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Location extends BaseObject
 {
-    /** @var float */
-    public $longitude;
-
-    /** @var float */
-    public $latitude;
+    public float $longitude;
+    public float $latitude;
 }

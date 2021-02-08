@@ -10,9 +10,6 @@ namespace tsvetkov\telegram_bot\entities\passport\errors;
  */
 class PassportElementErrorTranslationFile extends PassportElementError
 {
-    /** @var string */
-    public $source = 'translation_file';
-
-    /** @var string */
-    public $file_hash;
+    public string $source = 'translation_file';
+    public string $file_hash;
 }

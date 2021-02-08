@@ -16,18 +16,9 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class PhotoSize extends BaseObject
 {
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int */
-    public $width;
-
-    /** @var int */
-    public $height;
-
-    /** @var int|null */
-    public $file_size;
+    public string $file_id;
+    public string $file_unique_id;
+    public int $width;
+    public int $height;
+    public ?int $file_size = null;
 }

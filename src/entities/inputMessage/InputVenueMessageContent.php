@@ -12,21 +12,10 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class InputVenueMessageContent extends BaseObject implements InputMessageContent
 {
-    /** @var float */
-    public $latitude;
-
-    /** @var float */
-    public $longitude;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $address;
-
-    /** @var string */
-    public $foursquare_id;
-
-    /** @var string */
-    public $foursquare_type;
+    public float $latitude;
+    public float $longitude;
+    public string $title;
+    public string $address;
+    public string $foursquare_id;
+    public string $foursquare_type;
 }

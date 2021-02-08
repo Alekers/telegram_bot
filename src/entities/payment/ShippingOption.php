@@ -15,12 +15,9 @@ class ShippingOption extends BaseObject
         'prices' => [LabeledPrice::class],
     ];
 
-    /** @var string */
-    public $id;
-
-    /** @var string */
-    public $title;
+    public string $id;
+    public string $title;
 
     /** @var LabeledPrice[] */
-    public $prices = [];
+    public array $prices = [];
 }

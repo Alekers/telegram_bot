@@ -16,24 +16,13 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class WebhookInfo extends BaseObject
 {
-    /** @var string */
-    public $url;
-
-    /** @var bool */
-    public $has_custom_certificate;
-
-    /** @var int */
-    public $pending_update_count;
-
-    /** @var integer */
-    public $last_error_date;
-
-    /** @var string */
-    public $last_error_message;
-
-    /** @var integer */
-    public $max_connections;
+    public string $url;
+    public bool $has_custom_certificate;
+    public int $pending_update_count;
+    public int $last_error_date;
+    public string $last_error_message;
+    public int $max_connections;
 
     /** @var string[] */
-    public $allowed_updates;
+    public array $allowed_updates;
 }

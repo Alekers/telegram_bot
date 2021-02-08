@@ -12,15 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class LoginUrl extends BaseObject
 {
-    /** @var string */
-    public $url;
-
-    /** @var string|null */
-    public $forward_text;
-
-    /** @var string|null */
-    public $bot_username;
-
-    /** @var bool|null */
-    public $request_write_access;
+    public string $url;
+    public ?string $forward_text = null;
+    public ?string $bot_username = null;
+    public ?bool $request_write_access = null;
 }

@@ -12,12 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class Dice extends BaseObject
 {
-    /** @var int */
-    public $value;
+    public int $value;
 
-    /**
-     * @var int
-     * @see DiceType
-     */
-    public $emoji;
+    /** @see DiceType */
+    public String $emoji;
 }

@@ -13,20 +13,13 @@ use tsvetkov\telegram_bot\TelegramBot;
  */
 class File extends BaseObject
 {
-    /** @var string $file_id */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int|null $file_size */
-    public $file_size;
+    public string $file_id;
+    public string $file_unique_id;
+    public ?int $file_size = null;
 
     /**
      * Use https://api.telegram.org/file/bot<token>/<file_path> to get the file
      * @see TelegramBot::getLinkForFileDownload()
-     *
-     * @var string|null $file_path
      */
-    public $file_path;
+    public ?string $file_path = null;
 }

@@ -6,35 +6,24 @@
 
 namespace tsvetkov\telegram_bot\entities\payment;
 
-
 use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\user\User;
 
+/**
+ * Class PreCheckoutQuery
+ * @package tsvetkov\telegram_bot\entities\payment
+ */
 class PreCheckoutQuery extends BaseObject
 {
     protected array $objectsArray = [
         'from' => User::class,
         'order_info' => OrderInfo::class,
     ];
-
-    /** @var string */
-    public $id;
-
-    /** @var User */
-    public $from;
-
-    /** @var string */
-    public $currency;
-
-    /** @var int */
-    public $total_amount;
-
-    /** @var string */
-    public $invoice_payload;
-
-    /** @var string */
-    public $shipping_option_id;
-
-    /** @var OrderInfo */
-    public $order_info;
+    public string $id;
+    public User $from;
+    public string $currency;
+    public int $total_amount;
+    public string $invoice_payload;
+    public string $shipping_option_id;
+    public OrderInfo $order_info;
 }

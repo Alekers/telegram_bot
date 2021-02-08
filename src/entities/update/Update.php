@@ -38,39 +38,16 @@ class Update extends BaseObject
         'poll_answer' => PollAnswer::class,
     ];
 
-    /** @var int */
-    public $update_id;
-
-    /** @var Message|null */
-    public $message;
-
-    /** @var Message|null */
-    public $edited_message;
-
-    /** @var Message|null */
-    public $channel_post;
-
-    /** @var Message|null */
-    public $edited_channel_post;
-
-    /** @var InlineQuery|null */
-    public $inline_query;
-
-    /** @var ChosenInlineResult|null */
-    public $chosen_inline_result;
-
-    /** @var CallbackQuery|null */
-    public $callback_query;
-
-    /** @var ShippingQuery|null */
-    public $shipping_query;
-
-    /** @var PreCheckoutQuery|null */
-    public $pre_checkout_query;
-
-    /** @var Poll|null */
-    public $poll;
-
-    /** @var PollAnswer|null */
-    public $poll_answer;
+    public int $update_id;
+    public ?Message $message = null;
+    public ?Message $edited_message = null;
+    public ?Message $channel_post = null;
+    public ?Message $edited_channel_post = null;
+    public ?InlineQuery $inline_query = null;
+    public ?ChosenInlineResult $chosen_inline_result = null;
+    public ?CallbackQuery $callback_query = null;
+    public ?ShippingQuery $shipping_query = null;
+    public ?PreCheckoutQuery $pre_checkout_query = null;
+    public ?Poll $poll = null;
+    public ?PollAnswer $poll_answer = null;
 }

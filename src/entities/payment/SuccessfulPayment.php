@@ -13,25 +13,11 @@ class SuccessfulPayment extends BaseObject
     public array $objectsArray = [
         'order_info' => OrderInfo::class,
     ];
-
-    /** @var string $currency */
-    public $currency;
-
-    /** @var integer $total_amount */
-    public $total_amount;
-
-    /** @var string $invoice_payload */
-    public $invoice_payload;
-
-    /** @var string $shipping_option_id */
-    public $shipping_option_id;
-
-    /** @var OrderInfo $order_info */
-    public $order_info;
-
-    /** @var string $telegram_payment_charge_id */
-    public $telegram_payment_charge_id;
-
-    /** @var string $provider_payment_charge_id */
-    public $provider_payment_charge_id;
+    public string $currency;
+    public int $total_amount;
+    public string $invoice_payload;
+    public string $shipping_option_id;
+    public OrderInfo $order_info;
+    public string $telegram_payment_charge_id;
+    public string $provider_payment_charge_id;
 }

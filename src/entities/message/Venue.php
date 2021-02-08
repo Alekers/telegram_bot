@@ -16,18 +16,9 @@ class Venue extends BaseObject
         'location' => Location::class,
     ];
 
-    /** @var Location */
-    public $location;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $address;
-
-    /** @var string|null */
-    public $foursquare_id;
-
-    /** @var string|null */
-    public $foursquare_type;
+    public Location $location;
+    public string $title;
+    public string $address;
+    public ?string $foursquare_id = null;
+    public ?string $foursquare_type = null;
 }

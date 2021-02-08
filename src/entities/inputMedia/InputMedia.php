@@ -12,15 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 abstract class InputMedia extends BaseObject
 {
-    /** @var string */
-    public $type;
-
-    /** @var string */
-    public $media;
-
-    /** @var string|null */
-    public $caption;
-
-    /** @var string|null */
-    public $parse_mode;
+    public string $type;
+    public string $media;
+    public ?string $caption = null;
+    public ?string $parse_mode = null;
 }

@@ -20,27 +20,12 @@ class Audio extends BaseObject
         'thumb' => PhotoSize::class
     ];
 
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int */
-    public $duration;
-
-    /** @var string|null */
-    public $performer;
-
-    /** @var string|null */
-    public $title;
-
-    /** @var string|null */
-    public $mime_type;
-
-    /** @var integer|null */
-    public $file_size;
-
-    /** @var PhotoSize|null */
-    public $thumb;
+    public string $file_id;
+    public string $file_unique_id;
+    public int $duration;
+    public ?string $performer = null;
+    public ?string $title = null;
+    public ?string $mime_type = null;
+    public ?int $file_size = null;
+    public ?PhotoSize $thumb = null;
 }

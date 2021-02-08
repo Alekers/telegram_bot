@@ -16,15 +16,8 @@ class KeyboardButton extends BaseObject
         'request_poll' => KeyboardButtonPollType::class,
     ];
 
-    /** @var string */
-    public $text;
-
-    /** @var bool|null */
-    public $request_contact;
-
-    /** @var bool|null */
-    public $request_location;
-
-    /** @var KeyboardButtonPollType|null */
-    public $request_poll;
+    public string $text;
+    public ?bool $request_contact = null;
+    public ?bool $request_location = null;
+    public ?KeyboardButtonPollType $request_poll = null;
 }

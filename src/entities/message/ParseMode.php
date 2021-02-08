@@ -9,14 +9,14 @@ namespace tsvetkov\telegram_bot\entities\message;
 class ParseMode
 {
     /** @link https://core.telegram.org/bots/api#html-style */
-    const HTML = 'HTML';
+    public const HTML = 'HTML';
 
     /**
      * @link https://core.telegram.org/bots/api#markdown-style
      * @deprecated Saved for BC, use MARKDOWN_V2 instead
      */
-    const MARKDOWN = 'Markdown';
+    public const MARKDOWN = 'Markdown';
 
     /** @link https://core.telegram.org/bots/api#markdownv2-style */
-    const MARKDOWN_V2 = 'MarkdownV2';
+    public const MARKDOWN_V2 = 'MarkdownV2';
 }

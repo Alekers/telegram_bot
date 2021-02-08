@@ -19,34 +19,18 @@ class EncryptedPassportElement extends BaseObject
         'selfie' => PassportFile::class,
         'translation' => [PassportFile::class],
     ];
-
-    /** @var string */
-    public $type;
-
-    /** @var string */
-    public $data;
-
-    /** @var string */
-    public $phone_number;
-
-    /** @var string */
-    public $email;
+    public string $type;
+    public string $data;
+    public string $phone_number;
+    public string $email;
 
     /** @var PassportFile[] */
-    public $files;
-
-    /** @var PassportFile */
-    public $front_side;
-
-    /** @var PassportFile */
-    public $reverse_side;
-
-    /** @var PassportFile */
-    public $selfie;
+    public array $files;
+    public PassportFile $front_side;
+    public PassportFile $reverse_side;
+    public PassportFile  $selfie;
 
     /** @var PassportFile[] */
-    public $translation;
-
-    /** @var string */
-    public $hash;
+    public array $translation;
+    public string $hash;
 }

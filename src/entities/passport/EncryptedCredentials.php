@@ -12,12 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class EncryptedCredentials extends BaseObject
 {
-    /** @var string */
-    public $data;
-
-    /** @var string */
-    public $hash;
-
-    /** @var string */
-    public $secret;
+    public string $data;
+    public string $hash;
+    public string $secret;
 }

@@ -17,9 +17,8 @@ class UserProfilePhotos extends BaseObject
         'photos' => [[PhotoSize::class]]
     ];
 
-    /** @var int */
-    public $total_count;
+    public int $total_count;
 
     /** @var PhotoSize[][] */
-    public $photos;
+    public array $photos;
 }

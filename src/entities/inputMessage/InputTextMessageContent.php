@@ -12,12 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class InputTextMessageContent extends BaseObject implements InputMessageContent
 {
-    /** @var string */
-    public $message_text;
-
-    /** @var string */
-    public $parse_mode;
-
-    /** @var bool */
-    public $disable_web_page_preview;
+    public string $message_text;
+    public string $parse_mode;
+    public bool $disable_web_page_preview;
 }

@@ -8,20 +8,15 @@ namespace tsvetkov\telegram_bot\entities\payment;
 
 use tsvetkov\telegram_bot\entities\BaseObject;
 
+/**
+ * Class Invoice
+ * @package tsvetkov\telegram_bot\entities\payment
+ */
 class Invoice extends BaseObject
 {
-    /** @var string $title */
-    public $title;
-
-    /** @var string $description */
-    public $description;
-
-    /** @var string $start_parameter */
-    public $start_parameter;
-
-    /** @var string $currency */
-    public $currency;
-
-    /** @var integer $total_amount */
-    public $total_amount;
+    public string $title;
+    public string $description;
+    public string $start_parameter;
+    public string $currency;
+    public int $total_amount;
 }

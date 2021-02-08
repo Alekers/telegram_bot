@@ -13,16 +13,8 @@ class OrderInfo extends BaseObject
     public array $objectsArray = [
         'shipping_address' => ShippingAddress::class,
     ];
-
-    /** @var string $name */
-    public $name;
-
-    /** @var string $phone_number */
-    public $phone_number;
-
-    /** @var string $email */
-    public $email;
-
-    /** @var ShippingAddress $shipping_address */
-    public $shipping_address;
+    public string $name;
+    public string $phone_number;
+    public string $email;
+    public ShippingAddress $shipping_address;
 }

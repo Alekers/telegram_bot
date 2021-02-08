@@ -12,12 +12,7 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class PassportElementError extends BaseObject
 {
-    /** @var string */
-    public $source;
-
-    /** @var string */
-    public $type;
-
-    /** @var string */
-    public $message;
+    public string $source;
+    public string $type;
+    public string $message;
 }

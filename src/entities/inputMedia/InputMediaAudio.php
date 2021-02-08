@@ -10,17 +10,9 @@ namespace tsvetkov\telegram_bot\entities\inputMedia;
  */
 class InputMediaAudio extends InputMedia
 {
-    /** @var string */
-    public $type = "audio";
-
+    public string $type = "audio";
     public $thumb;
-
-    /** @var int|null */
-    public $duration;
-
-    /** @var string|null */
-    public $performer;
-
-    /** @var string|null */
-    public $title;
+    public ?int $duration = null;
+    public ?string $performer = null;
+    public ?string $title = null;
 }

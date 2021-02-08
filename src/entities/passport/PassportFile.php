@@ -12,15 +12,8 @@ use tsvetkov\telegram_bot\entities\BaseObject;
  */
 class PassportFile extends BaseObject
 {
-    /** @var string */
-    public $file_id;
-
-    /** @var string */
-    public $file_unique_id;
-
-    /** @var int */
-    public $file_size;
-
-    /** @var int */
-    public $file_date;
+    public string $file_id;
+    public string $file_unique_id;
+    public int $file_size;
+    public int $file_date;
 }
