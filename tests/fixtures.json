@@ -1,0 +1,31 @@
+{
+  "token": "",
+  "authorId": "",
+  "methods": {
+    "getMe": {
+      "id": "",
+      "is_bot": true,
+      "first_name": "",
+      "last_name": null,
+      "username": "",
+      "language_code": null,
+      "can_join_groups": null,
+      "can_read_all_group_messages": null,
+      "supports_inline_queries": null
+    }
+  },
+  "attachments": {
+    "photo": {
+      "localPath": "in attachments folder",
+      "url": ""
+    },
+    "audio": {
+      "localPath": "",
+      "url": ""
+    },
+    "document": {
+      "localPath": "",
+      "url": ""
+    }
+  }
+}
