@@ -1,8 +1,4 @@
 <?php
-/**
- * Created date 4/25/2018 5:23 PM
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
- */
 
 namespace tsvetkov\telegram_bot\entities\chat;
 
@@ -21,6 +17,7 @@ class Chat extends BaseObject
         'pinned_message' => Message::class,
         'photo' => ChatPhoto::class,
         'permissions' => ChatPermissions::class,
+        'location' => ChatLocation::class,
     ];
 
     public int $id;
@@ -37,4 +34,6 @@ class Chat extends BaseObject
     public ?int $slow_mode_delay = null;
     public ?string $sticker_set_name = null;
     public ?bool $can_set_sticker_set = null;
+    public ?int $linked_chat_id = null;
+    public ?ChatLocation $location = null;
 }

@@ -10,6 +10,7 @@ namespace tsvetkov\telegram_bot\entities\inputMedia;
  */
 class InputMediaDocument extends InputMedia
 {
-    public string $type = "audio";
+    public string $type = "document";
     public $thumb;
+    public bool $disable_content_type_detection;
 }

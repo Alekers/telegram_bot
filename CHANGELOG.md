@@ -1,11 +1,30 @@
 # CHANGE LOG
+
 ## 3.0.0 - TBA
-* `!IMPORTANT` Minimum requirement for `PHP` is now 7.4
+
+* `!IMPORTANT` A minimum requirement for `PHP` is now 7.4
 * Compatibility with Bot API 5.0
 * New methods:
+    * `unpinAllChatMessages`
 * New entities:
+    * `ChatLocation`
 * Edited entities:
+    * `WebhookInfo` now have `ip_address` property
+    * `Chat` now have `linked_chat_id` and `location` properties
+    * `Audio` now have `file_name` property
+    * `Video` now have `file_name` property
+    * `InputMediaDocument` now have `disable_content_type_detection` property
 * Edited methods:
+    * `setWebhook`
+        * add new params: `ip_address` and `drop_pending_updates`
+        * params order `changed!`
+    * `deleteWebhook` add new param: `drop_pending_updates`
+    * `unbanChatMember` add new param: `only_if_banned`
+    * `sendDocument`
+        * add new params: `caption_entities`, `disable_content_type_detection` and `allow_sending_without_reply`
+        * params order `changed!`
+    * `unpinChatMessage` add new param: `message_id`
+    
 ## 2.6.1 - 2020/12/03
 * Compatibility with Guzzle ^7
 ## 2.6.0 - 2020/06/05

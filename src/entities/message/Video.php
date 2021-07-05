@@ -22,6 +22,7 @@ class Video extends BaseObject
     public int $height;
     public int $duration;
     public ?PhotoSize $thumb = null;
+    public ?string $file_name = null;
     public ?string $mime_type = null;
     public ?int $file_size = null;
 }
