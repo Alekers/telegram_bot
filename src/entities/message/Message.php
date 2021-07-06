@@ -56,6 +56,8 @@ class Message extends BaseObject
         'successful_payment' => SuccessfulPayment::class,
         'passport_data' => PassportData::class,
         'reply_markup' => InlineKeyboardMarkup::class,
+        'proximity_alert_triggered' => ProximityAlertTriggered::class,
+        'sender_chat' => Chat::class,
     ];
 
     public int $message_id;
@@ -117,4 +119,6 @@ class Message extends BaseObject
     public ?string $connected_website = null;
     public ?PassportData $passport_data = null;
     public ?InlineKeyboardMarkup $reply_markup = null;
+    public ?ProximityAlertTriggered $proximity_alert_triggered = null;
+    public ?Chat $sender_chat = null;
 }

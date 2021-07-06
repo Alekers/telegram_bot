@@ -8,15 +8,27 @@
     * `unpinAllChatMessages`
 * New entities:
     * `ChatLocation`
+    * `ProximityAlertTriggered`
+    * `ChatMemberOwner`
+    * `ChatMemberAdministrator`
+    * `ChatMemberMember`
+    * `ChatMemberRestricted`
+    * `ChatMemberLeft`
+    * `ChatMemberBanned`
 * Edited entities:
     * `WebhookInfo` now have `ip_address` property
     * `Chat` now have `linked_chat_id` and `location` properties
     * `Audio` now have `file_name` property
     * `Video` now have `file_name` property
     * `InputMediaDocument` now have `disable_content_type_detection` property
+    * `Location` now have `horizontal_accuracy`, `live_period`, `heading` and `proximity_alert_radius` properties
+    * `InlineQueryResultLocation` now have `horizontal_accuracy`, `heading` and `proximity_alert_radius` properties
+    * `InputLocationMessageContent` now have `horizontal_accuracy`, `heading` and `proximity_alert_radius` properties
+    * `Message` now have `proximity_alert_triggered`, `sender_chat` and `` properties // TODO
+    * `ChatMember` is now abstract, use children instead
 * Edited methods:
     * `setWebhook`
-        * add new params: `ip_address` and `drop_pending_updates`
+        * add new params: `ip_address` and `drop_pending_updates`Location
         * params order `changed!`
     * `deleteWebhook` add new param: `drop_pending_updates`
     * `unbanChatMember` add new param: `only_if_banned`
@@ -24,6 +36,12 @@
         * add new params: `caption_entities`, `disable_content_type_detection` and `allow_sending_without_reply`
         * params order `changed!`
     * `unpinChatMessage` add new param: `message_id`
+    * `sendLocation`
+        * add new params: `horizontal_accuracy`, `heading`, `proximity_alert_radius` and `allow_sending_without_reply`
+        * params order `changed!`
+    * `editMessageLiveLocation`
+        * add new params: `horizontal_accuracy`, `heading` and `proximity_alert_radius`
+        * params order `changed!`
     
 ## 2.6.1 - 2020/12/03
 * Compatibility with Guzzle ^7

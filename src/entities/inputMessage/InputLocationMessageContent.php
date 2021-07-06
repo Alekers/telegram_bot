@@ -14,5 +14,8 @@ class InputLocationMessageContent extends BaseObject implements InputMessageCont
 {
     public float $latitude;
     public float $longitude;
-    public int $live_period;
+    public ?float $horizontal_accuracy;
+    public ?int $live_period;
+    public ?int $heading;
+    public ?int $proximity_alert_radius;
 }

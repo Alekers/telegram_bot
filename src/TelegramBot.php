@@ -10,7 +10,7 @@ namespace tsvetkov\telegram_bot;
 
 use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatAction;
-use tsvetkov\telegram_bot\entities\chat\ChatMember;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
 use tsvetkov\telegram_bot\entities\command\BotCommand;
 use tsvetkov\telegram_bot\entities\game\GameHighScore;
@@ -858,33 +858,45 @@ class TelegramBot extends BaseBot
      * @param int|string $chat_id
      * @param float $latitude
      * @param float $longitude
+     * @param float|null $horizontal_accuracy
      * @param int|null $live_period
+     * @param int|null $heading
+     * @param int|null $proximity_alert_radius
      * @param bool|null $disable_notification
      * @param int|null $reply_to_message_id
+     * @param bool|null $allow_sending_without_reply
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
      *
      * @return Message|null
      *
      * @throws BadRequestException
-     * @throws InvalidTokenException
      * @throws ForbiddenException
+     * @throws InvalidTokenException
      */
     public function sendLocation(
         $chat_id,
         float $latitude,
         float $longitude,
+        ?float $horizontal_accuracy = null,
         ?int $live_period = null,
+        ?int $heading = null,
+        ?int $proximity_alert_radius = null,
         ?bool $disable_notification = null,
         ?int $reply_to_message_id = null,
+        ?bool $allow_sending_without_reply = null,
         $reply_markup = null
     ): ?Message {
         $data = [
             'chat_id' => $chat_id,
             'latitude' => $latitude,
             'longitude' => $longitude,
+            'horizontal_accuracy' => $horizontal_accuracy,
             'live_period' => $live_period,
+            'heading' => $heading,
+            'proximity_alert_radius' => $proximity_alert_radius,
             'disable_notification' => $disable_notification,
             'reply_to_message_id' => $reply_to_message_id,
+            'allow_sending_without_reply' => $allow_sending_without_reply,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
@@ -903,13 +915,16 @@ class TelegramBot extends BaseBot
      * @param int|string|null $chat_id
      * @param integer|null $message_id
      * @param string|null $inline_message_id
+     * @param float|null $horizontal_accuracy
+     * @param int|null $heading
+     * @param int|null $proximity_alert_radius
      * @param InlineKeyboardMarkup|null $reply_markup
      *
      * @return Message|null
      *
      * @throws BadRequestException
-     * @throws InvalidTokenException
      * @throws ForbiddenException
+     * @throws InvalidTokenException
      */
     public function editMessageLiveLocation(
         float $latitude,
@@ -917,6 +932,9 @@ class TelegramBot extends BaseBot
         $chat_id = null,
         ?int $message_id = null,
         ?string $inline_message_id = null,
+        ?float $horizontal_accuracy = null,
+        ?int $heading = null,
+        ?int $proximity_alert_radius = null,
         $reply_markup = null
     ): ?Message {
         $data = [
@@ -925,6 +943,9 @@ class TelegramBot extends BaseBot
             'latitude' => $latitude,
             'longitude' => $longitude,
             'inline_message_id' => $inline_message_id,
+            'horizontal_accuracy' => $horizontal_accuracy,
+            'heading' => $heading,
+            'proximity_alert_radius' => $proximity_alert_radius,
             'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
         ];
 
@@ -1548,6 +1569,7 @@ class TelegramBot extends BaseBot
             $admins = [];
             foreach ($data['result'] as $datum) {
                 $admins[] = new ChatMember($datum);
+                // TODO add creating of ChatMembers classes (admin, owner and etc.)
             }
             return $admins;
         }

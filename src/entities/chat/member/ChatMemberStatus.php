@@ -1,6 +1,6 @@
 <?php
 
-namespace tsvetkov\telegram_bot\entities\chat;
+namespace tsvetkov\telegram_bot\entities\chat\member;
 
 /**
  * Class ChatMemberStatus
