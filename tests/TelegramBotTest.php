@@ -1,6 +1,10 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMemberAdministrator;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMemberOwner;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMemberStatus;
+use tsvetkov\telegram_bot\entities\update\Update;
 use tsvetkov\telegram_bot\entities\user\User;
 use tsvetkov\telegram_bot\TelegramBot;
 
@@ -116,5 +120,36 @@ class TelegramBotTest extends TestCase
         $asTelegramId = self::$bot->sendDocument(self::$config['authorId'], $asUrl->document->file_id);
         $this->assertNotNull($asTelegramId);
         $this->assertNotEmpty($asTelegramId->document);
+    }
+
+    /**
+     * @covers \tsvetkov\telegram_bot\TelegramBot::getChatAdministrators
+     */
+    public function testGetUpdates()
+    {
+        $updates = self::$bot->getUpdates();
+        $this->assertIsArray($updates);
+        foreach ($updates as $update) {
+            $this->assertInstanceOf(Update::class, $update);
+        }
+    }
+
+    /**
+     * @covers \tsvetkov\telegram_bot\TelegramBot::getChatAdministrators
+     */
+    public function testGetChatAdministrators()
+    {
+        $admins = self::$bot->getChatAdministrators(self::$config['groupId']);
+        foreach ($admins as $admin) {
+            $this->assertTrue(in_array($admin->status, [ChatMemberStatus::CREATOR, ChatMemberStatus::ADMINISTRATOR]));
+            switch ($admin->status) {
+                case ChatMemberStatus::CREATOR:
+                    $this->assertInstanceOf(ChatMemberOwner::class, $admin);
+                    break;
+                case ChatMemberStatus::ADMINISTRATOR:
+                    $this->assertInstanceOf(ChatMemberAdministrator::class, $admin);
+                    break;
+            }
+        }
     }
 }

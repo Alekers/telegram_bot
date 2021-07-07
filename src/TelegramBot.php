@@ -12,6 +12,9 @@ use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatAction;
 use tsvetkov\telegram_bot\entities\chat\member\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMemberFactory;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMemberMember;
+use tsvetkov\telegram_bot\entities\chat\member\ChatMemberStatus;
 use tsvetkov\telegram_bot\entities\command\BotCommand;
 use tsvetkov\telegram_bot\entities\game\GameHighScore;
 use tsvetkov\telegram_bot\entities\inline\queryResult\InlineQueryResult;
@@ -1566,10 +1569,10 @@ class TelegramBot extends BaseBot
     {
         $data = $this->makeRequest('getChatAdministrators', ['chat_id' => $chat_id]);
         if ($data['ok']) {
+            $factory = new ChatMemberFactory();
             $admins = [];
             foreach ($data['result'] as $datum) {
-                $admins[] = new ChatMember($datum);
-                // TODO add creating of ChatMembers classes (admin, owner and etc.)
+                $admins[] = $factory->create($datum['status'], $datum);
             }
             return $admins;
         }
@@ -1612,7 +1615,8 @@ class TelegramBot extends BaseBot
     {
         $data = $this->makeRequest('getChatMember', ['chat_id' => $chat_id, 'user_id' => $user_id]);
         if ($data['ok']) {
-            return new ChatMember($data['result']);
+            $factory = new ChatMemberFactory();
+            return $factory->create($data['result']['status'], $data['result']);
         }
         return null;
     }
