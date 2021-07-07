@@ -2,19 +2,17 @@
 /**
  * Created date 5/5/2018 10:21 PM
  *
- * TODO - change author e-mail
- * @author Tsvetkov Alexander <ac@goldcarrot.ru>
+ * @author Tsvetkov Alexander <tsvetkov_aleksandr@mail.ru>
  */
 
 namespace tsvetkov\telegram_bot;
 
+use tsvetkov\telegram_bot\entities\BaseObject;
 use tsvetkov\telegram_bot\entities\chat\Chat;
 use tsvetkov\telegram_bot\entities\chat\ChatAction;
 use tsvetkov\telegram_bot\entities\chat\member\ChatMember;
 use tsvetkov\telegram_bot\entities\chat\ChatPermissions;
 use tsvetkov\telegram_bot\entities\chat\member\ChatMemberFactory;
-use tsvetkov\telegram_bot\entities\chat\member\ChatMemberMember;
-use tsvetkov\telegram_bot\entities\chat\member\ChatMemberStatus;
 use tsvetkov\telegram_bot\entities\command\BotCommand;
 use tsvetkov\telegram_bot\entities\game\GameHighScore;
 use tsvetkov\telegram_bot\entities\inline\queryResult\InlineQueryResult;
@@ -28,7 +26,6 @@ use tsvetkov\telegram_bot\entities\message\ForceReply;
 use tsvetkov\telegram_bot\entities\message\MaskPosition;
 use tsvetkov\telegram_bot\entities\message\Message;
 use tsvetkov\telegram_bot\entities\message\MessageEntity;
-use tsvetkov\telegram_bot\entities\message\ParseMode;
 use tsvetkov\telegram_bot\entities\passport\errors\PassportElementError;
 use tsvetkov\telegram_bot\entities\payment\LabeledPrice;
 use tsvetkov\telegram_bot\entities\payment\ShippingOption;
@@ -1346,26 +1343,32 @@ class TelegramBot extends BaseBot
     public function promoteChatMember(
         $chat_id,
         int $user_id,
-        ?bool $can_change_info = null,
+        ?bool $is_anonymous = null,
+        ?bool $can_manage_chat = null,
         ?bool $can_post_messages = null,
         ?bool $can_edit_messages = null,
         ?bool $can_delete_messages = null,
-        ?bool $can_invite_users = null,
+        ?bool $can_manage_voice_chats = null,
         ?bool $can_restrict_members = null,
-        ?bool $can_pin_messages = null,
-        ?bool $can_promote_members = null
+        ?bool $can_promote_members = null,
+        ?bool $can_change_info = null,
+        ?bool $can_invite_users = null,
+        ?bool $can_pin_messages = null
     ): bool {
         return $this->makeSimpleRequest('promoteChatMember', [
             'chat_id' => $chat_id,
             'user_id' => $user_id,
-            'can_change_info' => $can_change_info,
+            'is_anonymous' => $is_anonymous,
+            'can_manage_chat' => $can_manage_chat,
             'can_post_messages' => $can_post_messages,
             'can_edit_messages' => $can_edit_messages,
             'can_delete_messages' => $can_delete_messages,
-            'can_invite_users' => $can_invite_users,
+            'can_manage_voice_chats' => $can_manage_voice_chats,
             'can_restrict_members' => $can_restrict_members,
-            'can_pin_messages' => $can_pin_messages,
             'can_promote_members' => $can_promote_members,
+            'can_change_info' => $can_change_info,
+            'can_invite_users' => $can_invite_users,
+            'can_pin_messages' => $can_pin_messages,
         ]);
     }
 
@@ -2329,5 +2332,55 @@ class TelegramBot extends BaseBot
             'name' => $name,
             'user_id' => $user_id,
         ], ['thumb' => $thumb]);
+    }
+
+    /**
+     * OfficialDocs: https://core.telegram.org/bots/api#copymessage
+     *
+     * @param $chat_id
+     * @param $form_chat_id
+     * @param int $message_id
+     * @param string|null $caption
+     * @param string|null $parse_mode
+     * @param array|null $caption_entities
+     * @param bool|null $disable_notification
+     * @param int|null $reply_to_message_id
+     * @param bool|null $allow_sending_without_reply
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup
+     *
+     * @return Message|null
+     *
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws InvalidTokenException
+     */
+    public function copyMessage(
+        $chat_id,
+        $form_chat_id,
+        int $message_id,
+        ?string $caption = null,
+        ?string $parse_mode = null,
+        ?array $caption_entities = null,
+        ?bool $disable_notification = null,
+        ?int $reply_to_message_id = null,
+        ?bool $allow_sending_without_reply = null,
+        $reply_markup = null
+    ): ?Message {
+        $data = $this->makeRequest('copyMessage', [
+            'chat_id' => $chat_id,
+            'form_chat_id' => $form_chat_id,
+            'message_id' => $message_id,
+            'caption' => $caption,
+            'parse_mode' => $parse_mode,
+            'caption_entities' => $caption_entities === null ? null : JsonHelper::encodeWithoutEmptyProperty($caption_entities),
+            'disable_notification' => $disable_notification,
+            'reply_to_message_id' => $reply_to_message_id,
+            'allow_sending_without_reply' => $allow_sending_without_reply,
+            'reply_markup' => JsonHelper::encodeWithoutEmptyProperty($reply_markup),
+        ]);
+        if ($data['ok']) {
+            return new Message($data['result']);
+        }
+        return null;
     }
 }

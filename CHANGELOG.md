@@ -6,6 +6,7 @@
 * Compatibility with Bot API 5.0
 * New methods:
     * `unpinAllChatMessages`
+    * `copyMessage`
 * New entities:
     * `ChatLocation`
     * `ProximityAlertTriggered`
@@ -41,6 +42,9 @@
         * params order `changed!`
     * `editMessageLiveLocation`
         * add new params: `horizontal_accuracy`, `heading` and `proximity_alert_radius`
+        * params order `changed!`
+    * `promoteChatMember`
+        * add new params: `is_anonymous`, `can_manage_chat` and `can_manage_voice_chats`
         * params order `changed!`
     
 ## 2.6.1 - 2020/12/03
